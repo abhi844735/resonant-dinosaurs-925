@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"> -->
+
+<script src="https://kit.fontawesome.com/f90c67bbfa.js" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="./CSS/product.css">
+<body onload="loadingFun()">
+    <div id="loading"></div>
+
+	<section id="product-section">
+
+    <div class="top-header-div">
+        <h1 class="page-header">Men Shirts</h1>
+        <select name="filter" onclick="sortFilter()" id="filter">
+            <option >SORT BY</option>
+            <option value="top">Top Rated</option>
+            <option value="dcd">Price: High to Low</option>
+            <option value="acd">Price: Low to High</option>
+            <option >Best Sellers</option>
+        </select>
+    </div>
+    <div class="shop-page">
+        <!-- desktop fiter  -->
+        <div class="shop-filter-desktop">
+            <p class="filter-head-p">FILTERS</p>
+            <div class="size-range">
+                <p>CATEGORIES</p>
+                <div>
+                    <input value="Tshirts" type="checkbox" class="size-checkbox" name="size-range"
+                        onclick="sizeRange(this)"><label for="">Tshirts</label>
+                </div>
+                <div>
+                    <input value="Lounge-Tshirts" type="checkbox" class="size-checkbox" name="size-range"
+                        onclick="sizeRange(this)"><label for="">Lounge Tshirts</label>
+                </div>
+                <div>
+                    <input value="Tall" type="checkbox" class="size-checkbox" name="size-range"
+                        onclick="sizeRange(this)"><label for="">Tall</label>
+                </div>
+            </div>
+            <div class="size-range">
+                <p>BRANDS</p>
+                <div>
+                    <input value="Roadster" type="checkbox" class="size-checkbox" name="brand-range"
+                        onclick="brandRange(this)"><label for="">Roadster</label>
+                </div>
+                <div>
+                    <input value="Tommy-Hilfiger" type="checkbox" class="size-checkbox" name="brand-range"
+                        onclick="brandRange(this)"><label for="">Tommy Hilfiger</label>
+                </div>
+                <div>
+                    <input value="U.S-Polo" type="checkbox" class="size-checkbox" name="brand-range"
+                        onclick="brandRange(this)"><label for="">U.S. Polo Assn</label>
+                </div>
+                <div>
+                    <input value="WROGN" type="checkbox" class="size-checkbox" name="brand-range"
+                        onclick="brandRange(this)"><label for="">WROGN</label>
+                </div>
+                <div>
+                    <input value="Jack-Jones" type="checkbox" class="size-checkbox" name="brand-range"
+                        onclick="brandRange(this)"><label for="">Jack & Jones</label>
+                </div>
+                <div>
+                    <input value="HRX" type="checkbox" class="size-checkbox" name="brand-range"
+                        onclick="brandRange(this)"><label for="">HRX by Hrithik Roshan</label>
+                </div>
+                <div>
+                    <input value="HERE-NOW" type="checkbox" class="size-checkbox" name="brand-range"
+                        onclick="brandRange(this)"><label for="">HERE&NOW</label>
+                </div>
+                <div>
+                    <input value="Puma" type="checkbox" class="size-checkbox" name="brand-range"
+                        onclick="brandRange(this)"><label for="">Puma</label>
+                </div>
+                <p class="more-p">+594 more</p>
+            </div>
+            <div class="size-range">
+                <p>PRICE</p>
+                <div>
+                    <input value="3850" type="checkbox" class="size-checkbox" name="price-range"
+                        onclick="priceRange(this)"><label for="">Rs. 199 to Rs. 3850</label>
+                </div>
+                <div>
+                    <input value="7501" type="checkbox" class="size-checkbox" name="price-range"
+                        onclick="priceRange(this)"><label for="">Rs. 3850 to Rs. 7501</label>
+                </div>
+                <div>
+                    <input value="11152" type="checkbox" class="size-checkbox" name="price-range"
+                        onclick="priceRange(this)"><label for="">Rs. 7501 to Rs. 11152</label>
+                </div>
+                <div>
+                    <input value="14803" type="checkbox" class="size-checkbox" name="price-range"
+                        onclick="priceRange(this)"><label for="">Rs. 11152 to Rs. 14803</label>
+                </div>
+            </div>
+
+            <div class="size-range">
+                <p>COLOR</p>
+                <div>
+                    <input type="checkbox" class="size-checkbox" name="color-range"><div class="color-black"></div> <label for="">Black</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="size-checkbox" name="color-range"><div class="color-blue"></div> <label for="">Blue</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="size-checkbox" name="color-range"><div class="color-white"></div> <label for="">White</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="size-checkbox" name="color-range"><div class="color-navyBlue"></div><label for="">Navy Blue</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="size-checkbox" name="color-range"><div class="color-green"></div><label for="">Green</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="size-checkbox" name="color-range"><div class="color-red"></div><label for="">Red</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="size-checkbox" name="color-range"><div class="color-grey"></div><label for="">Grey</label>
+                </div>
+                <div><p class="more-p">+39 more</p></div>
+            </div>
+            <div class="size-range">
+                <h3>Benefit</h3>
+                <div>
+                    <input type="checkbox" class="size-checkbox"><label for="">Water Resistant </label>
+                </div>
+                <div>
+                    <input type="checkbox" class="size-checkbox"><label for="">Warmth</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="size-checkbox"><label for="">Wicking </label>
+                </div>
+                <div>
+                    <input type="checkbox" class="size-checkbox"><label for="">Sun Protection</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="size-checkbox"><label for="">Cooling</label>
+                </div>
+            </div>
+            <div class="price">
+                <p>DISCOUNT RANGE</p>
+                <div>
+                    <input type="radio" value="500" name="price" onclick="price()"><label for="">10% and above</label>
+                </div>
+                <div>
+                    <input type="radio" value="500" name="price" onclick="price()"><label for="">20% and above</label>
+                </div>
+                <div>
+                    <input type="radio" value="500" name="price" onclick="price()"><label for="">30% and above</label>
+                </div>
+                <div>
+                    <input type="radio" value="500" name="price" onclick="price()"><label for="">40% and above</label>
+                </div>
+                <div>
+                    <input type="radio" value="500" name="price" onclick="price()"><label for="">50% and above</label>
+                </div>
+                <div>
+                    <input type="radio" value="500" name="price" onclick="price()"><label for="">60% and above</label>
+                </div>
+                <div>
+                    <input type="radio" value="500" name="price" onclick="price()"><label for="">70% and above</label>
+                </div>
+ 
+            </div>
+        </div>
+        <!-- <div class="shop-items"> -->
+                <div id="wrapper">
+                    <!-- <figure class="shop-items-child-div" onclick="aclick()" >
+                        <div class="hover-animation">
+                            <img class="img-back" src="https://columbia.scene7.com/is/image/ColumbiaSportswear2/2022071_100_f?wid=768&hei=806&v=1671620001" alt="">
+                           
+                            <img class="img-front" src="https://columbia.scene7.com/is/image/ColumbiaSportswear2/2022071_100_a1?wid=768&hei=806&v=1671620001" alt="">
+                        </div>
+                        <figcaption>
+                            <span>Brand Heading</span>
+                            <h4>Rolex Watch</h4>
+                            <div>
+                                <h3>&#8377;999.99</h3>
+                                <strike>&#8377;1999.99</strike>
+                            </div>
+                            <p>&#8377;offer price 880</p>
+                        </figcaption>
+                    </figure> -->
+
+                </div>
+
+				<!-- </div> -->
+	</div>
+    </section>
+
+</body>
+<script src="./JS/product.js"></script>
+
+</html>
