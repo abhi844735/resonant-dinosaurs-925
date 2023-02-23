@@ -5,25 +5,25 @@ let flag = false;
 
 let data = [
   {
-    name: "wrangler",
+    name: "Wrangler",
     description: "great quality",
     url: "https://5.imimg.com/data5/SELLER/Default/2022/2/TM/BC/ET/27399423/check-shirt-500x500.jpg",
     price: "5000",
   },
   {
-    name: "wrangler",
+    name: "Puma",
     description: "great quality",
     url: "https://m.media-amazon.com/images/I/41K8J6J3fUL._AC._SR360,460.jpg",
     price: "7800",
   },
   {
-    name: "wrangler",
+    name: "Nike",
     description: "great quality",
     url: "https://5.imimg.com/data5/SELLER/Default/2022/2/TM/BC/ET/27399423/check-shirt-500x500.jpg",
     price: "5000",
   },
   {
-    name: "wrangler",
+    name: "Bewakoof",
     description: "great quality",
     url: "https://m.media-amazon.com/images/I/41K8J6J3fUL._AC._SR360,460.jpg",
     price: "7800",
@@ -231,3 +231,32 @@ let append = (data) => {
 };
 append(data);
 //========================================
+
+// async function get_cart_data() {
+//   let res = await fetch("put url", {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: localStorage.getItem("put user token name"),
+//     },
+//   });
+//   let data = await res.json();
+//   append(data);
+
+// let payment = document.getElementById("chkout");
+// payment.addEventListener("click", () => {
+//   window.location.href = "../payment_page.html";
+// });
+// }
+// get_cart_data();
+//===============delete function================
+// async function del_cart_Data(id) {
+//   await fetch(`url/${id}`, {
+//     method: "DELETE",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: localStorage.getItem("put user token name"),
+//     },
+//   });
+//   document.location.reload();
+// }
