@@ -28,13 +28,13 @@ userRouter.post('/login', async (req, res) => {
 
     // let sendto = '+91' + mobile;
 
-    // client.messages
-    //     .create({
-    //          body: `OTP for verification is ${otp}`, 
-    //          from: process.env.SENDER_NUMBER, 
-    //          to: sendto 
-    //         })
-    //     .then(message => console.log(message.sid));
+    client.messages
+        .create({
+             body: `OTP for verification is ${otp}`, 
+             from: process.env.SENDER_NUMBER, 
+             to: sendto 
+            })
+        .then(message => console.log(message.sid));
 
     if (user) {
         await UserModel.findOneAndUpdate({ otp, expiresIn })
