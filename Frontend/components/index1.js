@@ -11,7 +11,7 @@ function navbar(){
                 <ul>
                     <ol>
                         <li><a href="" class="anu">Topwear</a></li>
-                        <li><a href="productspage.html" class="anuq">T-Shirts</a></li>
+                        <li><a href="product.html" class="anuq">T-Shirts</a></li>
                         <li><a href="" class="anuq">Casual Shirts</a></li>
                         <li><a href="" class="anuq">Formal Shirts</a></li>
                         <li><a href="" class="anuq">Sweatshirts</a></li>
@@ -43,7 +43,7 @@ function navbar(){
                         <li><a href="" class="anuq">Sleepwear & Loungewear</a></li>
                         <li><a href="" class="anuq">Thermals</a></li>
                     </ol>
-                    <ol>
+                    <ol class="a">
                         <li><a href="" class="anu">Footwear</a></li>
                         <li><a href="" class="anuq">Casual Shoes</a></li>
                         <li><a href="" class="anuq">Sports Shoes</a></li>
@@ -53,7 +53,7 @@ function navbar(){
                         <li>Flip Flops</li>
                         <li>Socks</li>
                     </ol>
-                    <ol>
+                    <ol class="a">
                         <li><a href="" class="anu">Gadgets</a></li>
                         <li>Smart Gadgets</li>
                         <li>Fitness Gadgets</li>
@@ -286,7 +286,7 @@ function navbar(){
 
                         </ol>
                         <button id="sign" class="btn btn-danger Ef">
-                            <a  id="sing"  href="./signup.html">LOGIN / SIGNUP</a>
+                            <a  id="sing" >LOGIN / SIGNUP</a>
                         </button>
                         <ol>
                             <li id="lin1">Orders</li>
