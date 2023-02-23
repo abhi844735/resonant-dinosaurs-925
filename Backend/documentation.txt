@@ -52,21 +52,35 @@ ok result: 1. res.send({message: 'Admin Registered Sucessfully'})
 url: /admin/login
 Method: POST
 body: {email, password}
-errors: 1. if admin does not exists
-           status-code: 401, message: 'Access Denied'
-        2. password does not match 
+errors: 1. password does not match 
            status-code: 403, message: 'Wrong Credentials'
 ok result: 1. res.send({ message: 'Login Sucessful', token })
            2. token is saved in cookie with key 'token'
 
+
+url: /admin/orders
+Method: GET
+middleware: authentication, authorization
+ok result: get all orders placed by users
+
+url: /admin/orders/updatestatus
+body: {orderId, status}
+Method: PATCH
+middleware: authentication, authorization
+ok status: 
+
 //--------------------------------------------------------------------------------
 
-authoriztion middleware:
-headers: Authorization: token
+authentication middleware:
+headers: {Authorization: token}
 headers_description: if cookies does not contains key 'token', 
                      token can be accessed from req.headers.authorization
 error: 1. In case cookies are not accessable and token is not passed via headers:
           status-code: 401, message: 'Access Denied'
+
+authorization middleware:
+errors: 1. If role in token is not admin
+           status-code: 401, message: 'Access Denied'
 
 //--------------------------------------------------------------------------------
 
@@ -75,7 +89,7 @@ error: 1. In case cookies are not accessable and token is not passed via headers
 url: /cart
 middleware used: authorization
 Method: GET
-ok result: array of object [{productId, quantity}]
+ok result: array of object [{productId, quantity, price}]
 
 
 url: /cart/add/:productId
@@ -111,3 +125,60 @@ ok result: decreases quantity of product with productId by one
 
 
 //-----------------------------------------------------------------------------------
+
+/products
+
+url: /products
+Method: GET
+ok result: all products
+
+url: /product/:id
+Method: GET
+params: {id: productId}
+ok result: product with id
+
+url: /products/search
+Method: GET
+query: provide key and value pair for search
+ok result: product with specific key and value\
+eg: {brand: 'Sparx'}
+
+url: /products/add
+Method: POST
+body: {title, image, gender, category, price, color, brand, discount}
+ok result: product added to DB
+limitations: can only be accessed by admin
+
+url: /products/delete/:id
+Method: DELETE
+params: id: productId
+ok result: product deleted from DB
+limitations: can only be accessed by admin
+
+url: /product/update/:id
+Method: PATCH
+params: id: productId
+body: payload
+ok result: product updated
+limitations: can only be accessed by admin
+
+//----------------------------------------------------------------------------------------
+
+/orders
+
+url: /orders
+Method: GET
+ok result: all orders placed by user
+
+url: /orders/place
+Method: POST
+body: {addressId}
+ok result: order placed - order status : 'placed'
+
+url: /orders/remove
+Method: DELETE
+body: {orderId}
+errors: 1. if orderId's owner is not user 
+           status code : 401, message: 'Access Denied'
+        2. if order status is 'delivered' || 'onroad'
+           status code : 400, message: 'Order Removal Failed'

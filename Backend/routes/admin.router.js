@@ -3,6 +3,9 @@ const jwt = require('jsonwebtoken');
 const cookie = require('cookie')
 const bcrypt = require('bcrypt');
 const { AdminModel } = require('../models/Admin.model');
+const { OrdersModel } = require('../models/Orders.model')
+const { authentication } = require('../middlewares/Authentication.middleware');
+const { authorization } = require('../middlewares/AdminAuthorization.middleware');
 require('dotenv').config()
 
 const adminRouter = express.Router();
@@ -64,6 +67,29 @@ adminRouter.post('/login', async (req, res) => {
 
 })
 
+adminRouter.get('/orders', authentication, authorization, async (req, res) => {
+    try {
+        const orders = await OrdersModel.find();
+        return res.send(orders)
+    } catch (error) {
+        return res.status(500).send({ message: error.message });
+    }
+})
+
+adminRouter.patch('/orders/updatestatus', authentication, authorization, async (req, res) => {
+    const {orderId, status} = req.body;
+    try {
+        const order = await OrdersModel.findById(orderId)
+        if(!order) {
+            return res.status(404).send({message: 'Order not found'})
+        }
+        order.status = status;
+        await order.save();
+        res.send({message: 'Order Status Updated Sucessfully'})
+    } catch (error) {
+        res.status(500).send({message: err.message})
+    }
+})
 
 module.exports = {
     adminRouter

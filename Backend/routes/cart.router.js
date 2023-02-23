@@ -1,10 +1,12 @@
 const express = require('express');
-const { authorization } = require('../middlewares/Authorization.middleware');
+const { authentication } = require('../middlewares/Authentication.middleware');
 const { UserModel } = require('../models/Users.model')
+const { idvalidator } = require('../middlewares/idvalidator');
+const { ProductModel } = require('../models/Products.model');
 
 const cartRouter = express.Router();
 
-cartRouter.get('/', authorization, async (req, res) => {
+cartRouter.get('/', authentication, async (req, res) => {
     const { token } = req.body;
     const userId = token.id;
     const user = await UserModel.findOne({ _id: userId });
@@ -12,7 +14,7 @@ cartRouter.get('/', authorization, async (req, res) => {
     res.send(cart)
 })
 
-cartRouter.post('/add/:id', authorization, async (req, res) => {
+cartRouter.post('/add/:id', idvalidator, authentication, async (req, res) => {
     const { token } = req.body;
     const productId = req.params['id'];
     const userId = token.id;
@@ -20,6 +22,7 @@ cartRouter.post('/add/:id', authorization, async (req, res) => {
     if (!user) {
         return res.status(401).send({ message: 'Access Denied' })
     }
+    const product = await ProductModel.findOne({ _id: productId })
     const cart = user.cart;
     if (cart.some(index => index.productId == productId)) {
         return res.status(409).send({ message: 'Product already in cart' })
@@ -31,7 +34,8 @@ cartRouter.post('/add/:id', authorization, async (req, res) => {
                     $push: {
                         cart: {
                             productId,
-                            quantity: 1
+                            quantity: 1,
+                            price: product.price - product.discount * product.price
                         }
                     }
                 }
@@ -44,7 +48,7 @@ cartRouter.post('/add/:id', authorization, async (req, res) => {
     }
 })
 
-cartRouter.delete('/remove/:id', authorization, async (req, res) => {
+cartRouter.delete('/remove/:id', idvalidator, authentication, async (req, res) => {
     const { token } = req.body;
     const productId = req.params['id'];
     const userId = token.id;
@@ -62,14 +66,14 @@ cartRouter.delete('/remove/:id', authorization, async (req, res) => {
                 })
             res.send({ message: `Product with id ${productId} removed from cart` })
         } catch (error) {
-            return res.status(500).send({message: error.message})
+            return res.status(500).send({ message: error.message })
         }
     } else {
         return res.status(404).send({ message: 'Product not found in cart' })
     }
 })
 
-cartRouter.patch('/increase/:id', authorization, async (req, res) => {
+cartRouter.patch('/increase/:id', idvalidator, authentication, async (req, res) => {
     const { token } = req.body;
     const productId = req.params['id'];
     const userId = token.id;
@@ -77,11 +81,14 @@ cartRouter.patch('/increase/:id', authorization, async (req, res) => {
     if (!user) {
         return res.status(401).send({ message: 'Access Denied' })
     }
+    const product = await ProductModel.findOne({ _id: productId });
+    const price = product.price;
     const cart = user.cart;
     if (cart.some(index => index.productId == productId)) {
         cart.forEach(index => {
             if (index.productId == productId) {
                 index.quantity++;
+                index.price = index.price + price - price * product.discount;
             }
         })
         await user.save()
@@ -91,7 +98,7 @@ cartRouter.patch('/increase/:id', authorization, async (req, res) => {
     }
 })
 
-cartRouter.patch('/decrease/:id', authorization, async (req, res) => {
+cartRouter.patch('/decrease/:id', idvalidator, authentication, async (req, res) => {
     const { token } = req.body;
     const productId = req.params['id'];
     const userId = token.id;
@@ -99,13 +106,24 @@ cartRouter.patch('/decrease/:id', authorization, async (req, res) => {
     if (!user) {
         return res.status(401).send({ message: 'Access Denied' })
     }
+    const product = await ProductModel.findOne({ _id: productId });
+    const price = product.price;
     const cart = user.cart;
     if (cart.some(index => index.productId == productId)) {
+        let flag = false;
         cart.forEach(index => {
             if (index.productId == productId) {
-                index.quantity--;
+                if (index.quantity == 1) {
+                    flag = true;
+                } else {
+                    index.quantity--;
+                    index.price = index.price - price - price * product.discount;
+                }
             }
         })
+        if (flag) {
+            return res.status(409).send({ message: 'Conflict in request' })
+        }
         await user.save()
         res.send({ message: `Qantity decreased of id ${productId}` })
     } else {

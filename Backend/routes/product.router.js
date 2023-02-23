@@ -1,66 +1,74 @@
 const express = require("express");
-const { productModel } = require("../models/products.model");
+const { ProductModel } = require("../models/Products.model");
 const { idvalidator } = require("../middlewares/idvalidator");
+const { authentication } = require('../middlewares/Authentication.middleware')
+const { authorization } = require('../middlewares/AdminAuthorization.middleware');
 
 
 const productRouter = express.Router();
 
-productRouter.get("/",async (req,res)=>{
-    const data = await productModel.find();
-    res.send(data);
+productRouter.get("/", async (req, res) => {
+    try {
+        const data = await ProductModel.find();
+        res.send(data);
+    } catch (error) {
+        res.status(500).send({message: error.message})
+    }
 })
 
-// productRouter.get("/:id",async (req,res)=>{
-//     const data = await productModel.find();
-//     res.send(data);
-// })
-
-productRouter.post("/add",async (req,res)=>{
-    const data = req.body;
-    if(data.title && data.image && data.price && data.category){
-        const token = req.headers.authorization;
-        let product = productModel(data);
-        await product.save();
-        res.send({msg:"product added"});
-    }
-    else{
-        res.send({msg:"please provide title, image, price and category"})
+productRouter.post("/add", authentication, authorization, async (req, res) => {
+    const payload = req.body;
+    try {
+        const product = new ProductModel(payload)
+        await product.save()
+        res.send({ message: "Product added" });
+    } catch (error) {
+        return res.status(500).send({message: error.message})
     }
 });
 
-// productRouter.use(idvalidator);
-
-productRouter.get("/:id",idvalidator,async (req,res)=>{
-    const id = req.params.id;
-    const data = await productModel.findById(id);
-    res.send(data);
+productRouter.get('/search', async (req, res) => {
+    const payload = req.query;
+    try {
+        const products = await ProductModel.find(payload)
+        res.send(products)
+    } catch (error) {
+        res.status(500).send({message: error.message})
+    }
 })
-// productRouter.use("/update/:id",idvalidator)
 
-productRouter.patch("/update/:id",idvalidator,async (req,res)=>{
+
+productRouter.get("/:id", idvalidator, async (req, res) => {
+    const id = req.params['id'];
+    try {
+        const product = await ProductModel.findOne({_id: id})
+        res.send(product)
+    } catch (error) {
+        res.status(500).send({message: error.message})
+    }
+})
+
+
+productRouter.patch("/update/:id", authentication, authorization, idvalidator, async (req, res) => {
     let id = req.params.id;
     const update = req.body;
     try {
-        await productModel.findByIdAndUpdate(id,update);
-        res.send({msg:"updation sucessful"});
+        await ProductModel.findByIdAndUpdate(id, update);
+        res.send({ message: "Product Updated Sucessfully" });
     }
     catch (error) {
-        console.log(error);
-        res.send({msg:"something went wrong"})
+        res.status(500).send({ message: error.message })
     }
 })
 
-// productRouter.use("/delete/:id",idvalidator)
-
-productRouter.delete("/delete/:id",idvalidator,async (req,res)=>{
+productRouter.delete("/delete/:id", authentication, authorization, idvalidator, async (req, res) => {
     let id = req.params.id;
     try {
-        await productModel.findByIdAndDelete(id);
-        res.send({msg:"deletion sucessful"});
+        await ProductModel.findByIdAndDelete(id);
+        res.send({ message: "Product Removed Sucessfully" });
     }
     catch (error) {
-        console.log(error);
-        res.send({msg:"something went wrong"})
+        res.status(500).send({ message: error.message })
     }
 })
 
