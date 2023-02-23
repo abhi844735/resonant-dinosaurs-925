@@ -1,9 +1,9 @@
 const express = require('express');
-const { authorization } = require('../middlewares/Authorization.middleware')
+const { authentication } = require('../middlewares/Authentication.middleware')
 const { UserModel } = require('../models/Users.model')
 const addressRouter = express.Router();
 
-addressRouter.get('/', authorization, async (req, res) => {
+addressRouter.get('/', authentication, async (req, res) => {
     const { token } = req.body;
     const userId = token.id;
     const user = await UserModel.findOne({ _id: userId });
@@ -11,7 +11,7 @@ addressRouter.get('/', authorization, async (req, res) => {
     res.send(addresses)
 })
 
-addressRouter.post('/add', authorization, async (req, res) => {
+addressRouter.post('/add', authentication, async (req, res) => {
     const { token } = req.body;
     const userId = token.id;
     const user = await UserModel.findOne({ _id: userId });
@@ -40,7 +40,7 @@ addressRouter.post('/add', authorization, async (req, res) => {
     }
 })
 
-addressRouter.delete('/remove/:id', authorization, async (req, res) => {
+addressRouter.delete('/remove/:id', authentication, async (req, res) => {
     const { token } = req.body;
     const userId = token.id;
     const user = await UserModel.findOne({ _id: userId });
@@ -64,7 +64,7 @@ addressRouter.delete('/remove/:id', authorization, async (req, res) => {
     }
 })
 
-addressRouter.patch('/edit/:id', authorization, async (req, res) => {
+addressRouter.patch('/edit/:id', authentication, async (req, res) => {
     const { token } = req.body;
     const userId = token.id;
     const user = await UserModel.findOne({ _id: userId });
@@ -78,11 +78,15 @@ addressRouter.patch('/edit/:id', authorization, async (req, res) => {
     }
     const payload = req.body;
     try {
-        await UserModel.findOneAndUpdate({ _id: userId, "address.$_id": addressId },
-            {
-                $set: {"name": "Darshan Nashikkar"}
-            })
-        res.send('Address Updated')
+        address.forEach(index => {
+            if(index._id == addressId) {
+                for(let chr in payload) {
+                    index[chr] = payload[chr];
+                }
+            }
+        })
+        await user.save()
+        res.send({message: 'Address Updated'})
     } catch (error) {
         res.status(500).send({message: error.message})
     }
