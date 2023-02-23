@@ -19,4 +19,4 @@ otp_btn.addEventListener("click",(e)=>{
     e.preventDefault();
     let otp=document.getElementById("otp").value;
     
-})
+});
