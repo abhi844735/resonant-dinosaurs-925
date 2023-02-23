@@ -4,10 +4,13 @@ let preloader= document.getElementById("loading");
 
 // section_product.addEventListener("load",loadFun)
 
-function loadFun(){
+
+function loadingFun(){
   preloader.style.display="none"
 }
 
+
+const product_Id=localStorage.getItem("product-id")
 
 
 
@@ -120,7 +123,8 @@ function productFun(dataPro) {
          </div>
      </div>
      <div class="product-view-btn-div">
-         <button id="add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i> ADD TO BAG</button>
+         <button id="add-to-cart-btn" onclick="addToCart()"><i class="fa-solid fa-bag-shopping"></i> ADD TO BAG</button>
+         <button id="go-to-cart-btn"><a href="./cart_page.html" target="_blank">GO TO BAG <i class="fa-solid fa-arrow-right-long"></i></a></button>
          <button id="wishlist-btn"> <i class="fa-regular fa-heart"></i> WISHLIST</button>
      </div>
      <div class="product-view-delivery-div">
@@ -222,3 +226,30 @@ function sizeFun(el){
 //   }
     
 // });
+
+async function addToCart(){
+    // try {
+
+    //     let res = await fetch(`${baseurl}/cart/add/${product_Id}`, {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             Authorization: localStorage.getItem("token"),
+    //         },
+    //         // body: JSON.stringify(obj)
+    //     })
+    //     if (res.message=="Product added to cart") {
+    //         alert("Added To cart");
+            // container.innerHTML=""
+            let add_to_bag=document.getElementById("add-to-cart-btn")
+            let go_to_bag=document.getElementById("go-to-cart-btn");
+            add_to_bag.style.display="none"
+            go_to_bag.style.display="block"
+            // window.location.reload()
+    //     }
+
+    // }
+    // catch (error) {
+    //     console.log(error)
+    // }
+}

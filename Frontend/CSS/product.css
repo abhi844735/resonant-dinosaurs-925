@@ -8,30 +8,40 @@
     position: fixed;
     width: 100%;
     height: 100vh;
-    background: #fff url(../HTML/Payment-Img/loading\(2\).gif) no-repeat center;
+    background: #fff url(../Payment-Img/loading\(2\).gif) no-repeat center;
     z-index: 9999999;
 }
+
+/* -------------------------------------------------------sort filter---------------------------------------------------------------  */
+
+
 
 /* ---------------------------------------------------product section------------------------------------------------------------- */
 
 #product-section{
+  margin-top: 60px;
     width: 100%;
-    /* margin: auto; */
     height: 100vh;
 }
 .top-header-div{
-    width: 93%;
+    width: 90%;
     margin: auto;
     display: flex;
     justify-content: space-between;
 }
 .top-header-div select{
     text-align: center;
-    padding: 6px 20px;
-    font-size: 20px;
-    /* background-color: red; */
+    padding: 4px 10% 4px 10px;
+    font-family: Assistant, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Ar;
+    font-size: 14px;
+    font-weight: 400;
 }
 
+
+/* .top-header-div>select option:checked {
+  background-color: #c0e2ff;
+  color: #333;
+} */
 
 .shop-page{
   padding-top: 50px;
@@ -195,6 +205,7 @@ input[type=radio]{
   }
   figure {
     /* width: 32%; */
+    max-height: auto;
     float: left;
     margin: 0;
   }
@@ -206,18 +217,21 @@ input[type=radio]{
 /* --------------------------------------------procut image div-------------------------------------------------  */
   .hover-animation {
     position: relative;
-    height: 350px;
+    /* height: 350px; */
+    height: 260px;
+
     /* width: 350px; */
     margin: 10% auto 0;
     color: #fff;
     /* box-shadow: 5px 5px 15px rgba(0,0,0,0.6); */
+    /* background: url(../); */
   }
   
   .hover-animation img {
     position: absolute;
     left: 0;
     width: 100%;
-    height: 350px;
+    height: 100%;
 
     -webkit-transition: opacity 0.5s ease-in-out;
     -moz-transition: opacity 0.5s ease-in-out;
@@ -255,6 +269,7 @@ input[type=radio]{
 }
   .hover-animation .btn-add{
     width: 100%;
+    display: block;
     transition: .5s ease;
     opacity: 0;
     background:rgb(242, 236, 236,0.8);
@@ -276,7 +291,7 @@ input[type=radio]{
     
    /* margin-top: 250px; */
     margin: 10px 0px;
-    padding: 12px 10px;
+    padding: 10px 10px;
     width: 100%;
     border: none;
     /* background-color: black; */
@@ -335,6 +350,10 @@ input[type=radio]{
     display: flex;
     width: 100%;
 }
+.similar-products-price-div h5{
+  margin-top: 2px;
+
+}
 .similar-products-price-div strike{
     color: #9a9ca5;
     margin-top: 4px;
@@ -344,4 +363,79 @@ input[type=radio]{
     color: #ff905a;
     margin-top: 2px;
     margin-left: 2px;
+}
+
+
+
+/* ---------------------------------- meadia max 1260 px -----------------------------------------------------------------------  */
+
+@media (max-width:1260px){
+  #wrapper{
+
+    grid-template-columns: repeat(4,1fr);
+  }
+}
+
+/* ---------------------------------- meadia max 1010 px -----------------------------------------------------------------------  */
+@media (max-width:1010px){
+  #wrapper{
+
+    grid-template-columns: repeat(3,1fr);
+  }
+  .shop-filter-desktop{
+    width: 25%;
+  }
+  .size-range{
+    width: 100%;
+  }
+  /* .size-range div{
+    width: 100%;
+  } */
+}
+
+/* ---------------------------------- meadia max 765 px -----------------------------------------------------------------------  */
+@media (max-width:765px){
+  #wrapper{
+    width: 70%;
+    grid-template-columns: repeat(2,1fr);
+  }
+  .shop-filter-desktop{
+    width: 30%;
+  }
+}
+/* ---------------------------------- meadia max 600 px -----------------------------------------------------------------------  */
+
+@media (max-width:600px){
+  #wrapper{
+    width: 50%;
+    grid-template-columns: repeat(1,1fr);
+  }
+  .shop-filter-desktop{
+    width: 35%;
+  }
+}
+/* ---------------------------------- meadia max 480 px -----------------------------------------------------------------------  */
+@media (max-width: 480px){
+  #wrapper{
+    width: 50%;
+    grid-template-columns: repeat(1,1fr);
+  }
+  .shop-filter-desktop{
+    width: 45%;
+  }
+}
+/* ---------------------------------- meadia max 380 px -----------------------------------------------------------------------  */
+@media (max-width: 480px){
+  #wrapper{
+    width: 55%;
+    grid-template-columns: repeat(1,1fr);
+  }
+  .shop-filter-desktop{
+    width: 45%;
+  }
+  .similar-products-price-div{
+    display: flex;
+    /* grid-template-columns: repeat(2,1fr); */
+    flex-wrap: wrap;
+  }
 }
