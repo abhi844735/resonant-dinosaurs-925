@@ -198,4 +198,7 @@ document.querySelector(".anuq").addEventListener("click",()=>{
 document.querySelector(".logo-img").addEventListener("click",()=>{
     window.location.href="index.html";
 })
+document.getElementById("sign").addEventListener("click",()=>{
+    window.location.href="signup.html";
+})
 
