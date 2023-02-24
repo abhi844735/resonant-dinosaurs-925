@@ -4,9 +4,34 @@ let preloader= document.getElementById("loading");
 
 // section_product.addEventListener("load",loadFun)
 
-function loadFun(){
+
+const product_Id=localStorage.getItem("product-id")
+function loadingFun(){
   preloader.style.display="none"
 }
+document.querySelector("#cl233").addEventListener("click",()=>{
+    window.location.href="cart_page.html"
+})
+let token=localStorage.getItem("token");
+document.getElementById("line1").innerText=localStorage.getItem("name")||"Welcome";
+if(token){
+    document.getElementById("sing").innerText="Logout"
+}
+if(token){
+    document.getElementById("sing").addEventListener("click",async(e)=>{
+        e.preventDefault();
+      await   fetch("http:localhost:4500/users/logout",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "authorization":JSON.stringify(localStorage.get("token"))
+            }
+        }).then((res)=>res.json())
+        .then((res)=>console.log(res))
+    })
+}
+ 
+
 
 
 
@@ -25,10 +50,10 @@ document.addEventListener("click",function (e){
     fullImg.src = smallImg.src
 }
 
-let size=""||localStorage.getItem("size");
+// let size=""||localStorage.getItem("size");
 
   
-  console.log(size)
+//   console.log(size)
 
 let baseurl = "https://powerful-erin-jewelry.cyclic.app"
 let dataArr = []
@@ -37,7 +62,7 @@ async function productfetch() {
     // let productId = localStorage.getItem("product-id");
     // console.log(productId)
     try {
-        let res = await fetch(`${baseurl}/products?id=63c942c315630b618b393faa`);
+        let res = await fetch(`${baseurl}/products?id=${product_Id}`);
         if (res.ok) {
             let dataPro = await res.json();
             console.log(dataPro)
@@ -120,7 +145,8 @@ function productFun(dataPro) {
          </div>
      </div>
      <div class="product-view-btn-div">
-         <button id="add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i> ADD TO BAG</button>
+         <button id="add-to-cart-btn" onclick="addToCart()"><i class="fa-solid fa-bag-shopping"></i> ADD TO BAG</button>
+         <button id="go-to-cart-btn"><a href="./cart_page.html" target="_blank">GO TO BAG <i class="fa-solid fa-arrow-right-long"></i></a></button>
          <button id="wishlist-btn"> <i class="fa-regular fa-heart"></i> WISHLIST</button>
      </div>
      <div class="product-view-delivery-div">
@@ -222,3 +248,140 @@ function sizeFun(el){
 //   }
     
 // });
+
+async function addToCart(){
+    // try {
+
+    //     let res = await fetch(`${baseurl}/cart/add/${product_Id}`, {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             Authorization: localStorage.getItem("token"),
+    //         },
+    //         // body: JSON.stringify(obj)
+    //     })
+    //     if (res.message=="Product added to cart") {
+    //         alert("Added To cart");
+            // container.innerHTML=""
+            let add_to_bag=document.getElementById("add-to-cart-btn")
+            let go_to_bag=document.getElementById("go-to-cart-btn");
+            add_to_bag.style.display="none"
+            go_to_bag.style.display="block"
+            // window.location.reload()
+    //     }
+
+    // }
+    // catch (error) {
+    //     console.log(error)
+    // }
+}
+
+
+async function fetchProducts(){
+    try {
+            let res= await fetch(`${baseurl}/products`);
+            if(res.ok){
+                let data=await res.json();
+                dataFuntion(data)
+                console.log(data)
+            }
+        
+    } catch (error) {
+        console.log(error)
+        // alert("Fetching problem")
+    }
+    }
+    fetchProducts()
+
+
+
+
+let dataContainer=document.getElementById("similar-products-div")
+function dataFuntion(data){
+    dataContainer.innerHTML="";
+
+   let allData= data.map((item)=>{
+        
+        return`<div class="similar-products" data-id=${item._id}>
+        <div class="similar-products-img-div">
+            <img src="${item["img-1"]}" data-id=${item._id} alt="">
+            <div class="similar-products-rating-div">
+                <p class="similar-products-star" >4 <span><i class="fa-solid fa-star"></i></span></p>
+                <hr>
+            <p class="similar-products-rating">15k reviews</p>
+            </div>
+            <div class="similar-products-details-div" data-id=${item._id}>
+                <h3 data-id=${item._id}>Roadster</h3>
+                <p data-id=${item._id}>${item.title}</p>
+                <div class="similar-products-price-div" data-id=${item._id}>
+                    <h3 data-id=${item._id}>Rs.365</h3>
+                    <strike data-id=${item._id}>Rs. 599</strike>
+                    <p data-id=${item._id}>(39% OFF)</p>
+                </div>
+            </div>
+        </div>
+        </div>`
+    }).slice(0, 10);
+    dataContainer.innerHTML=allData.join(" ")
+    let img_click = document.querySelectorAll(".similar-products");
+      for(let btn of img_click){
+          btn.addEventListener("click",(event)=>{ 
+			let data_id = event.target.dataset.id;
+
+            localStorage.setItem("product-id",data_id)
+            window.open('product-view.html', "_blank")
+			// DeleteBtn(data_id);
+		});
+      }
+   
+}
+
+/* <div class="similar-products" data-id=${item._id}>
+        <div class="similar-products-img-div">
+            <img src="${item["img-1"]}" data-id=${item._id} alt="">
+        <div class="similar-products-rating-div">
+            <p class="similar-products-star" >4 <span><i class="fa-solid fa-star"></i></span></p>
+            <hr>
+        <p class="similar-products-rating">15k reviews</p>
+        </div>
+    <div class="similar-products-details-div">
+        <h3>Roadster</h3>
+        <p>${item.title}</p>
+        <div class="similar-products-price-div">
+            <h3>Rs.365</h3>
+            <strike>Rs. 599</strike>
+            <p>(39% OFF)</p>
+        </div>
+    </div>
+</div>
+</div> */
+
+                console.log(product_Id)
+
+               
+document.getElementById("line1").innerText=localStorage.getItem("name")||"Welcome";
+if(token){
+    document.querySelector(".login").style.display="none"
+    if(token){
+        document.querySelector(".logout").addEventListener("click",async(e)=>{
+            e.preventDefault();
+         let res= await   fetch("http://localhost:4500/users/logout",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                    "authorization":localStorage.getItem("token")
+                }
+            })
+        let data = await res.json();
+        if(data.message=="Logout Sucessfull"){
+                alert("log out succussfully");
+                localStorage.clear();
+                
+        }
+        })
+    }
+}else{
+    document.querySelector(".login").style.display="block";
+    document.querySelector(".logout").style.display="none";
+}
+ 

@@ -5,33 +5,40 @@ let flag = false;
 
 let data = [
   {
-    name: "wrangler",
+    name: "Wrangler",
     description: "great quality",
     url: "https://5.imimg.com/data5/SELLER/Default/2022/2/TM/BC/ET/27399423/check-shirt-500x500.jpg",
     price: "5000",
   },
   {
-    name: "wrangler",
+    name: "Puma",
     description: "great quality",
     url: "https://m.media-amazon.com/images/I/41K8J6J3fUL._AC._SR360,460.jpg",
     price: "7800",
   },
   {
-    name: "wrangler",
+    name: "Nike",
     description: "great quality",
     url: "https://5.imimg.com/data5/SELLER/Default/2022/2/TM/BC/ET/27399423/check-shirt-500x500.jpg",
     price: "5000",
   },
   {
-    name: "wrangler",
+    name: "Bewakoof",
     description: "great quality",
     url: "https://m.media-amazon.com/images/I/41K8J6J3fUL._AC._SR360,460.jpg",
     price: "7800",
   },
 ];
+let discount = 0;
+let totalmrp = document.getElementById("itm_total");
 
+let priceDiscount = document.getElementById("ttl_dsc1");
+
+let subTotal = document.getElementById("ttl");
+
+let totalSaving = document.getElementById("ttl_dsc");
+//=================code for append========================================
 let append = (data) => {
-  let discount = 0;
   discount = data.length * 99;
   data.forEach((el) => {
     let id = el._id;
@@ -126,19 +133,27 @@ let append = (data) => {
     minus.addEventListener("click", () => {
       n--;
 
-      price.innerText = `Rs. ${+el.price * n}.00/-`;
-      MRPprice.innerText = `Rs. ${(+el.price + 99) * n}.00/-`;
+      if (flag == false) {
+        price.innerText = `Rs. ${+el.price * n}.00/-`;
+        MRPprice.innerText = `Rs. ${(+el.price + 99) * n}.00/-`;
 
-      totalMRP = totalMRP - (+el.price + 99);
-      let totalmrp = document.getElementById("itm_total");
-      totalmrp.innerText = `Rs. ${totalMRP}/-`;
-      discount = discount - 99;
-      let priceDiscount = document.getElementById("ttl_dsc1");
-      priceDiscount.innerText = `- Rs. ${discount}/-`;
-      let subTotal = document.getElementById("ttl");
-      subTotal.innerText = `Rs. ${totalMRP - discount}`;
-      let totalSaving = document.getElementById("ttl_dsc");
-      totalSaving.innerText = `Rs. ${discount}/-`;
+        totalMRP = totalMRP - (+el.price + 99);
+        totalmrp.innerText = `Rs. ${totalMRP}/-`;
+        discount = discount - 99;
+        priceDiscount.innerText = `- Rs. ${discount}/-`;
+        subTotal.innerText = `Rs. ${totalMRP - discount}`;
+        totalSaving.innerText = `Rs. ${discount}/-`;
+      } else {
+        price.innerText = `Rs. ${+el.price * n}.00/-`;
+        MRPprice.innerText = `Rs. ${(+el.price + 99) * n}.00/-`;
+
+        totalMRP = totalMRP - (+el.price + 99);
+        totalmrp.innerText = `Rs. ${totalMRP}/-`;
+        discount = discount - 99;
+        priceDiscount.innerText = `- Rs. ${discount}/-`;
+        subTotal.innerText = `Rs. ${totalMRP - discount - 200}`;
+        totalSaving.innerText = `Rs. ${discount + 200}/-`;
+      }
       if (n >= 1) {
         p2.innerText = n;
       } else if (n == 0) {
@@ -162,29 +177,42 @@ let append = (data) => {
 
     plus.addEventListener("click", () => {
       n++;
-      if (n <= 4) {
+      if (n <= 10) {
         p2.innerText = n;
       }
-      if (n > 4) {
-        return alert("You Can't Add More Than 4 Products of Same Type!!!");
+      if (n > 10) {
+        return alert("You Can't Add More Than 10 Products of Same Type!!!");
       }
-      price.innerText = `Rs. ${+el.price * n}.00/-`;
+      if (flag == false) {
+        price.innerText = `Rs. ${+el.price * n}.00/-`;
 
-      MRPprice.innerText = `Rs. ${(+el.price + 99) * n}.00/-`;
-      total = total + +el.price * n;
-      totalMRP = totalMRP + (+el.price + 99);
-      discount = discount + 99;
-      let totalmrp = document.getElementById("itm_total");
-      totalmrp.innerText = `Rs. ${totalMRP}/-`;
+        MRPprice.innerText = `Rs. ${(+el.price + 99) * n}.00/-`;
+        total = total + +el.price * n;
+        totalMRP = totalMRP + (+el.price + 99);
+        discount = discount + 99;
+        totalmrp.innerText = `Rs. ${totalMRP}/-`;
 
-      let priceDiscount = document.getElementById("ttl_dsc1");
-      priceDiscount.innerText = `- Rs. ${discount}/-`;
+        priceDiscount.innerText = `- Rs. ${discount}/-`;
 
-      let subTotal = document.getElementById("ttl");
-      subTotal.innerText = `Rs. ${totalMRP - discount}`;
+        subTotal.innerText = `Rs. ${totalMRP - discount}`;
 
-      let totalSaving = document.getElementById("ttl_dsc");
-      totalSaving.innerText = `Rs. ${discount}/-`;
+        totalSaving.innerText = `Rs. ${discount}/-`;
+      } else {
+        price.innerText = `Rs. ${+el.price * n}.00/-`;
+
+        MRPprice.innerText = `Rs. ${(+el.price + 99) * n}.00/-`;
+        total = total + +el.price * n;
+        totalMRP = totalMRP + (+el.price + 99);
+        discount = discount + 99;
+        totalmrp.innerText = `Rs. ${totalMRP}/-`;
+
+        priceDiscount.innerText = `- Rs. ${discount}/-`;
+
+        subTotal.innerText = `Rs. ${totalMRP - discount - 200}`;
+
+        totalSaving.innerText = `Rs. ${discount + 200}/-`;
+        //===================================
+      }
     });
     div5r.append(div5r1, div5r2, div5r3);
     div5.append(div5l, div5r);
@@ -192,16 +220,9 @@ let append = (data) => {
     div.append(divleft, divright);
     items_in_cart.append(div);
   });
-  let totalmrp = document.getElementById("itm_total");
   totalmrp.innerText = `Rs. ${totalMRP}/-`;
-
-  let priceDiscount = document.getElementById("ttl_dsc1");
   priceDiscount.innerText = `- Rs. ${discount}/-`;
-
-  let subTotal = document.getElementById("ttl");
   subTotal.innerText = `Rs. ${totalMRP - discount}`;
-
-  let totalSaving = document.getElementById("ttl_dsc");
   totalSaving.innerText = `Rs. ${discount}/-`;
   //==============================================
 
@@ -231,3 +252,27 @@ let append = (data) => {
 };
 append(data);
 //========================================
+
+async function get_cart_data() {
+  let res = await fetch("put url", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("put user token name"),
+    },
+  });
+  let data = await res.json();
+  append(data);
+}
+get_cart_data();
+//===============delete function================
+async function del_cart_Data(id) {
+  await fetch(`url/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("put user token name"),
+    },
+  });
+  document.location.reload();
+}

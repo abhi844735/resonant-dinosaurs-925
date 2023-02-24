@@ -55,6 +55,8 @@ li:hover{
     color: black;
     cursor: pointer;
     font-size: 16px;
+    position: relative;
+    z-index: 1;
 }
 .main_list
 {
@@ -381,9 +383,4 @@ ol>li:hover{
     outline: none;
     background-color: #F8F8F8;
     color: #8b7d77;
-}
-.logo-img{
-    width: 100px;
-    height: 80px;
-   
 }

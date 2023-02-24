@@ -3,12 +3,11 @@ const { CartSchema } = require('../schemas/Cart.Schema')
 const { AddressSchema } = require('../schemas/Address.schema')
 
 const UserSchema = mongoose.Schema({
-    name: String,
+    name: { type: String, required: true },
     email: String,
-    gender: String,
+    gender: { type: String, enum: ['male', 'female'], required: true },
     mobile: { type: Number, required: true },
-    otp: Number,
-    expiresIn: Number,
+    password: { type: String, required: true },
     address: {
         type: [AddressSchema],
         default: []
