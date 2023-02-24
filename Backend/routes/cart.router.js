@@ -14,6 +14,24 @@ cartRouter.get('/', authentication, async (req, res) => {
     res.send(cart)
 })
 
+cartRouter.get("/:id", authentication, idvalidator, async (req, res) => {
+    const {token} = req.body;
+    const userId = token.id;
+    try {
+        const user = await UserModel.findOne({_id: userId});
+        if(!user) {
+            return res.status(401).send({message: 'Login to continue'})
+        }
+        const cart = user.cart;
+        if(cart.some(index => index.productId == id)) {
+            return res.status(409).send({message: 'Product already in cart'})
+        }
+        res.send({message: 'Product is not in cart'})
+    } catch (error) {
+        res.status(500).send({message: error.message})
+    }
+})
+
 cartRouter.post('/add/:id', idvalidator, authentication, async (req, res) => {
     const { token } = req.body;
     const productId = req.params['id'];
