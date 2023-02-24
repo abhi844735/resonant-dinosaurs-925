@@ -9,6 +9,28 @@ const product_Id=localStorage.getItem("product-id")
 function loadingFun(){
   preloader.style.display="none"
 }
+document.querySelector("#cl233").addEventListener("click",()=>{
+    window.location.href="cart_page.html"
+})
+let token=localStorage.getItem("token");
+document.getElementById("line1").innerText=localStorage.getItem("name")||"Welcome";
+if(token){
+    document.getElementById("sing").innerText="Logout"
+}
+if(token){
+    document.getElementById("sing").addEventListener("click",async(e)=>{
+        e.preventDefault();
+      await   fetch("http:localhost:4500/users/logout",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "authorization":JSON.stringify(localStorage.get("token"))
+            }
+        }).then((res)=>res.json())
+        .then((res)=>console.log(res))
+    })
+}
+ 
 
 
 
@@ -335,3 +357,31 @@ function dataFuntion(data){
 </div> */
 
                 console.log(product_Id)
+
+               
+document.getElementById("line1").innerText=localStorage.getItem("name")||"Welcome";
+if(token){
+    document.querySelector(".login").style.display="none"
+    if(token){
+        document.querySelector(".logout").addEventListener("click",async(e)=>{
+            e.preventDefault();
+         let res= await   fetch("http://localhost:4500/users/logout",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                    "authorization":localStorage.getItem("token")
+                }
+            })
+        let data = await res.json();
+        if(data.message=="Logout Sucessfull"){
+                alert("log out succussfully");
+                localStorage.clear();
+                
+        }
+        })
+    }
+}else{
+    document.querySelector(".login").style.display="block";
+    document.querySelector(".logout").style.display="none";
+}
+ 

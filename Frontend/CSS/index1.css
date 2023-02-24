@@ -55,6 +55,8 @@ li:hover{
     color: black;
     cursor: pointer;
     font-size: 16px;
+    position: relative;
+    z-index: 1;
 }
 .main_list
 {
