@@ -72,9 +72,7 @@ body {
   color: #000000;
   background-color: white;
 }
-#left2 {
-  /* border: 1px solid blue; */
-}
+
 #mode {
   display: flex;
   justify-content: space-between;
