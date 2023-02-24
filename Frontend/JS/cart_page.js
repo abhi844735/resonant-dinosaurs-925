@@ -1,5 +1,6 @@
 let total = 0;
 let totalMRP = 0;
+
 let items_in_cart = document.querySelector("#cart_items");
 let flag = false;
 
@@ -85,6 +86,7 @@ let append = (data) => {
     let MRPprice = document.createElement("p");
     MRPprice.innerText = `Rs. ${+el.price + 99}.00/-`;
     totalMRP = totalMRP + (+el.price + 99);
+    localStorage.setItem("totalcartvalue", JSON.stringify(totalMRP - discount));
     MRPprice.style.textDecoration = "line-through";
 
     div3.append(MRP, MRPprice);
@@ -138,6 +140,11 @@ let append = (data) => {
         MRPprice.innerText = `Rs. ${(+el.price + 99) * n}.00/-`;
 
         totalMRP = totalMRP - (+el.price + 99);
+        localStorage.setItem(
+          "totalcartvalue",
+          JSON.stringify(totalMRP - discount)
+        );
+
         totalmrp.innerText = `Rs. ${totalMRP}/-`;
         discount = discount - 99;
         priceDiscount.innerText = `- Rs. ${discount}/-`;
@@ -148,6 +155,11 @@ let append = (data) => {
         MRPprice.innerText = `Rs. ${(+el.price + 99) * n}.00/-`;
 
         totalMRP = totalMRP - (+el.price + 99);
+        localStorage.setItem(
+          "totalcartvalue",
+          JSON.stringify(totalMRP - discount)
+        );
+
         totalmrp.innerText = `Rs. ${totalMRP}/-`;
         discount = discount - 99;
         priceDiscount.innerText = `- Rs. ${discount}/-`;
@@ -181,6 +193,7 @@ let append = (data) => {
         p2.innerText = n;
       }
       if (n > 10) {
+        n = 10;
         return alert("You Can't Add More Than 10 Products of Same Type!!!");
       }
       if (flag == false) {
@@ -189,6 +202,11 @@ let append = (data) => {
         MRPprice.innerText = `Rs. ${(+el.price + 99) * n}.00/-`;
         total = total + +el.price * n;
         totalMRP = totalMRP + (+el.price + 99);
+        localStorage.setItem(
+          "totalcartvalue",
+          JSON.stringify(totalMRP - discount)
+        );
+
         discount = discount + 99;
         totalmrp.innerText = `Rs. ${totalMRP}/-`;
 
@@ -203,6 +221,11 @@ let append = (data) => {
         MRPprice.innerText = `Rs. ${(+el.price + 99) * n}.00/-`;
         total = total + +el.price * n;
         totalMRP = totalMRP + (+el.price + 99);
+        localStorage.setItem(
+          "totalcartvalue",
+          JSON.stringify(totalMRP - discount)
+        );
+
         discount = discount + 99;
         totalmrp.innerText = `Rs. ${totalMRP}/-`;
 
@@ -238,6 +261,11 @@ let append = (data) => {
           totalmrp.innerText = `Rs. ${totalMRP}/-`;
           priceDiscount.innerText = `- Rs. ${discount}/-`;
           subTotal.innerText = `Rs. ${totalMRP - discount - 200}`;
+          localStorage.setItem(
+            "totalcartvalue",
+            JSON.stringify(totalMRP - discount - 200)
+          );
+
           totalSaving.innerText = `Rs. ${discount + 200}/-`;
         } else {
           alert("Please Enter Valid Coupan code");
@@ -246,33 +274,33 @@ let append = (data) => {
         alert("Your Cart Value of Total Items Should Be More Than Rs. 15000/-");
       }
     } else {
-      alert("You have already applied for coupon");
+      alert("\u{274C} You have already applied for coupon");
     }
   });
 };
 append(data);
 //========================================
 
-async function get_cart_data() {
-  let res = await fetch("put url", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("put user token name"),
-    },
-  });
-  let data = await res.json();
-  append(data);
-}
-get_cart_data();
-//===============delete function================
-async function del_cart_Data(id) {
-  await fetch(`url/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("put user token name"),
-    },
-  });
-  document.location.reload();
-}
+// async function get_cart_data() {
+//   let res = await fetch("put url", {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: localStorage.getItem("put user token name"),
+//     },
+//   });
+//   let data = await res.json();
+//   append(data);
+// }
+// get_cart_data();
+// //===============delete function================
+// async function del_cart_Data(id) {
+//   await fetch(`url/${id}`, {
+//     method: "DELETE",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: localStorage.getItem("put user token name"),
+//     },
+//   });
+//   document.location.reload();
+// }
