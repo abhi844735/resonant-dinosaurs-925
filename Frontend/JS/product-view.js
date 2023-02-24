@@ -5,12 +5,12 @@ let preloader= document.getElementById("loading");
 // section_product.addEventListener("load",loadFun)
 
 
+const product_Id=localStorage.getItem("product-id")
 function loadingFun(){
   preloader.style.display="none"
 }
 
 
-const product_Id=localStorage.getItem("product-id")
 
 
 
@@ -28,10 +28,10 @@ document.addEventListener("click",function (e){
     fullImg.src = smallImg.src
 }
 
-let size=""||localStorage.getItem("size");
+// let size=""||localStorage.getItem("size");
 
   
-  console.log(size)
+//   console.log(size)
 
 let baseurl = "https://powerful-erin-jewelry.cyclic.app"
 let dataArr = []
@@ -40,7 +40,7 @@ async function productfetch() {
     // let productId = localStorage.getItem("product-id");
     // console.log(productId)
     try {
-        let res = await fetch(`${baseurl}/products?id=63c942c315630b618b393faa`);
+        let res = await fetch(`${baseurl}/products?id=${product_Id}`);
         if (res.ok) {
             let dataPro = await res.json();
             console.log(dataPro)
@@ -253,3 +253,85 @@ async function addToCart(){
     //     console.log(error)
     // }
 }
+
+
+async function fetchProducts(){
+    try {
+            let res= await fetch(`${baseurl}/products`);
+            if(res.ok){
+                let data=await res.json();
+                dataFuntion(data)
+                console.log(data)
+            }
+        
+    } catch (error) {
+        console.log(error)
+        // alert("Fetching problem")
+    }
+    }
+    fetchProducts()
+
+
+
+
+let dataContainer=document.getElementById("similar-products-div")
+function dataFuntion(data){
+    dataContainer.innerHTML="";
+
+   let allData= data.map((item)=>{
+        
+        return`<div class="similar-products" data-id=${item._id}>
+        <div class="similar-products-img-div">
+            <img src="${item["img-1"]}" data-id=${item._id} alt="">
+            <div class="similar-products-rating-div">
+                <p class="similar-products-star" >4 <span><i class="fa-solid fa-star"></i></span></p>
+                <hr>
+            <p class="similar-products-rating">15k reviews</p>
+            </div>
+            <div class="similar-products-details-div" data-id=${item._id}>
+                <h3 data-id=${item._id}>Roadster</h3>
+                <p data-id=${item._id}>${item.title}</p>
+                <div class="similar-products-price-div" data-id=${item._id}>
+                    <h3 data-id=${item._id}>Rs.365</h3>
+                    <strike data-id=${item._id}>Rs. 599</strike>
+                    <p data-id=${item._id}>(39% OFF)</p>
+                </div>
+            </div>
+        </div>
+        </div>`
+    }).slice(0, 10);
+    dataContainer.innerHTML=allData.join(" ")
+    let img_click = document.querySelectorAll(".similar-products");
+      for(let btn of img_click){
+          btn.addEventListener("click",(event)=>{ 
+			let data_id = event.target.dataset.id;
+
+            localStorage.setItem("product-id",data_id)
+            window.open('product-view.html', "_blank")
+			// DeleteBtn(data_id);
+		});
+      }
+   
+}
+
+/* <div class="similar-products" data-id=${item._id}>
+        <div class="similar-products-img-div">
+            <img src="${item["img-1"]}" data-id=${item._id} alt="">
+        <div class="similar-products-rating-div">
+            <p class="similar-products-star" >4 <span><i class="fa-solid fa-star"></i></span></p>
+            <hr>
+        <p class="similar-products-rating">15k reviews</p>
+        </div>
+    <div class="similar-products-details-div">
+        <h3>Roadster</h3>
+        <p>${item.title}</p>
+        <div class="similar-products-price-div">
+            <h3>Rs.365</h3>
+            <strike>Rs. 599</strike>
+            <p>(39% OFF)</p>
+        </div>
+    </div>
+</div>
+</div> */
+
+                console.log(product_Id)
