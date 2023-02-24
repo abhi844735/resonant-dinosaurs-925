@@ -16,7 +16,7 @@ productRouter.get("/", async (req, res) => {
     }
 })
 
-productRouter.post("/add", authentication, authorization, async (req, res) => {
+productRouter.post("/add",authentication, authorization, async (req, res) => {
     const payload = req.body;
     try {
         const product = new ProductModel(payload)

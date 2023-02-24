@@ -1,5 +1,8 @@
-let preloader= document.getElementById("loading");
-
+const baseurl = "http://localhost:4500"
+const product_view=`${baseurl}/products`
+const cartadd=`${baseurl}/cart/add`
+const preloader= document.getElementById("loading");
+const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjhjYmQyNjNmYmQ2YzdjZTIyYmZmOCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjc3MjQ5NzcwfQ.TVl_sP8exeZzmRWVHINpN6yIQTao0awQc58vY8s9qVc";
 // let section_product=document.getElementById("product-view-section")
 
 // section_product.addEventListener("load",loadFun)
@@ -28,22 +31,14 @@ document.addEventListener("click",function (e){
     fullImg.src = smallImg.src
 }
 
-// let size=""||localStorage.getItem("size");
-
-  
-//   console.log(size)
-
-let baseurl = "https://powerful-erin-jewelry.cyclic.app"
-let dataArr = []
 async function productfetch() {
-    let productId = "63c942c315630b618b393faa";
     // let productId = localStorage.getItem("product-id");
     // console.log(productId)
     try {
-        let res = await fetch(`${baseurl}/products?id=${product_Id}`);
+        let res = await fetch(`${product_view}/${product_Id}`);
         if (res.ok) {
             let dataPro = await res.json();
-            console.log(dataPro)
+            console.log(dataPro.image_1)
             // dataArr = [...dataPro]
             productFun(dataPro)
 
@@ -59,14 +54,13 @@ let container = document.querySelector("#product-view-div")
 
 function productFun(dataPro) {
   container.innerHTML=""
-  let data = dataPro[0];
-  console.log(data)
+
   let productData =
     `<div class="product-view-img-div">
-    <div class="product-view-img"><img class="gallery-item" src="${data["img-1"]}" alt=""></div>
-    <div class="product-view-img"><img class="gallery-item" src="${data["img-2"]}" alt=""></div>
-     <div class="product-view-img"><img class="gallery-item" src="${data["img-3"]}" alt=""></div>
-     <div class="product-view-img"><img class="gallery-item" src="${data["img-4"]}" alt=""></div>
+    <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_1}" alt=""></div>
+    <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_2}" alt=""></div>
+     <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_3}" alt=""></div>
+     <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_4}" alt=""></div>
  </div>
  
  <div class="wraper">
@@ -74,17 +68,17 @@ function productFun(dataPro) {
          <div class="all-images">
 
              <div class="small-images">
-                 <img src="${data["img-1"]}"
+                 <img src="${dataPro.image_1}"
                      onclick="clickimg(this)">
-                 <img src="${data["img-2"]}"
+                 <img src="${dataPro.image_2}"
                      onclick="clickimg(this)">
-                 <img src="${data["img-3"]}"
+                 <img src="${dataPro.image_3}"
                      onclick="clickimg(this)">
-                 <img src="${data["img-4"]}"
+                 <img src="${dataPro.image_4}"
                      onclick="clickimg(this)">
              </div>
              <div class="main-images">
-                 <img src="${data["img-1"]}"
+                 <img src="${dataPro.image_1}"
                      id="imagebox">
 
              </div>
@@ -94,19 +88,19 @@ function productFun(dataPro) {
  </div>    
 
  <div class="product-view-details-div">
-     <h1 class="product-view-heading">Jockey</h1>
-     <h3 class="product-view-category-heading">Men White Super Combed Cotton T-shirt</h3>
+     <h1 class="product-view-heading">${dataPro.title}</h1>
+     <h3 class="product-view-category-heading">${dataPro.description}</h3>
 
      <div class="product-view-rating-div">
 
-             <p class="product-view-star" >4 <span><i class="fa-solid fa-star"></i></span></p>
+             <p class="product-view-star" >${Math.floor(Math.random() * 5) + 1} <span><i class="fa-solid fa-star"></i></span></p>
              <hr>
-         <p class="product-view-total-rating">15k reviews</p>
+         <p class="product-view-total-rating">${Math.floor(Math.random() * 5) + 1}k reviews</p>
      </div>
 
      <div class="product-view-price-div">
-         <h1 class="product-view-price">₹749</h1>
-         <h3 class="product-view-real-price">MRP <strike> ₹1099</strike></h3>
+         <h1 class="product-view-price">₹${dataPro.price}</h1>
+         <h3 class="product-view-real-price">MRP <strike> ₹${dataPro.price+500}</strike></h3>
      </div>
      <p class="product-view-tax-p">inclusive of all taxes</p>
 
@@ -123,9 +117,9 @@ function productFun(dataPro) {
          </div>
      </div>
      <div class="product-view-btn-div">
-         <button id="add-to-cart-btn" onclick="addToCart()"><i class="fa-solid fa-bag-shopping"></i> ADD TO BAG</button>
-         <button id="go-to-cart-btn"><a href="./cart_page.html" target="_blank">GO TO BAG <i class="fa-solid fa-arrow-right-long"></i></a></button>
-         <button id="wishlist-btn"> <i class="fa-regular fa-heart"></i> WISHLIST</button>
+         <button class="add-to-cart-btn" data-id=${dataPro._id} ><i class="fa-solid fa-bag-shopping"></i> ADD TO BAG</button>
+         <a class="cart-go" href="./cart_page.html" target="_blank"><button class="go-to-cart-btn">GO TO BAG <i class="fa-solid fa-arrow-right-long"></i></button></a>
+         <button class="wishlist-btn" data-id=${dataPro._id}> <i class="fa-regular fa-heart"></i> WISHLIST</button>
      </div>
      <div class="product-view-delivery-div">
          <p class="delivery-details-heading">DELIVERY DETAILS</p>
@@ -176,13 +170,58 @@ function productFun(dataPro) {
            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
          <div class="modal-body">
-            <img src="${data["img-1"]}" class="modal-img" alt="modal img">
+            <img src="${dataPro.image_1}" class="modal-img" alt="modal img">
          </div>
        </div>
      </div>
    </div>`;
 
   container.innerHTML = productData;
+  let add_to_bag=document.querySelector(".add-to-cart-btn")
+  let go_to_bag=document.querySelector(".cart-go");
+    //   for(let btn of add_to_bag){
+
+          add_to_bag.addEventListener("click",async (event)=>{ 
+			let data_id = event.target.dataset.id;
+                try {
+            
+                    let res = await fetch(`${cartadd}/${data_id}`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization:token ,
+                        },
+                        // body: JSON.stringify(obj)
+                    })
+                    let msg=await res.json()
+                    // console.log(await res.json())
+            
+                    if (msg.message=="Product added to cart") {
+                        // container.innerHTML=""
+                        alert("Added To cart");
+                        event.target.style.display="none"
+                        go_to_bag.style.display="block"
+                        // window.location.reload()
+                        return;
+                    }
+                    if(msg.message=="Access Denied"){
+                        return alert("Please log in or create an account to add this item to your bag.")
+                    }
+                    if(msg.message=="Product already in cart"){
+                        // container.innerHTML=""
+                        // let add_to_bag=document.getElementById("add-to-cart-btn")
+                        // let go_to_bag=document.getElementById("go-to-cart-btn");
+                        // add_to_bag.style.display="none"
+                        // go_to_bag.style.display="block"
+                        return alert("Product already in your bag")
+                    }
+            
+                }
+                catch (error) {
+                    console.log(error)
+                }
+          })
+        // }
 }
 
 function sizeFun(el){
@@ -204,7 +243,7 @@ function sizeFun(el){
           
         }
         
-      function  size_selected(value){
+    function  size_selected(value){
         console.log(value)
       };
 
@@ -227,37 +266,12 @@ function sizeFun(el){
     
 // });
 
-async function addToCart(){
-    // try {
 
-    //     let res = await fetch(`${baseurl}/cart/add/${product_Id}`, {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             Authorization: localStorage.getItem("token"),
-    //         },
-    //         // body: JSON.stringify(obj)
-    //     })
-    //     if (res.message=="Product added to cart") {
-    //         alert("Added To cart");
-            // container.innerHTML=""
-            let add_to_bag=document.getElementById("add-to-cart-btn")
-            let go_to_bag=document.getElementById("go-to-cart-btn");
-            add_to_bag.style.display="none"
-            go_to_bag.style.display="block"
-            // window.location.reload()
-    //     }
-
-    // }
-    // catch (error) {
-    //     console.log(error)
-    // }
-}
 
 
 async function fetchProducts(){
     try {
-            let res= await fetch(`${baseurl}/products`);
+            let res= await fetch(`${product_view}/`);
             if(res.ok){
                 let data=await res.json();
                 dataFuntion(data)
@@ -282,24 +296,24 @@ function dataFuntion(data){
         
         return`<div class="similar-products" data-id=${item._id}>
         <div class="similar-products-img-div">
-            <img src="${item["img-1"]}" data-id=${item._id} alt="">
+            <img src="${item.image_1}" data-id=${item._id} alt="">
             <div class="similar-products-rating-div">
-                <p class="similar-products-star" >4 <span><i class="fa-solid fa-star"></i></span></p>
+                <p class="similar-products-star" >${Math.floor(Math.random() * 5) + 1} <span><i class="fa-solid fa-star"></i></span></p>
                 <hr>
-            <p class="similar-products-rating">15k reviews</p>
+            <p class="similar-products-rating">${Math.floor(Math.random() * 5) + 1}k reviews</p>
             </div>
             <div class="similar-products-details-div" data-id=${item._id}>
                 <h3 data-id=${item._id}>Roadster</h3>
-                <p data-id=${item._id}>${item.title}</p>
+                <p data-id=${item._id}>${item.description}</p>
                 <div class="similar-products-price-div" data-id=${item._id}>
-                    <h3 data-id=${item._id}>Rs.365</h3>
-                    <strike data-id=${item._id}>Rs. 599</strike>
-                    <p data-id=${item._id}>(39% OFF)</p>
+                    <h3 data-id=${item._id}>Rs.${item.price}</h3>
+                    <strike data-id=${item._id}>Rs. ${item.price+500}</strike>
+                    <p data-id=${item._id}>(${item.discount}% OFF)</p>
                 </div>
             </div>
         </div>
         </div>`
-    }).slice(0, 10);
+    }).slice(5, 15);
     dataContainer.innerHTML=allData.join(" ")
     let img_click = document.querySelectorAll(".similar-products");
       for(let btn of img_click){
@@ -313,25 +327,4 @@ function dataFuntion(data){
       }
    
 }
-
-/* <div class="similar-products" data-id=${item._id}>
-        <div class="similar-products-img-div">
-            <img src="${item["img-1"]}" data-id=${item._id} alt="">
-        <div class="similar-products-rating-div">
-            <p class="similar-products-star" >4 <span><i class="fa-solid fa-star"></i></span></p>
-            <hr>
-        <p class="similar-products-rating">15k reviews</p>
-        </div>
-    <div class="similar-products-details-div">
-        <h3>Roadster</h3>
-        <p>${item.title}</p>
-        <div class="similar-products-price-div">
-            <h3>Rs.365</h3>
-            <strike>Rs. 599</strike>
-            <p>(39% OFF)</p>
-        </div>
-    </div>
-</div>
-</div> */
-
-                console.log(product_Id)
+// }
