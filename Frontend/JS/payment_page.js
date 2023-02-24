@@ -7,11 +7,11 @@ showmore.addEventListener("click", () => {
 
   if (dots.style.display === "none") {
     dots.style.display = "inline";
-    btnText.innerHTML = "Show more";
+    btnText.innerHTML = "Show More &#8675;";
     moreText.style.display = "none";
   } else {
     dots.style.display = "none";
-    btnText.innerHTML = "Show less";
+    btnText.innerHTML = "Show Less &#8673;";
     moreText.style.display = "inline";
   }
 });
@@ -40,3 +40,7 @@ wallet.addEventListener("click", () => {
   wallet.style.backgroundColor = "white";
   wallet.style.borderLeft = "5px solid #ff3f6c";
 });
+
+let finalamt = document.getElementById("carttotal");
+let amt = JSON.parse(localStorage.getItem("totalcartvalue"));
+finalamt.innerText = amt;
