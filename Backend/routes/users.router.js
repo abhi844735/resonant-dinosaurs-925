@@ -10,11 +10,6 @@ const { authentication } = require('../middlewares/Authentication.middleware');
 
 const userRouter = express.Router();
 
-userRouter.get('/', async (req, res) => {
-    const users = await UserModel.find();
-    res.send(users)
-})
-
 userRouter.post('/signup', async (req, res) => {
     const {email, password, mobile, gender, name} = req.body;
     if(!name||!gender||!mobile||!password) {
