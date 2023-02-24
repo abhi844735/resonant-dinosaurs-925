@@ -17,6 +17,18 @@ document.getElementById("sign").addEventListener("click",()=>{
 let otp_btn=document.getElementById("otp_btn");
 otp_btn.addEventListener("click",(e)=>{
     e.preventDefault();
-    let otp=document.getElementById("otp").value;
+    let mobile=document.getElementById("mobile").value;
+    mobile= +mobile
+    let password=document.getElementById("password").value;
+    
+    if(mobile==""||password==""){
+        alert("all fields are mandatory");
+    }else{
+        let obj={
+            mobile,password
+        }
+        console.log(obj)
+    }
+    
     
 });

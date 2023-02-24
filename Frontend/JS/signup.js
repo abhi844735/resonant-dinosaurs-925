@@ -17,21 +17,19 @@ document.getElementById("sign").addEventListener("click",()=>{
 let signup_btn=document.getElementById("signup_btn");
 signup_btn.addEventListener("click",(e)=>{
     e.preventDefault();
-    let mobile_number=document.getElementById("mobile").value;
-    if(mobile_number.length==10){
-        fetch("http://localhost:4500/users/login",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json",
-                
-            },
-            body:JSON.stringify({mobile:mobile_number})
-        }).then((res)=>res.json)
-        .then((res)=>{
-            console.log(res)
-        })
-        .catch((err)=>console.log(err));
-    }else{
-        alert("Incorrect Number")
+    let name=document.getElementById("name").value;
+let mobile = document.getElementById("mobile").value;
+mobile= parseInt(mobile)
+let email = document.getElementById("email").value;
+let gender = document.getElementById("gender").value;
+let password=document.getElementById("password").value;
+if(name==""||mobile==""||email==""||gender==""||password==""){
+    alert("fill all the details");
+}else{
+    let obj={
+        name,mobile,email,gender,password
     }
+    console.log(obj);
+}
+
 })
