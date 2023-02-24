@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upstyle | Add New</title>
+    <link rel="stylesheet" href="./CSS/admin_navbar.css">
+</head>
+
+<style>
+    .new{
+        width: 90%;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 3%;
+        margin-bottom: 5%;
+    }
+    .new>div{
+        /* border: 1px solid; */
+        width: 45%;
+        padding-bottom: 2%;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+    .new>div h1,.new h3{
+        font-weight: normal;
+    }
+
+    .new>div>form{
+        width: 70%;
+        margin: auto;
+        display: block;
+    }
+    .new input{
+        width: 100%;
+        height: 30px;
+        margin-top: 2%;
+        border: 1px solid blueviolet;
+        outline: 0px;
+        background-color: rgba(255, 255, 255, 0.61);
+        padding-left: 1%;
+    }
+    .new select{
+        width: 102%;
+        height: 30px;
+        margin-top: 2%;
+        border: 1px solid blueviolet;
+        outline: 0px;
+        background-color: rgba(255, 255, 255, 0.61);
+    }
+
+    .new button {
+        width: 75%;
+        display: block;
+        margin: auto;
+        height: 30px;
+        background-color: purple;
+        color: white;
+        border: 0px;
+        margin-top: 2%;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div class="nav">
+        <div>
+            <a href="./index.html">
+                <img src="./images/Upstyle (3).png" alt="">
+            </a>
+        </div>
+        <div>
+            <div>
+                <a href="./index.html"><h3>Orders</h3></a>
+            </div>
+            <div>
+                <a href="./products.html"><h3>Products</h3></a>
+            </div>
+            <div>
+                <a href="./addnew.html"><h3>Add new</h3></a>
+            </div>
+            <div>
+                <a href="./users.html"><h3>Users</h3></a>
+            </div>
+            <div>
+                <a href=""><h3>Logout</h3></a>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="new">
+        <div class="newproduct">
+            <form id="product">
+                <h1>New Product</h1>
+                <input class="product_image" type="text" placeholder="image link" required>
+                <input class="product_image" type="text" placeholder="image link">
+                <hr>
+                <input class="product_title" type="text" placeholder="title" required>
+                <hr>
+                <select class="product_category" required>
+                    <option value="">Category</option>
+                    <option value="men">Men</option>
+                    <option value="women">Women</option>
+                    <option value="kids">Kids</option>
+                </select>
+                <hr>
+                <input class="product_color" type="text" placeholder="color" required>
+                <hr>
+                <input class="product_price" type="text" placeholder="price" required>
+                <hr>
+                <input class="product_brand" type="text" placeholder="brand" required>
+                <hr>
+                <input class="product_discount" type="text" placeholder="discount">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <hr>
+        <div class="newuser">
+            <form id="user">
+                <h1>New User</h1>
+                <hr>
+                <input class="user_name" type="text" placeholder="name" required> 
+                <hr>
+                <input class="user_email" type="text" placeholder="email" required>
+                <hr>
+                <input class="user_phone" type="text" placeholder="phone">
+                <hr>
+                <select class="user_gender" required>
+                    <option value="">Gender</option>
+                    <option value="male">Male</option>
+                    <option value="">Female</option>
+                </select>
+                <hr>
+                <input class="user_address" type="text" placeholder="address" required>
+                <hr>
+                <input class="user_address" type="text" placeholder="address">
+                <hr>
+                <input class="user_address" type="text" placeholder="address">
+                <hr>
+                <button type="submit">Submit</button>
+            </form>
+
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    document.querySelector("#product").addEventListener("submit",(event)=>{
+        event.preventDefault();
+        let obj = {};
+        let image = []
+    })
+</script>
