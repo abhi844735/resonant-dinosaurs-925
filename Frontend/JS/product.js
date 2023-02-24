@@ -1,5 +1,6 @@
 let baseurl="https://powerful-erin-jewelry.cyclic.app"
 
+
 let preloader= document.getElementById("loading");
 function loadingFun(){
   preloader.style.display="none"
