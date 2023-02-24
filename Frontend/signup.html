@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Signup</title>
+    <title>Signup</title>
     <!-- <link rel="stylesheet" href="./CSS/index.css"> -->
     <!-- <link rel="stylesheet" href="./CSS/footer.css"> -->
     <link rel="stylesheet" href="./CSS/index1.css">
@@ -24,14 +24,31 @@
         </div>
         <div class="login-box">
             <div>
-                <h4>Login <span>or</span> Signup </h4>
-                <input id="mobile" type="number" placeholder="+91 | Mobile Number">
+                <h4> Signup </h4>
+                <label for="">Name</label><br>
+                <input id="name" type="text" placeholder="Enter Your Name" required><br>
+                <label for="">Mobile</label><br>
+                <input id="mobile" type="number" placeholder="+91 | Mobile Number" required><br>
+                <label for="">Email</label><br>
+                <input id="email" type="text" placeholder="Enter Your Email" required><br>
+                <label for="">Password</label><br>
+                <input type="password" placeholder="Enter Your Password" id="password" required><br>
+                <label class="m" for="">Gender : </label>
+                <select class="m" name="" id="gender" required>
+                    <option value="">Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+              
                 <p>By continuing , I agree to the <span style="color: rgb(199, 15, 91)
                    ;"> Terms of Use</span> & <span style="color: rgb(199, 15, 91)
                 ;">Privacy Policy</span></p>
                 <button id="signup_btn">Continue</button>
                 <p>Hava a trouble logging in ? <span style="color: rgb(199, 15, 91)
                 ;">Get Help</span></p>
+                <p>Already a customer ? <span style="color: rgb(199, 15, 91)
+                    ;"><a href="login.html">login</a></span></p>
+
             </div>
       
         </div>

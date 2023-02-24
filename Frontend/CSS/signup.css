@@ -24,10 +24,22 @@
 }
 
 .login-box>div>input{
-    width: 250px;
+    width: 400px;
     margin-top: 5px;
-    font-size: 20px;
+    font-size: 16px;
     padding: 3px;
+}
+.m{
+    margin-top: 5px;
+}
+.login-box>div>select{
+    width: 335px;
+    font-size: 16px;
+    padding: 3px;
+}
+label{
+    color: rgb(199, 15, 91) ;
+    font-weight: bold;
 }
 .login-box>div>p{
     margin-top: 3px;
