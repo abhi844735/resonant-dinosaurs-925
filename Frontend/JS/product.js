@@ -1,4 +1,4 @@
-let baseurl="http://localhost:4500";
+let baseurl="https://excited-deer-headscarf.cyclic.app";
 let producturl=`${baseurl}/products/`
 
 const cartadd=`${baseurl}/cart/add`
@@ -8,30 +8,59 @@ let preloader= document.getElementById("loading");
 function loadingFun(){
   preloader.style.display="none"
 }
+let dataArr=[]
+async function fetchProducts(key,value){
+    try {
+            // let res= await fetch(`${producturl}/search?${key||"gender"}=${value||"male"}`);
+            let res= await fetch(`${producturl}/search?gender=male&${key}=${value}`)
+            if(res.ok){
+                let data=await res.json();
+                dataArr=[...data]
+                dataFuntion(data)
+                // console.log(data)
+            }
+        
+    } catch (error) {
+        console.log(error)
+    }
+    }
+    fetchProducts()
 
+
+
+
+
+// let search=document.getElementById("input");
+
+// search.addEventListener("keypress",(e)=>{
+//     if(e.key=="Enter"){
+//         let value=document.getElementById("input").value;
+//      console.log(value)   
+//     }
+// })
 
 // let size=""
-// function sortFilter() {
-//     let select = document.getElementById('filter');
-//     let option = select.options[select.selectedIndex];
-//    let sortValue = option.value;
-//     if(sortValue==="acd"){
-//         priceFetch(sortValue)
-//     }else if(sortValue==="dcd"){
-//         priceFetch(sortValue)
-//     }else if(sortValue==="top"){
-//         ratingFetch(sortValue)
-//     }
-//     console.log(sortValue)
-// }
-
-
-
- function searchProduct() {
-        let value = document.getElementById("input").value;
-        let key="title"
-        fetchProducts(key,value)
+function sortFilter() {
+    let select = document.getElementById('filter');
+    let option = select.options[select.selectedIndex];
+   let sortValue = option.value;
+    if(sortValue==="HighToLow"){
+        dataArr.sort((a,b)=>b.price-a.price)
+        dataFuntion(dataArr)
+    }else if(sortValue==="LowToHigh"){
+        dataArr.sort((a,b)=>a.price-b.price)
+        dataFuntion(dataArr)
+    }
+    console.log(sortValue)
 }
+
+
+
+//  function searchProduct() {
+//         let value = document.getElementById("input").value;
+//         let key="title"
+//         fetchProducts(key,value)
+// }
 
 
 
@@ -75,8 +104,14 @@ function priceRange(checkbox) {
     let size_range=document.querySelector('input[name="price-range"]:checked').value;
     value=size_range
     key="price"
-    console.log(value)
-    fetchProducts(key,value)
+    if(size_range==3850){
+        console.log("hello")
+        let data=dataArr.filter(item=>item.price > 199 && item.price < 3850)
+        dataFuntion(data)
+        console.log(data)
+    }
+    
+    // fetchProducts(key,value)
     // sizeFetchProducts(value)
 }
 function colorRange(checkbox) {
@@ -162,21 +197,7 @@ function discountRange(){
 //     console.log(error)
 // }
 // }
-async function fetchProducts(key,value){
-try {
-        // let res= await fetch(`${producturl}/search?${key||"gender"}=${value||"male"}`);
-        let res= await fetch(`${producturl}/search?gender=male&${key}=${value}`)
-        if(res.ok){
-            let data=await res.json();
-            dataFuntion(data)
-            console.log(data)
-        }
-    
-} catch (error) {
-    console.log(error)
-}
-}
-fetchProducts()
+
 
 let dataContainer=document.getElementById("wrapper")
 function dataFuntion(data){
@@ -192,9 +213,6 @@ function dataFuntion(data){
                         <hr>
                     <p class="product-view-total-rating">${Math.floor(Math.random() * 5) + 1}k</p>
                 </div>
-            <div class="btn-add" >
-                <button id="wishlist-btn" class="wishlist-btn" data-id=${item._id}> <i class="fa-regular fa-heart"></i> <span class="change-wishlist"> WISHLIST</button>
-            </div>
             </div>
             <figcaption>
             <p>${item.description}</p>
@@ -228,109 +246,39 @@ function dataFuntion(data){
 			// DeleteBtn(data_id);
 		});
       }
-    let wishlist_btn = document.querySelectorAll(".wishlist-btn");
 
-    let added = false;
-      for(let btn of wishlist_btn){
-
-          btn.addEventListener("click",async (event)=>{ 
-			let data_id = event.target.dataset.id;
-
-            if(added){
-                // event.target.innerText=""
-                // async function addToCart(){
-                    try {
-                
-                        let res = await fetch(`${cartadd}/${data_id}`, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                Authorization:token ,
-                            },
-                            // body: JSON.stringify(obj)
-                        })
-                        let msg=await res.json()
-                        // console.log(await res.json())
-                
-                        if (msg.message=="Product added to cart") {
-                            event.target.querySelector("span").innerHTML="WISHLISTED";
-                            event.target.querySelector("span").style.color="#fff";
-                            event.target.querySelector("i").style.color="#ff446d"
-                            event.target.style.backgroundColor="#535766"
-                            added = false;
-                            alert("Added To cart");
-                            // window.location.reload()
-                            // return
-                            // container.innerHTML=""
-                        }
-                        if(msg.message=="Access Denied"){
-                            return alert("Please log in or create an account to add this item to your bag.")
-                        }
-                        if(msg.message=="Product already in cart"){
-                            // container.innerHTML=""
-                            // let add_to_bag=document.getElementById("add-to-cart-btn")
-                            // let go_to_bag=document.getElementById("go-to-cart-btn");
-                            // add_to_bag.style.display="none"
-                            // go_to_bag.style.display="block"
-                            return alert("Product already in your bag")
-                        }
-                
-                    }
-                    catch (error) {
-                        console.log(error)
-                    }
-                // }
-
-
-                // event.target.querySelector("span").innerHTML="WISHLISTED";
-                // event.target.querySelector("span").style.color="#fff";
-                // event.target.querySelector("i").style.color="#ff446d"
-                // event.target.style.backgroundColor="#535766"
-                //     added = false;
-                }
-                else{
-                   
-                    console.log(event)
-                    console.log(data_id)
-                    event.target.querySelector("span").innerHTML="WISHLIST"
-                    event.target.style.backgroundColor="#fff";
-                    event.target.querySelector("span").style.color="black";
-                    added = true;
-                  }
-		});
-      }
 }
 
 // function cartAdd(){
 //     console.log("hello")
 // }
-document.querySelector("#cl233").addEventListener("click",()=>{
-    window.location.href="cart_page.html"
-})
+// document.querySelector("#cl233").addEventListener("click",()=>{
+//     window.location.href="cart_page.html"
+// })
 // let token=localStorage.getItem("token");
-document.getElementById("line1").innerText=localStorage.getItem("name")||"Welcome";
-if(token){
-    document.querySelector(".login").style.display="none"
-    if(token){
-        document.querySelector(".logout").addEventListener("click",async(e)=>{
-            e.preventDefault();
-         let res= await   fetch("http://localhost:4500/users/logout",{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json",
-                    "authorization":localStorage.getItem("token")
-                }
-            })
-        let data = await res.json();
-        if(data.message=="Logout Sucessfull"){
-                alert("log out succussfully");
-                localStorage.clear();
+// document.getElementById("line1").innerText=localStorage.getItem("name")||"Welcome";
+// if(token){
+//     document.querySelector(".login").style.display="none"
+//     if(token){
+//         document.querySelector(".logout").addEventListener("click",async(e)=>{
+//             e.preventDefault();
+//          let res= await   fetch("http://localhost:4500/users/logout",{
+//                 method:"POST",
+//                 headers:{
+//                     "Content-Type":"application/json",
+//                     "authorization":localStorage.getItem("token")
+//                 }
+//             })
+//         let data = await res.json();
+//         if(data.message=="Logout Sucessfull"){
+//                 alert("log out succussfully");
+//                 localStorage.clear();
                 
-        }
-        })
-    }
-}else{
-    document.querySelector(".login").style.display="block";
-    document.querySelector(".logout").style.display="none";
-}
+//         }
+//         })
+//     }
+// }else{
+//     document.querySelector(".login").style.display="block";
+//     document.querySelector(".logout").style.display="none";
+// }
  

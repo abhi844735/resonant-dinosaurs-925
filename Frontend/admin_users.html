@@ -53,21 +53,21 @@
     <div class="nav">
         <div>
             <a href="./index.html">
-                <img src="./images/Upstyle (3).png" alt="">
+                <img src="./images/logo.png" alt="">
             </a>
         </div>
         <div>
             <div>
-                <a href="./index.html"><h3>Orders</h3></a>
+                <a href="./admin_index.html"><h3>Orders</h3></a>
             </div>
             <div>
-                <a href="./products.html"><h3>Products</h3></a>
+                <a href="./admin_products.html"><h3>Products</h3></a>
             </div>
             <div>
-                <a href="./addnew.html"><h3>Add new</h3></a>
+                <a href="./admin_addnew.html"><h3>Add new</h3></a>
             </div>
             <div>
-                <a href="./users.html"><h3>Users</h3></a>
+                <a href="./admin_users.html"><h3>Users</h3></a>
             </div>
             <div>
                 <a href=""><h3>Logout</h3></a>
@@ -80,47 +80,11 @@
         <h2>Users</h2>
         <div class="gallery">
 
-            <div class="id1">
-                <p>Name</p>
-                <hr>
-                <p>Email</p>
-                <hr>
-                <p>Gender</p>
-                <hr>
-                <p>Phone</p>
-                <hr>
-                <p>Otp: 1234</p>
-                <hr>
-                <p>Expires: Expires</p>
-                <hr>
-                <p>Address: 2</p>
-                <hr>
-                <p>Cart Items: 4</p>
-                <hr>
-                <button class="delete">Delete</button>
-            </div>
+            <h1>Loading...</h1>
 
-            <div class="id2">
-                <p>Name</p>
-                <hr>
-                <p>Email</p>
-                <hr>
-                <p>Gender</p>
-                <hr>
-                <p>Phone</p>
-                <hr>
-                <p>Otp: 1234</p>
-                <hr>
-                <p>Expires: Expires</p>
-                <hr>
-                <p>Address: 2</p>
-                <hr>
-                <p>Cart Items: 4</p>
-                <hr>
-                <button class="delete">Delete</button>
-            </div>
+            <!-- =======================================================================SYNTAX=================== -->
 
-            <div class="id3">
+            <!-- <div class="id1">
                 <p>Name</p>
                 <hr>
                 <p>Email</p>
@@ -129,116 +93,14 @@
                 <hr>
                 <p>Phone</p>
                 <hr>
-                <p>Otp: 1234</p>
-                <hr>
-                <p>Expires: Expires</p>
-                <hr>
                 <p>Address: 2</p>
                 <hr>
                 <p>Cart Items: 4</p>
                 <hr>
                 <button class="delete">Delete</button>
-            </div>
+            </div> -->
 
-            <div class="id4">
-                <p>Name</p>
-                <hr>
-                <p>Email</p>
-                <hr>
-                <p>Gender</p>
-                <hr>
-                <p>Phone</p>
-                <hr>
-                <p>Otp: 1234</p>
-                <hr>
-                <p>Expires: Expires</p>
-                <hr>
-                <p>Address: 2</p>
-                <hr>
-                <p>Cart Items: 4</p>
-                <hr>
-                <button class="delete">Delete</button>
-            </div>
-
-            <div class="id5">
-                <p>Name</p>
-                <hr>
-                <p>Email</p>
-                <hr>
-                <p>Gender</p>
-                <hr>
-                <p>Phone</p>
-                <hr>
-                <p>Otp: 1234</p>
-                <hr>
-                <p>Expires: Expires</p>
-                <hr>
-                <p>Address: 2</p>
-                <hr>
-                <p>Cart Items: 4</p>
-                <hr>
-                <button class="delete">Delete</button>
-            </div>
-
-            <div class="id6">
-                <p>Name</p>
-                <hr>
-                <p>Email</p>
-                <hr>
-                <p>Gender</p>
-                <hr>
-                <p>Phone</p>
-                <hr>
-                <p>Otp: 1234</p>
-                <hr>
-                <p>Expires: Expires</p>
-                <hr>
-                <p>Address: 2</p>
-                <hr>
-                <p>Cart Items: 4</p>
-                <hr>
-                <button class="delete">Delete</button>
-            </div>
-
-            <div class="id7">
-                <p>Name</p>
-                <hr>
-                <p>Email</p>
-                <hr>
-                <p>Gender</p>
-                <hr>
-                <p>Phone</p>
-                <hr>
-                <p>Otp: 1234</p>
-                <hr>
-                <p>Expires: Expires</p>
-                <hr>
-                <p>Address: 2</p>
-                <hr>
-                <p>Cart Items: 4</p>
-                <hr>
-                <button class="delete">Delete</button>
-            </div>
-
-            <div class="id8">
-                <p>Name</p>
-                <hr>
-                <p>Email</p>
-                <hr>
-                <p>Gender</p>
-                <hr>
-                <p>Phone</p>
-                <hr>
-                <p>Otp: 1234</p>
-                <hr>
-                <p>Expires: Expires</p>
-                <hr>
-                <p>Address: 2</p>
-                <hr>
-                <p>Cart Items: 4</p>
-                <hr>
-                <button class="delete">Delete</button>
-            </div>
+            <!-- ====================================================================================================== -->
 
         </div>
     </div>
@@ -247,14 +109,85 @@
 
 
 <script>
-    let deletebuttons = document.querySelectorAll(".delete");
-    for(let elem of deletebuttons){
-        elem.addEventListener("click",()=>{
-            let response = confirm("Delete this user?")
-            if(response){
-                let id = elem.parentElement.className;
-                console.log(id);
-            }
+
+    const url = "https://excited-deer-headscarf.cyclic.app/users"
+    getdata(url);
+    async function getdata(url){
+        let res = await fetch(url,{
+                method:"GET",
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization":localStorage.getItem("token")
+                }
         })
+        
+        if(res.ok){
+            let data = await res.json();
+            render(data);
+        }
     }
+
+    function render(data){
+        let gallery = document.querySelector(".gallery");
+        gallery.innerHTML = "";
+        for(let elem of data){
+            let div = document.createElement("div");
+            div.className = elem._id;
+
+            let name = document.createElement("p");
+            name.innerText = elem.name;
+            let email = document.createElement("p");
+            email.innerText = elem.email;
+            let phone = document.createElement("p");
+            phone.innerText = elem.mobile;
+            let gender = document.createElement("p");
+            gender.innerText = elem.gender
+            let address = `Addresses: ${elem.address.length}`;
+            let cartItems = `Cart Items: ${elem.cart.length}`;
+
+            let deletebutton = document.createElement("button");
+            deletebutton.className = "delete"
+            deletebutton.innerText = "Delete"
+
+            let hr1 = document.createElement("hr");
+            let hr2 = document.createElement("hr");
+            let hr3 = document.createElement("hr");
+            let hr4 = document.createElement("hr");
+            let hr5 = document.createElement("hr");
+            
+            div.append(name,hr1,email,hr2,phone,hr3,address,hr4,cartItems,hr5,deletebutton)
+
+            gallery.append(div);
+
+        }
+
+        let deletebuttons = document.querySelectorAll(".delete");
+        for(let elem of deletebuttons){
+            elem.addEventListener("click",()=>{
+                let response = confirm("Delete this user?")
+                if(response){
+                    let id = elem.parentElement.className;
+                    deleteuser(`https://excited-deer-headscarf.cyclic.app/users/delete/${id}`);
+                }
+            })
+        }
+
+    }
+
+    async function deleteuser(url){
+        let res = await fetch(url,{
+                method:"DELETE",
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization":localStorage.getItem("token")
+                }
+        })
+        
+        if(res.ok){
+            let data = await res.json();
+            alert(data.message);
+            getdata(`https://excited-deer-headscarf.cyclic.app/users`);
+        }
+    }
+
 </script>

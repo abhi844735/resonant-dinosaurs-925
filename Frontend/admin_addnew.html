@@ -68,21 +68,21 @@
     <div class="nav">
         <div>
             <a href="./index.html">
-                <img src="./images/Upstyle (3).png" alt="">
+                <img src="./images/logo.png" alt="">
             </a>
         </div>
         <div>
             <div>
-                <a href="./index.html"><h3>Orders</h3></a>
+                <a href="./admin_index.html"><h3>Orders</h3></a>
             </div>
             <div>
-                <a href="./products.html"><h3>Products</h3></a>
+                <a href="./admin_products.html"><h3>Products</h3></a>
             </div>
             <div>
-                <a href="./addnew.html"><h3>Add new</h3></a>
+                <a href="./admin_addnew.html"><h3>Add new</h3></a>
             </div>
             <div>
-                <a href="./users.html"><h3>Users</h3></a>
+                <a href="./admin_users.html"><h3>Users</h3></a>
             </div>
             <div>
                 <a href=""><h3>Logout</h3></a>
@@ -95,8 +95,8 @@
         <div class="newproduct">
             <form id="product">
                 <h1>New Product</h1>
-                <input class="product_image" type="text" placeholder="image link" required>
-                <input class="product_image" type="text" placeholder="image link">
+                <input class="product_image_1" type="text" placeholder="image link" required>
+                <input class="product_image_2" type="text" placeholder="image link">
                 <hr>
                 <input class="product_title" type="text" placeholder="title" required>
                 <hr>
@@ -151,7 +151,50 @@
 <script>
     document.querySelector("#product").addEventListener("submit",(event)=>{
         event.preventDefault();
-        let obj = {};
-        let image = []
+        let image = [];
+        let img1 = document.querySelector(".product_image_1");
+        let img2 = document.querySelector(".product_image_2");
+        image.push(img1.value);
+        if(img2.value){
+            image.push(img1.value);
+        }
+        let title = document.querySelector(".product_title").value;
+        let gender = document.querySelector(".product_category").value;
+        let brand = document.querySelector(".product_brand").value;
+        let price = document.querySelector(".product_price").value;
+        let color = document.querySelector(".product_color").value;
+        let discount = document.querySelector(".product_discount").value;
+        let category = ""
+
+        let obj = {
+            image,
+            title,
+            brand,
+            color,
+            price,
+            discount,
+            gender,
+            category
+        }
+
+        let url = "";
+
+        // try {
+        //     fetch(url,{
+        //         method:"PATCH",
+        //         headers:{
+        //             "Content-Type":"application/json",
+        //             "authorization":JSON.stringify(localStorage.get("token"))
+        //         },
+        //         body:JSON.stringify(obj)
+        //     }).then(res => console.log(res)).catch(err => console.log(err));
+        // }
+        // catch (error) {
+        //     console.log(error);
+        //     alert(error.message);
+        // }
+
+        console.log(obj);
+
     })
 </script>
