@@ -106,11 +106,22 @@ function priceRange(checkbox) {
     key="price"
     if(size_range==3850){
         console.log("hello")
-        let data=dataArr.filter(item=>item.price > 199 && item.price < 3850)
+        let data=dataArr.filter(item=>item.price > 199 && item.price <= 3850)
         dataFuntion(data)
         console.log(data)
     }
-    
+    else if(size_range==7501){
+        let data=dataArr.filter(item=>item.price > 3850 && item.price <= 7501)
+        dataFuntion(data)
+    }
+    else if(size_range==11152){
+        let data=dataArr.filter(item=>item.price > 7501 && item.price <= 11152)
+        dataFuntion(data)
+    }
+    else if(size_range==14803){
+        let data=dataArr.filter(item=>item.price > 11152 && item.price <= 14803)
+        dataFuntion(data)
+    }
     // fetchProducts(key,value)
     // sizeFetchProducts(value)
 }
