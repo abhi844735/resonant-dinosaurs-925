@@ -34,7 +34,7 @@
 }
 
 .product-view-img-div{
-    width: 60%;
+    width: 65%;
     display: grid;
     grid-template-columns: repeat(2,1fr);
     gap: 10px 30px;
@@ -60,7 +60,7 @@
 }
 /* -------------------------product details div---------------------------------------  */
 .product-view-details-div{
-    width: 38%;
+    width: 33%;
 }
 
 
@@ -180,7 +180,7 @@ strike{
     border-radius: 5px;
 }
 .cart-go{
-    display: none;
+    display: block;
     text-decoration: none;
     text-align: center;
     /* color: white; */

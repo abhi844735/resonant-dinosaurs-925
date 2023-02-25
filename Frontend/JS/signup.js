@@ -67,7 +67,7 @@ if(token){
         if(data.message=="Logout Sucessfull"){
                 alert("log out succussfully");
                 localStorage.clear();
-                
+                window.location.reload()
         }
         })
     }
