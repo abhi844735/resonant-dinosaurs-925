@@ -87,6 +87,8 @@ let append = (data) => {
     MRPprice.innerText = `Rs. ${+el.price + 99}.00/-`;
     totalMRP = totalMRP + (+el.price + 99);
     localStorage.setItem("totalcartvalue", JSON.stringify(totalMRP - discount));
+    localStorage.setItem("totalmrp", JSON.stringify(totalMRP));
+    localStorage.setItem("discount", JSON.stringify(discount));
     MRPprice.style.textDecoration = "line-through";
 
     div3.append(MRP, MRPprice);
@@ -144,11 +146,13 @@ let append = (data) => {
           "totalcartvalue",
           JSON.stringify(totalMRP - discount)
         );
+        localStorage.setItem("totalmrp", JSON.stringify(totalMRP));
 
         totalmrp.innerText = `Rs. ${totalMRP}/-`;
         discount = discount - 99;
+        localStorage.setItem("discount", JSON.stringify(discount));
         priceDiscount.innerText = `- Rs. ${discount}/-`;
-        subTotal.innerText = `Rs. ${totalMRP - discount}`;
+        subTotal.innerText = `Rs. ${totalMRP - discount}.00/-`;
         totalSaving.innerText = `Rs. ${discount}/-`;
       } else {
         price.innerText = `Rs. ${+el.price * n}.00/-`;
@@ -159,17 +163,18 @@ let append = (data) => {
           "totalcartvalue",
           JSON.stringify(totalMRP - discount)
         );
+        localStorage.setItem("totalmrp", JSON.stringify(totalMRP));
 
         totalmrp.innerText = `Rs. ${totalMRP}/-`;
         discount = discount - 99;
+        localStorage.setItem("discount", JSON.stringify(discount));
         priceDiscount.innerText = `- Rs. ${discount}/-`;
-        subTotal.innerText = `Rs. ${totalMRP - discount - 200}`;
+        subTotal.innerText = `Rs. ${totalMRP - discount - 200}.00/-`;
         totalSaving.innerText = `Rs. ${discount + 200}/-`;
       }
       if (n >= 1) {
         p2.innerText = n;
       } else if (n == 0) {
-        alert("do you really want to remove it?");
         alert(`${el.name} will be removed from list`);
         del_cart_Data(id);
       }
@@ -206,13 +211,15 @@ let append = (data) => {
           "totalcartvalue",
           JSON.stringify(totalMRP - discount)
         );
+        localStorage.setItem("totalmrp", JSON.stringify(totalMRP));
 
         discount = discount + 99;
+        localStorage.setItem("discount", JSON.stringify(discount));
         totalmrp.innerText = `Rs. ${totalMRP}/-`;
 
         priceDiscount.innerText = `- Rs. ${discount}/-`;
 
-        subTotal.innerText = `Rs. ${totalMRP - discount}`;
+        subTotal.innerText = `Rs. ${totalMRP - discount}.00/-`;
 
         totalSaving.innerText = `Rs. ${discount}/-`;
       } else {
@@ -225,13 +232,15 @@ let append = (data) => {
           "totalcartvalue",
           JSON.stringify(totalMRP - discount)
         );
+        localStorage.setItem("totalmrp", JSON.stringify(totalMRP));
 
         discount = discount + 99;
+        localStorage.setItem("discount", JSON.stringify(discount));
         totalmrp.innerText = `Rs. ${totalMRP}/-`;
 
         priceDiscount.innerText = `- Rs. ${discount}/-`;
 
-        subTotal.innerText = `Rs. ${totalMRP - discount - 200}`;
+        subTotal.innerText = `Rs. ${totalMRP - discount - 200}.00/-`;
 
         totalSaving.innerText = `Rs. ${discount + 200}/-`;
         //===================================
@@ -245,7 +254,7 @@ let append = (data) => {
   });
   totalmrp.innerText = `Rs. ${totalMRP}/-`;
   priceDiscount.innerText = `- Rs. ${discount}/-`;
-  subTotal.innerText = `Rs. ${totalMRP - discount}`;
+  subTotal.innerText = `Rs. ${totalMRP - discount}.00/-`;
   totalSaving.innerText = `Rs. ${discount}/-`;
   //==============================================
 
@@ -260,11 +269,13 @@ let append = (data) => {
           flag = true;
           totalmrp.innerText = `Rs. ${totalMRP}/-`;
           priceDiscount.innerText = `- Rs. ${discount}/-`;
-          subTotal.innerText = `Rs. ${totalMRP - discount - 200}`;
+          subTotal.innerText = `Rs. ${totalMRP - discount - 200}.00/-`;
           localStorage.setItem(
             "totalcartvalue",
             JSON.stringify(totalMRP - discount - 200)
           );
+          localStorage.setItem("totalmrp", JSON.stringify(totalMRP));
+          localStorage.setItem("discount", JSON.stringify(discount + 200));
 
           totalSaving.innerText = `Rs. ${discount + 200}/-`;
         } else {
@@ -281,26 +292,26 @@ let append = (data) => {
 append(data);
 //========================================
 
-// async function get_cart_data() {
-//   let res = await fetch("put url", {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: localStorage.getItem("put user token name"),
-//     },
-//   });
-//   let data = await res.json();
-//   append(data);
-// }
-// get_cart_data();
-// //===============delete function================
-// async function del_cart_Data(id) {
-//   await fetch(`url/${id}`, {
-//     method: "DELETE",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: localStorage.getItem("put user token name"),
-//     },
-//   });
-//   document.location.reload();
-// }
+async function get_cart_data() {
+  let res = await fetch(`https://excited-deer-headscarf.cyclic.app/`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("put user token name"),
+    },
+  });
+  let data = await res.json();
+  append(data);
+}
+get_cart_data();
+//===============delete function================
+async function del_cart_Data(id) {
+  await fetch(`https://excited-deer-headscarf.cyclic.app/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("put user token name"),
+    },
+  });
+  document.location.reload();
+}
