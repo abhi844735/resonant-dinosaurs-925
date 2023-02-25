@@ -11,11 +11,11 @@ function navbar(){
                 <ul>
                     <ol>
                         <li><a href="" class="anu">Topwear</a></li>
-                        <li><a href="product.html" class="anuq">T-Shirts</a></li>
-                        <li><a href="" class="anuq">Casual Shirts</a></li>
-                        <li><a href="" class="anuq">Formal Shirts</a></li>
-                        <li><a href="" class="anuq">Sweatshirts</a></li>
-                        <li><a href="" class="anuq">Sweaters</a></li>
+                        <li><a href="product.html" id="T-Shirts" class="anuq">T-Shirts</a></li>
+                        <li><a href="product.html" id="Casual Shirts" class="anuq">Casual Shirts</a></li>
+                        <li><a href="product.html" id="Formal Shirts" class="anuq">Formal Shirts</a></li>
+                        <li><a href="product.html" id="Sweatshirts" class="anuq">Sweatshirts</a></li>
+                        <li><a href="product.html" id="Sweaters" class="anuq">Sweaters</a></li>
                         <li>Jackets</li>
                         <li>Blazers & Coats</li>
                         <li>Suits</li>                                
