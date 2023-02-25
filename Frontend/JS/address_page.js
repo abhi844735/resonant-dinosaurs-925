@@ -7,6 +7,14 @@ let finalamt = document.getElementById("totalamount");
 let amt = JSON.parse(localStorage.getItem("totalcartvalue"));
 finalamt.innerText = `Rs. ${amt} /-`;
 
+let totalmrp = document.getElementById("totalmrp");
+let totalamt = JSON.parse(localStorage.getItem("totalmrp"));
+totalmrp.innerText = `Rs. ${totalamt} /-`;
+
+let totaldiscount = document.getElementById("discountmrp");
+let totaldsc = JSON.parse(localStorage.getItem("discount"));
+totaldiscount.innerText = `Rs. ${totaldsc} /-`;
+
 let addbtn = document.getElementById("addbutton");
 addbtn.addEventListener("click", async () => {
   let user_address = {
@@ -19,7 +27,7 @@ addbtn.addEventListener("click", async () => {
     state: document.getElementById("instate").value,
   };
   console.log(user_address);
-  // let address = await fetch("put_api_here", {
+  // let address = await fetch(`https://excited-deer-headscarf.cyclic.app/`, {
   //   method: "POST",
   //   body: JSON.stringify(user_address),
   //   headers: {
@@ -29,7 +37,6 @@ addbtn.addEventListener("click", async () => {
   // });
   // let res = await address.json();
   // console.log(res);
-  alert("address tested");
   setTimeout(() => {
     window.location.href = "./payment_page.html";
   }, 1200);
