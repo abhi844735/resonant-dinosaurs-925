@@ -3,6 +3,7 @@ const { authentication } = require('../middlewares/Authentication.middleware');
 const { UserModel } = require('../models/Users.model')
 const { idvalidator } = require('../middlewares/idvalidator');
 const { ProductModel } = require('../models/Products.model');
+const { authorization } = require('../middlewares/AdminAuthorization.middleware');
 
 const cartRouter = express.Router();
 
@@ -15,20 +16,21 @@ cartRouter.get('/', authentication, async (req, res) => {
 })
 
 cartRouter.get("/:id", authentication, idvalidator, async (req, res) => {
-    const {token} = req.body;
+    const { token } = req.body;
+    const productId = req.params['id'];
     const userId = token.id;
     try {
-        const user = await UserModel.findOne({_id: userId});
-        if(!user) {
-            return res.status(401).send({message: 'Login to continue'})
+        const user = await UserModel.findOne({ _id: userId });
+        if (!user) {
+            return res.status(401).send({ message: 'Login to continue' })
         }
         const cart = user.cart;
-        if(cart.some(index => index.productId == id)) {
-            return res.status(409).send({message: 'Product already in cart'})
+        if (cart.some(index => index.productId == productId)) {
+            return res.send({ message: 'Product already in cart' })
         }
-        res.send({message: 'Product is not in cart'})
+        res.status(409).send({ message: 'Product is not in cart' })
     } catch (error) {
-        res.status(500).send({message: error.message})
+        res.status(500).send({ message: error.message })
     }
 })
 
@@ -146,6 +148,22 @@ cartRouter.patch('/decrease/:id', idvalidator, authentication, async (req, res) 
         res.send({ message: `Qantity decreased of id ${productId}` })
     } else {
         return res.status(404).send({ message: 'Product not found in cart' })
+    }
+})
+
+cartRouter.patch('/update/status/:id', idvalidator, authentication, authorization, async (req, res) => {
+    const orderId = req.params['id']
+    const { status } = req.body;
+    try {
+        const order = await OrdersModel.findById(orderId)
+        if (!order) {
+            return res.status(404).send({ message: 'Order not found' })
+        }
+        order.status = status;
+        await order.save();
+        res.send({ message: 'Order Status Updated Sucessfully' })
+    } catch (error) {
+        res.status(500).send({ message: err.message })
     }
 })
 
