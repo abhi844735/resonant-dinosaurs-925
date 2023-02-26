@@ -199,3 +199,30 @@ function dataFuntion(data){
       }
 
 }
+// let retoken=localStorage.getItem("token");
+document.getElementById("line1").innerText=localStorage.getItem("name")||"Welcome";
+if(token){
+    document.querySelector(".login").style.display="none"
+    if(token){
+        document.querySelector(".logout").addEventListener("click",async(e)=>{
+            e.preventDefault();
+         let res= await   fetch("https://excited-deer-headscarf.cyclic.app/users/logout",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                    "authorization":token
+                }
+            })
+        let data = await res.json();
+        if(data.message=="Logout Sucessfull"){
+                alert("log out succussfully");
+                localStorage.clear();
+                window.location.reload()
+                
+        }
+        })
+    }
+}else{
+    document.querySelector(".login").style.display="block";
+    document.querySelector(".logout").style.display="none";
+}
