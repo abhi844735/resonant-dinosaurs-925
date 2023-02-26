@@ -177,24 +177,30 @@
             category
         }
 
-        let url = "";
+        let url = "https://excited-deer-headscarf.cyclic.app/product/add";
 
-        // try {
-        //     fetch(url,{
-        //         method:"PATCH",
-        //         headers:{
-        //             "Content-Type":"application/json",
-        //             "authorization":JSON.stringify(localStorage.get("token"))
-        //         },
-        //         body:JSON.stringify(obj)
-        //     }).then(res => console.log(res)).catch(err => console.log(err));
-        // }
-        // catch (error) {
-        //     console.log(error);
-        //     alert(error.message);
-        // }
+        addproduct(url);
+
+        async function addproduct(url){
+            let res = await fetch(url,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                    "authorization": localStorage.getItem("token")
+                },
+                body:JSON.stringify(obj)
+            })
+            console.log(res);
+            if(res.ok){
+                res.then(res => console.log(response));
+            }
+            else{
+                res.catch(err => console.log(err))
+            }
+        }
 
         console.log(obj);
+        alert("Product added successfully")
 
     })
 </script>
