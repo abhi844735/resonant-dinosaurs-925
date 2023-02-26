@@ -33,7 +33,7 @@ otp_btn.addEventListener("click",(e)=>{
     
 });
 let login =async(obj)=>{
-    let res = await fetch("https://excited-deer-headscarf.cyclic.app/login",{
+    let res = await fetch("https://excited-deer-headscarf.cyclic.app/users/login",{
      method:"POST",
      headers:{
          "Content-Type":"application/json"
