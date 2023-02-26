@@ -40,25 +40,17 @@ function navbar(){
                         <li><a href="" class="anuq">Briefs & Trunks</a></li>
                         <li><a href="" class="anuq">Boxers</a></li>
                         <li><a href="" class="anuq">Vests</a></li>
-                        <li><a href="" class="anuq">Sleepwear & Loungewear</a></li>
-                        <li><a href="" class="anuq">Thermals</a></li>
                     </ol>
                     <ol class="a">
                         <li><a href="" class="anu">Footwear</a></li>
                         <li><a href="" class="anuq">Casual Shoes</a></li>
                         <li><a href="" class="anuq">Sports Shoes</a></li>
-                        <li><a href="" class="anuq">Formal Shoes</a></li>
-                        <li><a href="" class="anuq">Sneakers</a></li>
                         <li>Sandals & Floaters</li>
-                        <li>Flip Flops</li>
-                        <li>Socks</li>
                     </ol>
                     <ol class="a">
                         <li><a href="" class="anu">Gadgets</a></li>
                         <li>Smart Gadgets</li>
                         <li>Fitness Gadgets</li>
-                        <li>Headphones</li>
-                        <li>Speakers</li>
                     </ol>
 
                 </ul>
@@ -78,7 +70,6 @@ function navbar(){
                         <li><a href="" class="anuq">Dress Material</a></li>
                         <li><a href="" class="anuq">Lehenga Cholis</a></li>
                         <li>Dupattas & Shawls</li>
-                        <li>Jackets</li>
                     </ol>
                     <ol>
                         <li><a href="" class="anu">Western Wear</a></li>
@@ -93,7 +84,6 @@ function navbar(){
                         <li>Jumpsuits</li>
                         <li>Shrugs</li>
                         <li>Sweater & Sweatshirts</li>
-                        <li>Jackets & Coats</li>
 
                     </ol>
                     <ol>
@@ -120,7 +110,6 @@ function navbar(){
                         <li>Track Pants & Pyjamas</li>
                         <li>Jacket, Sweater & Sweatshirts</li>
                         <li>Party Wear</li>
-                        <li>Innerwear & Thermals</li>
                     </ol>
                     <ol>
                         <li><a href="" class="anu">Girls Clothing</a></li>
@@ -251,19 +240,7 @@ function navbar(){
                     </ol>
                 </ul>
 
-            </li>
-            <li class="main_list"><b class="bold">STUDIO</b>
-                <ul>
-                    <img src="https://source.unsplash.com/600x400/?clothes" alt="">
-                
-                    <button class="btn btn-danger DF">
-                        EXPLORE STUDIO
-                    </button>
-                </ul>
-
-            </li>
-            
-
+            </li>            
         </ul>
         <div id="search_bar">
             

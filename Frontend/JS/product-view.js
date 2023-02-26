@@ -359,13 +359,13 @@ async function checkFetch(){
                           
                                   if (msg.message=="Product added to cart") {
                                       // container.innerHTML=""
-                                      alert("Added To cart");
+                                      alert("Added To bag");
                                       event.target.style.display="none"
                                       go_to_bag.style.display="block"
                                       // window.location.reload()
                                       return;
                                   }
-                                  if(msg.message=="Access Denied"){
+                                  if(msg.message=="Access Denied"||msg.message=="jwt malformed"){
                                       return alert("Please log in or create an account to add this item to your bag.")
                                   }
                                   if(msg.message=="Product already in cart"){
