@@ -27,17 +27,21 @@ addbtn.addEventListener("click", async () => {
     state: document.getElementById("instate").value,
   };
   console.log(user_address);
-  // let address = await fetch(`https://excited-deer-headscarf.cyclic.app/`, {
-  //   method: "POST",
-  //   body: JSON.stringify(user_address),
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     Authorization: localStorage.getItem("token"),
-  //   },
-  // });
-  // let res = await address.json();
-  // console.log(res);
-  setTimeout(() => {
-    window.location.href = "./payment_page.html";
-  }, 1200);
+  let address = await fetch(
+    `https://excited-deer-headscarf.cyclic.app/address/add`,
+    {
+      method: "POST",
+      body: JSON.stringify(user_address),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      },
+    }
+  );
+  let res = await address.json();
+  console.log(res);
+  // alert("address tested");
+  // setTimeout(() => {
+  //   window.location.href = "./payment_page.html";
+  // }, 1200);
 });
