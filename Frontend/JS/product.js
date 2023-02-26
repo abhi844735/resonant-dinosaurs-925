@@ -162,7 +162,7 @@ function dataFuntion(data){
                 </div>
             </div>
             <figcaption>
-            <p>${item.description}</p>
+            <p>${item.description.substring(0, 22) + "..."}</p>
             <div class="similar-products-price-div">
             <h5>Rs.${item.price}</h5>
             <strike>Rs. ${item.price+500}</strike>
