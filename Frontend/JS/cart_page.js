@@ -4,32 +4,21 @@ let totalMRP = 0;
 let items_in_cart = document.querySelector("#cart_items");
 let flag = false;
 
-let data = [
-  {
-    name: "Wrangler",
-    description: "great quality",
-    url: "https://5.imimg.com/data5/SELLER/Default/2022/2/TM/BC/ET/27399423/check-shirt-500x500.jpg",
-    price: "5000",
-  },
-  {
-    name: "Puma",
-    description: "great quality",
-    url: "https://m.media-amazon.com/images/I/41K8J6J3fUL._AC._SR360,460.jpg",
-    price: "7800",
-  },
-  {
-    name: "Nike",
-    description: "great quality",
-    url: "https://5.imimg.com/data5/SELLER/Default/2022/2/TM/BC/ET/27399423/check-shirt-500x500.jpg",
-    price: "5000",
-  },
-  {
-    name: "Bewakoof",
-    description: "great quality",
-    url: "https://m.media-amazon.com/images/I/41K8J6J3fUL._AC._SR360,460.jpg",
-    price: "7800",
-  },
-];
+// {
+//   name: "Wrangler",
+//   description: "great quality",
+//   price: "5000",
+// },
+
+// // fetch  = > /cart
+// // data => forEach(inddx => {
+//     id  = index.productId;
+//     fetch(url/products/id);
+
+// // })
+
+let datafetch = (data) => {};
+
 let discount = 0;
 let totalmrp = document.getElementById("itm_total");
 
@@ -72,7 +61,7 @@ let append = (data) => {
     div2.setAttribute("id", "desc_div");
 
     let desc = document.createElement("p");
-    desc.innerText = el.description;
+    desc.innerText = el.description.substring(0, 20) + "...";
 
     div2.append(desc);
     //=================mrp in div3============================================
@@ -263,7 +252,7 @@ let append = (data) => {
   let redeem = document.getElementById("coupon");
   redeem.addEventListener("click", () => {
     if (flag == false) {
-      if (totalMRP > 15000) {
+      if (totalMRP > 2000) {
         console.log("clicked");
         let val = prompt("Enter Promo Code");
         // console.log(val);
@@ -284,26 +273,54 @@ let append = (data) => {
           alert("Please Enter Valid Coupan code");
         }
       } else {
-        alert("Your Cart Value of Total Items Should Be More Than Rs. 15000/-");
+        alert("Your Cart Value of Total Items Should Be More Than Rs. 2000/-");
       }
     } else {
       alert("\u{274C} You have already applied for coupon");
     }
   });
 };
-append(data);
 //========================================
 
-async function get_cart_data() {
-  let res = await fetch(`https://excited-deer-headscarf.cyclic.app/cart/`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("token"),
-    },
-  });
-  let data = await res.json();
-  append(data);
+function get_cart_data() {
+  const url = "https://excited-deer-headscarf.cyclic.app";
+  const fetchCart = async (url) => {
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.length == 0) {
+        alert("Cart is empty\u{1F6D2}\nRedirecting you to Homepage");
+        window.location.href = "./index.html";
+      } else {
+        const arr = [];
+        data.forEach(async (index) => {
+          let obj = {};
+          let product = await getProduct(index.productId);
+          // console.log(product);
+          obj._id = product._id;
+          obj.name = product.title;
+          obj.description = product.description;
+          obj.price = product.price;
+          obj.url = product.image_1;
+          obj.quantity = index.quantity;
+          arr.push(obj);
+          append(arr);
+        });
+        console.log("data:", arr);
+      }
+    }
+  };
+  const getProduct = async (id) => {
+    const product = await fetch(url + "/products/" + id);
+    const res = await product.json();
+    return res;
+  };
+  fetchCart(url + "/cart");
 }
 get_cart_data();
 //===============delete function================

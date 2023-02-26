@@ -41,7 +41,7 @@ addbtn.addEventListener("click", async () => {
   let res = await address.json();
   console.log(res);
   // alert("address tested");
-  // setTimeout(() => {
-  //   window.location.href = "./payment_page.html";
-  // }, 1200);
+  setTimeout(() => {
+    window.location.href = "./payment_page.html";
+  }, 500);
 });
