@@ -139,6 +139,7 @@ const footer =()=>{
                 The Myntra shopping app came into existence in the year 2015 to further encourage customers’
                 shopping sprees. Download the app on your Android or IOS device this very minute to experience
                 fashion like never before</p>
+                <a href="admin_login.html">login as Admin</a>
         </div>
     </div>
 </footer>

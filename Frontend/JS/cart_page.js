@@ -199,7 +199,9 @@ let append = (data) => {
       }
       if (n > 10) {
         n = 10;
-        return alert("You Can't Add More Than 10 Products of Same Type!!!");
+        return alert(
+          "Sorry, You Can't Add More Than 10 Products of Same Type!!!"
+        );
       }
       if (flag == false) {
         price.innerText = `Rs. ${+el.price * n}.00/-`;
@@ -293,11 +295,11 @@ append(data);
 //========================================
 
 async function get_cart_data() {
-  let res = await fetch(`https://excited-deer-headscarf.cyclic.app/`, {
+  let res = await fetch(`https://excited-deer-headscarf.cyclic.app/cart/`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("put user token name"),
+      Authorization: localStorage.getItem("token"),
     },
   });
   let data = await res.json();
@@ -306,11 +308,11 @@ async function get_cart_data() {
 get_cart_data();
 //===============delete function================
 async function del_cart_Data(id) {
-  await fetch(`https://excited-deer-headscarf.cyclic.app/${id}`, {
+  await fetch(`https://excited-deer-headscarf.cyclic.app/cart/remove/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("put user token name"),
+      Authorization: localStorage.getItem("token"),
     },
   });
   document.location.reload();

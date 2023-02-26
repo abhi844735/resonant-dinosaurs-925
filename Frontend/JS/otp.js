@@ -33,7 +33,7 @@ otp_btn.addEventListener("click",(e)=>{
     
 });
 let login =async(obj)=>{
-    let res = await fetch("http://localhost:4500/users/login",{
+    let res = await fetch("https://excited-deer-headscarf.cyclic.app/users/login",{
      method:"POST",
      headers:{
          "Content-Type":"application/json"
@@ -59,7 +59,7 @@ let login =async(obj)=>{
      if(token){
          document.querySelector(".logout").addEventListener("click",async(e)=>{
              e.preventDefault();
-          let res= await   fetch("http://localhost:4500/users/logout",{
+          let res= await   fetch("https://excited-deer-headscarf.cyclic.app/users/logout",{
                  method:"POST",
                  headers:{
                      "Content-Type":"application/json",
