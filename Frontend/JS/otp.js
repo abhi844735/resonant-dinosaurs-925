@@ -30,51 +30,51 @@ otp_btn.addEventListener("click", (e) => {
     login(obj);
   }
 });
-let login = async (obj) => {
-  let res = await fetch("https://excited-deer-headscarf.cyclic.app/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(obj),
-  });
-  let data = await res.json();
-  if (res.ok) {
-    alert(data.name, "has logged in");
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("name", data.name);
-    window.location.href = "index.html";
-  } else {
-    alert(data.message);
-  }
-};
-let token = localStorage.getItem("token");
-document.getElementById("line1").innerText =
-  localStorage.getItem("name") || "Welcome";
-if (token) {
-  document.querySelector(".login").style.display = "none";
-  if (token) {
-    document.querySelector(".logout").addEventListener("click", async (e) => {
-      e.preventDefault();
-      let res = await fetch(
-        "https://excited-deer-headscarf.cyclic.app/users/logout",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: localStorage.getItem("token"),
-          },
-        }
-      );
-      let data = await res.json();
-      if (data.message == "Logout Sucessfull") {
-        alert("log out succussfully");
-        localStorage.clear();
-        window.location.reload();
-      }
+
+let login =async(obj)=>{
+    let res = await fetch("https://excited-deer-headscarf.cyclic.app/users/login",{
+     method:"POST",
+     headers:{
+         "Content-Type":"application/json"
+     },
+     body:JSON.stringify(obj)
     });
-  }
-} else {
-  document.querySelector(".login").style.display = "block";
-  document.querySelector(".logout").style.display = "none";
-}
+    let data = await res.json();
+    if(res.ok){
+     alert(data.name,"has logged in");
+     localStorage.setItem("token",data.token);
+     localStorage.setItem("name",data.name);
+     localStorage.setItem("email",data.email);
+     window.location.href="index.html"
+      
+    }else{
+     alert(data.message);
+    }
+ }
+ let token=localStorage.getItem("token");
+ document.getElementById("line1").innerText=localStorage.getItem("name")||"Welcome";
+ if(token){
+     document.querySelector(".login").style.display="none"
+     if(token){
+         document.querySelector(".logout").addEventListener("click",async(e)=>{
+             e.preventDefault();
+          let res= await   fetch("https://excited-deer-headscarf.cyclic.app/users/logout",{
+                 method:"POST",
+                 headers:{
+                     "Content-Type":"application/json",
+                     "authorization":localStorage.getItem("token")
+                 }
+             })
+         let data = await res.json();
+         if(data.message=="Logout Sucessfull"){
+                 alert("log out succussfully");
+                 localStorage.clear();
+                 window.location.reload()
+         }
+         })
+     }
+ }else{
+     document.querySelector(".login").style.display="block";
+     document.querySelector(".logout").style.display="none";
+ }
+  

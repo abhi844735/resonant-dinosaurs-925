@@ -30,16 +30,7 @@ async function fetchProducts(key,value){
 
 
 
-// let search=document.getElementById("input");
-
-// search.addEventListener("keypress",(e)=>{
-//     if(e.key=="Enter"){
-//         let value=document.getElementById("input").value;
-//      console.log(value)   
-//     }
-// })
-
-// let size=""
+// -------------------------------------sorting function--------------------------------------------------------- 
 function sortFilter() {
     let select = document.getElementById('filter');
     let option = select.options[select.selectedIndex];
@@ -56,14 +47,7 @@ function sortFilter() {
 
 
 
-//  function searchProduct() {
-//         let value = document.getElementById("input").value;
-//         let key="title"
-//         fetchProducts(key,value)
-// }
-
-
-
+// -------------------------------------------------size filter function-------------------------------------------------------------- 
 function sizeRange(checkbox) {
     let key;
     var checkboxes = document.getElementsByName('size-range')
@@ -79,6 +63,9 @@ function sizeRange(checkbox) {
     console.log(value)
     fetchProducts(key,value)
 }
+
+// -------------------------------------------------brand filter function-------------------------------------------------------------- 
+
 function brandRange(checkbox) {
     
     var checkboxes = document.getElementsByName('brand-range')
@@ -91,8 +78,8 @@ function brandRange(checkbox) {
     key="brand"
     console.log(value)
     fetchProducts(key,value)
-    // sizeFetchProducts(value)
 }
+// -------------------------------------------------price filter function-------------------------------------------------------------- 
 
 function priceRange(checkbox) {
     
@@ -122,9 +109,10 @@ function priceRange(checkbox) {
         let data=dataArr.filter(item=>item.price > 11152 && item.price <= 14803)
         dataFuntion(data)
     }
-    // fetchProducts(key,value)
-    // sizeFetchProducts(value)
+
 }
+// -------------------------------------------------color filter function-------------------------------------------------------------- 
+
 function colorRange(checkbox) {
     
     var checkboxes = document.getElementsByName('color-range')
@@ -137,22 +125,11 @@ function colorRange(checkbox) {
     key="color"
     console.log(value)
     fetchProducts(key,value)
-    // sizeFetchProducts(value)
 }
-// function sizeRange(){
-//     let size_range=document.querySelector('input[name="size-range"]:checked').value;
-//     console.log(size_range)
-// }
 
-// let divbtn=document.querySelector(".shop-items-child-div");
-// divbtn.addEventListener("click",aclick)
-
-
-// function cartAdd(){
-//     console.log("Added to cart")
-// }
 let querry;
 let value;
+// -------------------------------------------------discount filter function-------------------------------------------------------------- 
 
 function discountRange(){
     let priceVal=document.querySelector('input[name="discount-range"]:checked').value;
@@ -162,54 +139,13 @@ function discountRange(){
     console.log(value)
     fetchProducts(key,value)
     console.log(priceData);
-    // priceFetch(priceData)
 }
 
 
 
 
-// async function ratingFetch(sortValue){
-// try {
-//         let res= await fetch(`${baseurl}/products/rating?rating=${sortValue}`);
-//         if(res.ok){
-//             let data=await res.json();
-//             dataFuntion(data)
-//             // console.log(data)
-//         }
-    
-// } catch (error) {
-//     console.log(error)
-//     // alert("Fetching problem")
-// }
-// }
-// async function priceFetch(priceData){
-// try {
-//         let res= await fetch(`${baseurl}/products/price?price=${priceData}`);
-//         if(res.ok){
-//             let data=await res.json();
-//             dataFuntion(data)
-//             // console.log(data)
-//         }
-    
-// } catch (error) {
-//     console.log(error)
-//     // alert("Fetching problem")
-// }
-// }
-// async function sizeFetchProducts(value){
-// try {
-//         let res= await fetch(`${baseurl}/products?sizerange=${value}`);
-//         if(res.ok){
-//             let data=await res.json();
-//             dataFuntion(data)
-//         }
-    
-// } catch (error) {
-//     console.log(error)
-// }
-// }
 
-
+// ---------------------------------------------products fetching------------------------------------------------------------------------- 
 let dataContainer=document.getElementById("wrapper")
 function dataFuntion(data){
     dataContainer.innerHTML="";
@@ -226,7 +162,7 @@ function dataFuntion(data){
                 </div>
             </div>
             <figcaption>
-            <p>${item.description}</p>
+            <p>${item.description.substring(0, 22) + "..."}</p>
             <div class="similar-products-price-div">
             <h5>Rs.${item.price}</h5>
             <strike>Rs. ${item.price+500}</strike>
@@ -236,6 +172,8 @@ function dataFuntion(data){
     </figure>`
     })
     dataContainer.innerHTML=allData.join(" ")
+
+    // -------------------------------------on image click redirect to product view page------------------------------------------------------ 
     let img_click = document.querySelectorAll("img");
       for(let btn of img_click){
           btn.addEventListener("click",(event)=>{ 
@@ -246,6 +184,9 @@ function dataFuntion(data){
 			// DeleteBtn(data_id);
 		});
       }
+
+    // -------------------------------------on details div click redirect to product view page------------------------------------------------------ 
+
     let details_click = document.querySelectorAll("figcaption");
       for(let btn of details_click){
           btn.addEventListener("click",(event)=>{ 
@@ -254,42 +195,7 @@ function dataFuntion(data){
             localStorage.setItem("product-id",data_id)
             window.open('product-view.html', "_blank")
 
-			// DeleteBtn(data_id);
 		});
       }
 
 }
-
-// function cartAdd(){
-//     console.log("hello")
-// }
-// document.querySelector("#cl233").addEventListener("click",()=>{
-//     window.location.href="cart_page.html"
-// })
-// let token=localStorage.getItem("token");
-// document.getElementById("line1").innerText=localStorage.getItem("name")||"Welcome";
-// if(token){
-//     document.querySelector(".login").style.display="none"
-//     if(token){
-//         document.querySelector(".logout").addEventListener("click",async(e)=>{
-//             e.preventDefault();
-//          let res= await   fetch("http://localhost:4500/users/logout",{
-//                 method:"POST",
-//                 headers:{
-//                     "Content-Type":"application/json",
-//                     "authorization":localStorage.getItem("token")
-//                 }
-//             })
-//         let data = await res.json();
-//         if(data.message=="Logout Sucessfull"){
-//                 alert("log out succussfully");
-//                 localStorage.clear();
-                
-//         }
-//         })
-//     }
-// }else{
-//     document.querySelector(".login").style.display="block";
-//     document.querySelector(".logout").style.display="none";
-// }
- 
