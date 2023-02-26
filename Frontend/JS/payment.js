@@ -1,8 +1,9 @@
 
-// change click variable ID 
+// change =>click=> variable ID 
 
+// --------------------------------------------------
 let click= document.getElementById("ttl");
-
+// ------------------------------------------------
 click.addEventListener("click",buyNow)
 async function buyNow(){
     const data={

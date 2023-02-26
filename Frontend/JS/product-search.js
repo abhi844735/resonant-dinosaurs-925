@@ -12,6 +12,7 @@ search.addEventListener("keypress",(e)=>{
      console.log(value)   
     }
 })
+// done 
 async function fetchProducts(key,value){
     try {
             // let res= await fetch(`${producturl}/search?${key||"gender"}=${value||"male"}`);

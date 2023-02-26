@@ -52,9 +52,7 @@ function navbar(){
                         <li>Smart Gadgets</li>
                         <li>Fitness Gadgets</li>
                     </ol>
-
                 </ul>
-
             </li>
 
             <li class="main_list"><b class="bold">WOMEN</b>
