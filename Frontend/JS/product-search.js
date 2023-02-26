@@ -12,14 +12,11 @@ search.addEventListener("keypress",(e)=>{
      console.log(value)   
     }
 })
-// done 
 async function fetchProducts(key,value){
     try {
-            // let res= await fetch(`${producturl}/search?${key||"gender"}=${value||"male"}`);
             let res= await fetch(`${producturl}/search?gender=male&${key}=${value}`)
             if(res.ok){
                 let data=await res.json();
-                // dataArr=[...data]
                 dataFuntion(data)
                 console.log(data)
             }
@@ -61,7 +58,6 @@ function dataFuntion(data){
 
             localStorage.setItem("product-id",data_id)
             window.open('product-view.html', "_blank")
-			// DeleteBtn(data_id);
 		});
       }
     let details_click = document.querySelectorAll("figcaption");
@@ -72,7 +68,6 @@ function dataFuntion(data){
             localStorage.setItem("product-id",data_id)
             window.open('product-view.html', "_blank")
 
-			// DeleteBtn(data_id);
 		});
       }
 

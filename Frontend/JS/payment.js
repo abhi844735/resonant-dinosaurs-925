@@ -13,13 +13,15 @@ async function buyNow(){
       "email" :  localStorage.getItem("email")||"Test@gmail.com",
       "phone" :  "9007060666",
       "webhook":'/webhook/',
-      "redirect_url" :  "http://localhost:4500/payment/callback",
+      "redirect_url" :  "https://excited-deer-headscarf.cyclic.app/callback",
     }
     console.log(data)
-    let res= await fetch("http://localhost:4500/payment/pay",{
+    let res= await fetch("https://excited-deer-headscarf.cyclic.app/payment/pay",{
     method:"POST",
     headers:{
-      "Content-Type":"application/json"
+      "Content-Type":"application/json",
+      Authorization:localStorage.getItem("token") ,
+
     },
     body:JSON.stringify(data)
     })
