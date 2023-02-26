@@ -45,6 +45,7 @@ let login =async(obj)=>{
      alert(data.name,"has logged in");
      localStorage.setItem("token",data.token);
      localStorage.setItem("name",data.name);
+     localStorage.setItem("email",data.email);
      window.location.href="index.html"
       
     }else{

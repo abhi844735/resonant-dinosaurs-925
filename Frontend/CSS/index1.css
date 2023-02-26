@@ -142,10 +142,6 @@ li:hover{
 {
 	color:black;
 }
-#sing{
-    text-decoration: none;
-    color: white;
-}
 #cl233{
     height: 30px;
     width: 30px;
@@ -191,7 +187,7 @@ li:hover{
 .main_list ul
 {
 	background-color:white;
-	height: 450px;
+	height: 380px;
 	position:absolute;
 	width:670px;
 	padding:0px;
@@ -202,13 +198,16 @@ li:hover{
 .main_list1 ul
 {
 	background-color:white;
-	height: 200px;
-	/* position:absolute; */
-	width:180px;
+	/* height: 200px; */
+	position:relative;
+	width:107%;
 	padding:0px;
-    height: 450px;
+    height: 380px;
 	/* float:; */
 	/* padding-bottom:px; */
+    margin-left: -70px;
+
+z-index: 100000;
     
 }
 #menu12{
@@ -261,7 +260,7 @@ li:hover{
 	float: left;
 	padding:0px;
 	list-style-type:none;
-	margin-left:30px;
+	margin-left:10px;
 }
 .main_list1 >ul>ol >li
 {
@@ -330,6 +329,10 @@ ol>li:hover{
     color: rgb(242, 61, 61);
 
 
+}
+.logout {
+    text-decoration: none;
+    color: white;
 }
 .anu:hover{
     color: rgb(242, 61, 61);
