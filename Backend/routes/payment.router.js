@@ -1,5 +1,4 @@
 const express = require( 'express' );
-const { authorization } = require('../middlewares/AdminAuthorization.middleware');
 const { authentication } = require('../middlewares/Authentication.middleware');
 
 /**
@@ -14,7 +13,7 @@ const url = require('url');
 
 
 // /api/bid/pay
-paymentRouter.post( '/pay', ( req, res ) => {
+paymentRouter.post( '/pay',authentication, ( req, res ) => {
 	Insta.setKeys('test_210ddd090031ed587f6274e7eb4', 'test_f4cf7fa8d157d76602b398d4189');
     let {purpose,amount,buyer_name,redirect_url,email,phone}=req.body;
 	const data = new Insta.PaymentData();
