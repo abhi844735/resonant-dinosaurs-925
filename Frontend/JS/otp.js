@@ -30,18 +30,14 @@ otp_btn.addEventListener("click", (e) => {
     login(obj);
   }
 });
-//===================remove users from here===============
 let login = async (obj) => {
-  let res = await fetch(
-    "https://excited-deer-headscarf.cyclic.app/users/login",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(obj),
-    }
-  );
+  let res = await fetch("https://excited-deer-headscarf.cyclic.app/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(obj),
+  });
   let data = await res.json();
   if (res.ok) {
     alert(data.name, "has logged in");
