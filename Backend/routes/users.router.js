@@ -75,7 +75,7 @@ userRouter.post('/login', async (req, res) => {
                     httpOnly: true,
                     maxAge: 60 * 60 * 24
                 }));
-                res.send({ message: 'Login Sucessful', token, name: user.name })
+                res.send({ message: 'Login Sucessful', token, name: user.name,email:user.email })
             } else {
                 res.status(403).send({ message: 'Wrong Credentials' })
             }

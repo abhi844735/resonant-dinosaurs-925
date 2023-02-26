@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser')
 const cors = require('cors');
+const bodyParser = require( 'body-parser' );
 
 const { connection } = require('./configs/db.js');
 
@@ -10,6 +11,7 @@ const { cartRouter } = require('./routes/cart.router');
 const { addressRouter } = require('./routes/address.router.js');
 const { productRouter } = require('./routes/product.router.js');
 const { ordersRouter } = require('./routes/orders.router')
+const {paymentRouter} = require( './routes/payment.router' );
 
 require('dotenv').config()
 
@@ -19,6 +21,8 @@ app.use(express.json());
 app.use(cors({
     origin: '*'
 }))
+app.use( bodyParser.urlencoded( { extended: false } ) );
+app.use( bodyParser.json() );
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, POST, PUT, DELETE');
@@ -38,6 +42,7 @@ app.use('/admin', adminRouter)
 app.use('/cart', cartRouter)
 app.use('/address', addressRouter)
 app.use('/orders', ordersRouter)
+app.use( '/payment', paymentRouter);
 
 app.listen(process.env.port, async () => {
     try {
