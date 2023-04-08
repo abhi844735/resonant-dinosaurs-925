@@ -1,6 +1,15 @@
 /*IMPORTING THE FOOTER*/
 import {footer} from "../components/footer.js"
-
+import navbar from "../components/header.js";
+let div3 = document.querySelector(".header");
+div3.innerHTML = navbar();
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const Big_screen_sreachbar=document.getElementById("search_bar");
+    const small_screen_sreachbar=document.querySelector(".input-box");
+    Big_screen_sreachbar.style.display="none"
+    small_screen_sreachbar.style.display="none"
+})
 // console.log(footer())
 
 const footerdiv=document.querySelector(".footer");
@@ -8,9 +17,9 @@ footerdiv.innerHTML = footer()
 
 
 
-import navbar from "../components/index1.js"
-let div3 = document.getElementById("navbar");
-div3.innerHTML = navbar();
+// import navbar from "../components/index1.js"
+// let div3 = document.getElementById("navbar");
+// div3.innerHTML = navbar();
 
 fetch("./json/home.json")
     .then(response => response.json())
@@ -188,22 +197,7 @@ function shopbycategoryappend(data){
 
 /*  singup part  */
 
-document.querySelector(".click").addEventListener("click",()=>{
-    window.location.href="product.html";
-})
 
-document.querySelector(".anuq").addEventListener("click",()=>{
-    window.location.href="product.html";
-})
-document.querySelector(".logo-img").addEventListener("click",()=>{
-    window.location.href="index.html";
-})
-document.getElementById("sign").addEventListener("click",()=>{
-    window.location.href="signup.html";
-})
-document.querySelector("#cl233").addEventListener("click",()=>{
-    window.location.href="cart_page.html"
-})
 let token=localStorage.getItem("token");
 document.getElementById("line1").innerText=localStorage.getItem("name")||"Welcome";
 if(token){
@@ -231,5 +225,3 @@ if(token){
     document.querySelector(".logout").style.display="none";
 }
  
-            
-
