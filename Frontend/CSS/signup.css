@@ -23,7 +23,7 @@
     
 }
 
-.login-box>div>input{
+.login-box>div>form>input{
     width: 400px;
     margin-top: 5px;
     font-size: 16px;
@@ -32,7 +32,7 @@
 .m{
     margin-top: 5px;
 }
-.login-box>div>select{
+.login-box>div>form>select{
     width: 335px;
     font-size: 16px;
     padding: 3px;
@@ -41,15 +41,16 @@ label{
     color: rgb(199, 15, 91) ;
     font-weight: bold;
 }
-.login-box>div>p{
+.login-box>div>form>p{
     margin-top: 3px;
     font-size: 16px;
 
 }
-.login-box>div>button{
-    border: none;
-    background-color:  rgb(199, 15, 91);
-    width: 30%;
-    font-size: 23px;
+.login-box>div>form>button>input{
+    font-size: 20px;
+    background-color:rgb(199, 15, 91);
     color: white;
+    border: none;
+    padding: 2px 5px;
+    
 }

@@ -13,28 +13,25 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 
-let signup_btn=document.getElementById("signup_btn");
-signup_btn.addEventListener("click",async(e)=>{
+let signup_btn=document.getElementById("signup_form");
+signup_btn.addEventListener("submit",async(e)=>{
     e.preventDefault();
     let first_name=document.getElementById("first_name").value;
-    let last_name=document.getElementById("last_name").value
+    let last_name=document.getElementById("last_name").value;
 let mobile = document.getElementById("mobile").value;
 mobile= parseInt(mobile)
 let email = document.getElementById("email").value;
 let gender = document.getElementById("gender").value;
 let password=document.getElementById("password").value;
-if(first_name==""||last_name==""||mobile==""||email==""||gender==""||password==""){
-   await swal("fill all the details");
-}else if(!(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*['@', '$', '#']).*$/.test(password))){
+ if(!(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*['@', '$', '#']).*$/.test(password))){
    await swal("should contains a lowercase, uppercase, number and any of the special characters")
 }
-else if(!email.includes("@gmail.com")){
-   await swal("right in gmail format please")
-}
+
 else{
     let obj={
         first_name,last_name,mobile,email,gender,password
     }
+    console.log(obj)
     signup(obj);
 }
 
