@@ -84,7 +84,21 @@ userRouter.post('/login', async (req, res) => {
         res.status(500).send({ message: error.message })
     }
 })
+userRouter.post('/userdetails',authentication, async (req, res) => {
+    const { mobile } = req.body;
 
+    try {
+        const user = await UserModel.findOne({ mobile });
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' })
+        }else if(user) {
+            res.send(user)
+        }
+    } catch (error) {
+        res.status(500).send({ message: error.message })
+
+    }
+})
 userRouter.post('/logout', authentication, async (req, res) => {
     const token = req.headers.authorization;
     const { id } = req.body.token;
