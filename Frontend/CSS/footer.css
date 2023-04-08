@@ -1,7 +1,7 @@
 /* footer */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-.container {
+.footer-container {
   max-width: 75%;
   margin: auto;
   font-family: "Poppins", sans-serif;
@@ -92,6 +92,9 @@ p {
   color: grey;
 }
 
+.footer{
+  padding: 25px;
+}
 /*responsive*/
 
 @media (max-width: 1024px) {
@@ -294,4 +297,18 @@ gap: 0;
 }
 
 /* dropdownnn */
+
+@media only screen and (max-width: 850px) and (min-width: 550px){
+  #f {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media only screen and (max-width: 549px) and (min-width: 220px){
+  #f {
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+  }
+}
 

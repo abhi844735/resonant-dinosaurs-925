@@ -1,7 +1,7 @@
 const footer =()=>{
     return`
     <footer class="footer">
-    <div class="container">
+    <div class="footer-container">
         <div id="f" class="row footer-main">
             <div class="footer-col">
                 <h4>online shopping</h4>
