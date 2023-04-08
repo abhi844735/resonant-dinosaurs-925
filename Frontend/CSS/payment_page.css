@@ -141,3 +141,31 @@ body {
   background-color: #ff3f6c;
   color: white;
 }
+@media screen and (min-width: 300px) and (max-width: 786px) {
+  #BAP {
+    display: flex;
+    flex-direction: column;
+  }
+  #container {
+    display: flex;
+    flex-direction: column;
+  }
+  #paymentoptions {
+    display: flex;
+    flex-direction: column;
+  }
+  #paymentoptions img {
+    width: 350px;
+  }
+  #bright {
+    font-size: small;
+  }
+  .btn {
+    border: none;
+    background-color: white;
+  }
+  #ttl {
+    background-color: white;
+    color: black;
+  }
+}
