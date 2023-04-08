@@ -21,8 +21,8 @@ userRouter.get('/', authentication, authorization, async (req, res) => {
 })
 
 userRouter.post('/signup', async (req, res) => {
-    const { email, password, mobile, gender, name } = req.body;
-    if (!name || !gender || !mobile || !password) {
+    const {first_name,last_name, email, password, mobile, gender } = req.body;
+    if (!first_name ||!last_name || !gender || !mobile || !password) {
         return res.status(409).send({ message: 'Please provide all fields' })
     }
     try {
@@ -36,7 +36,7 @@ userRouter.post('/signup', async (req, res) => {
             }
             try {
                 const user = new UserModel({
-                    name, email, password: hashedPass, mobile, gender
+                    first_name,last_name, email, password: hashedPass, mobile, gender
                 })
                 await user.save()
                 const userBlack = new BlacklistModel({
@@ -75,7 +75,7 @@ userRouter.post('/login', async (req, res) => {
                     httpOnly: true,
                     maxAge: 60 * 60 * 24
                 }));
-                res.send({ message: 'Login Sucessful', token, name: user.name,email:user.email })
+                res.send({ message: 'Login Sucessful', token, name: user.first_name,email:user.email,mobile:user.mobile })
             } else {
                 res.status(403).send({ message: 'Wrong Credentials' })
             }

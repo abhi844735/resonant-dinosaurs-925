@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 
-let otp_btn = document.getElementById("otp_btn");
-otp_btn.addEventListener("click", async(e) => {
+let otp_btn = document.getElementById("login_form");
+otp_btn.addEventListener("submit", async(e) => {
   e.preventDefault();
   let mobile = document.getElementById("mobile").value;
   mobile = +mobile;
@@ -41,14 +41,15 @@ let login =async(obj)=>{
     });
     let data = await res.json();
     if(res.ok){
-     await swal(data.name,"has logged in");
+     await alert(data.name,"has logged in");
      localStorage.setItem("token",data.token);
      localStorage.setItem("name",data.name);
      localStorage.setItem("email",data.email);
+     localStorage.setItem("mobile",data.mobile);
      window.location.href="index.html"
       
     }else{
-     await swal(data.message);
+     await alert(data.message);
     }
  }
  let token=localStorage.getItem("token");
