@@ -4,22 +4,8 @@ let totalMRP = 0;
 let items_in_cart = document.querySelector("#cart_items");
 let flag = false;
 
-// {
-//   name: "Wrangler",
-//   description: "great quality",
-//   price: "5000",
-// },
-
-// // fetch  = > /cart
-// // data => forEach(inddx => {
-//     id  = index.productId;
-//     fetch(url/products/id);
-
-// // })
-
-let datafetch = (data) => {};
-
 let discount = 0;
+
 let totalmrp = document.getElementById("itm_total");
 
 let priceDiscount = document.getElementById("ttl_dsc1");
@@ -33,6 +19,7 @@ let append = (data) => {
   data.forEach((el) => {
     let id = el._id;
     let n = 1;
+    //creating a div for each and every products added in the cart
     let div = document.createElement("div");
     div.setAttribute("id", "items");
 
@@ -135,6 +122,7 @@ let append = (data) => {
           "totalcartvalue",
           JSON.stringify(totalMRP - discount)
         );
+        //setting the total mrp in local storage=====================================
         localStorage.setItem("totalmrp", JSON.stringify(totalMRP));
 
         totalmrp.innerText = `Rs. ${totalMRP}/-`;
@@ -164,6 +152,7 @@ let append = (data) => {
       if (n >= 1) {
         p2.innerText = n;
       } else if (n == 0) {
+        //if n==0 then that product will be deleted from cart list
         alert(`${el.name} will be removed from list`);
         del_cart_Data(id);
       }
@@ -243,12 +232,14 @@ let append = (data) => {
     div.append(divleft, divright);
     items_in_cart.append(div);
   });
+  //======these four line is written here just to initiate the price,discount etc========================
   totalmrp.innerText = `Rs. ${totalMRP}/-`;
   priceDiscount.innerText = `- Rs. ${discount}/-`;
   subTotal.innerText = `Rs. ${totalMRP - discount}.00/-`;
   totalSaving.innerText = `Rs. ${discount}/-`;
   //==============================================
 
+  //====here i am using a redeem coupon feature with some coupon code======================================
   let redeem = document.getElementById("coupon");
   redeem.addEventListener("click", () => {
     if (flag == false) {
@@ -258,6 +249,7 @@ let append = (data) => {
         // console.log(val);
         if (val == "upstyle200") {
           flag = true;
+          //if flaf==true it means that user can't take advantage of coupon more than one
           totalmrp.innerText = `Rs. ${totalMRP}/-`;
           priceDiscount.innerText = `- Rs. ${discount}/-`;
           subTotal.innerText = `Rs. ${totalMRP - discount - 200}.00/-`;
@@ -265,6 +257,7 @@ let append = (data) => {
             "totalcartvalue",
             JSON.stringify(totalMRP - discount - 200)
           );
+          //after applying coupon code and getting discount, we are storing the totalprice and totaldiscount in localstorage=======
           localStorage.setItem("totalmrp", JSON.stringify(totalMRP));
           localStorage.setItem("discount", JSON.stringify(discount + 200));
 
@@ -298,6 +291,7 @@ function get_cart_data() {
         window.location.href = "./index.html";
       } else {
         const arr = [];
+        //after fetching data we are storing all the data in array "arr" and arr will be appended in frontend page
         data.forEach(async (index) => {
           let obj = {};
           let product = await getProduct(index.productId);
@@ -309,6 +303,7 @@ function get_cart_data() {
           obj.url = product.image_1;
           obj.quantity = index.quantity;
           arr.push(obj);
+          // we are invoking the append function here
           append(arr);
         });
         console.log("data:", arr);
