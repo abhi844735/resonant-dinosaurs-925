@@ -5,7 +5,7 @@ body {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 #part2 {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   margin: auto;
   height: auto;
   width: 80%;
