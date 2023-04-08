@@ -57,7 +57,7 @@ cartRouter.post("/add/:id", idvalidator, authentication, async (req, res) => {
             cart: {
               productId,
               quantity: 1,
-              price: product.price - product.discount * product.price,
+              price: product.price,
             },
           },
         }

@@ -1,33 +1,59 @@
-let baseurl="https://excited-deer-headscarf.cyclic.app";
+
+//  ***********************    Deployed Url *************************
+
+let baseurl="http://localhost:4500";
 let producturl=`${baseurl}/products/`
 
 const cartadd=`${baseurl}/cart/add`
-const token=localStorage.getItem("token");
+// const token=localStorage.getItem("token");
 
 let preloader= document.getElementById("loading");
 function loadingFun(){
   preloader.style.display="none"
 }
+
+// *********************gender key**************************** 
+let gender=localStorage.getItem("gender")
+// ************************ category key ************************ 
+let category=localStorage.getItem("category")
+
 let dataArr=[]
+
+// ---------------------------products fetch Function -------------------------------------------------------- 
+
 async function fetchProducts(key,value){
     try {
-            // let res= await fetch(`${producturl}/search?${key||"gender"}=${value||"male"}`);
-            let res= await fetch(`${producturl}/search?gender=male&${key}=${value}`)
+        let res;
+            if(key && value){
+                res= await fetch(`https://excited-deer-headscarf.cyclic.app/products/search?gender=${gender}&category=${category}&${key}=${value}`);
+
+            }
+            else{
+                res= await fetch(`https://excited-deer-headscarf.cyclic.app/products/search?gender=${gender}&category=${category}`);
+
+            }
+         
             if(res.ok){
                 let data=await res.json();
                 dataArr=[...data]
                 dataFuntion(data)
-                // console.log(data)
+                console.log(data)
             }
         
     } catch (error) {
         console.log(error)
     }
     }
-    fetchProducts()
+fetchProducts()
 
+// ---------------------------products Filters fetch Function -------------------------------------------------------- 
 
-
+async function fetchProductFilters(){
+    let filterRes= await fetch(`${producturl}/filters?product=T-Shirts`);
+    let filterData= await  filterRes.json()
+    FilterDataFun(filterData)
+}
+fetchProductFilters()
 
 
 // -------------------------------------sorting function--------------------------------------------------------- 
@@ -47,67 +73,120 @@ function sortFilter() {
 
 
 
-// -------------------------------------------------size filter function-------------------------------------------------------------- 
-function sizeRange(checkbox) {
-    let key;
-    var checkboxes = document.getElementsByName('size-range')
-    checkboxes.forEach((item) => {
-        if (item !== checkbox) item.checked = false
+
+
+let categories_div= document.getElementById("categories-div")
+let brands_div= document.getElementById("brands-div")
+function FilterDataFun(filterData){
+    categories_div.innerHTML="";
+    brands_div.innerHTML="";
+console.log(filterData.categories)
+    let categoriesData= filterData.categories.map((item)=>{
+        return `<div>
+        <input value="${item}" type="checkbox" class="size-checkbox" name="filter"
+            onclick="categories(this)"><label for="">${item}</label>
+    </div>
+    `
+    })
+    let brandssData= filterData.brands.map((item)=>{
+        return `<div>
+        <input value="${item}" type="checkbox" class="size-checkbox" name="filter"
+            onclick="brandRange(this)"><label for="">${item}</label>
+    </div>
+    `
     })
 
-    let size_range=document.querySelector('input[name="size-range"]:checked').value;
-    // console.log(size_range);
-    // query=""
-    value=size_range
-    key="category"
-    console.log(value)
-    fetchProducts(key,value)
+    categories_div.innerHTML=categoriesData.join(" ")
+    brands_div.innerHTML=brandssData.join(" ")
 }
+// -------------------------------------------------categories filter function-------------------------------------------------------------- 
 
+function categories(checkbox) {
+    var checkboxes = document.getElementsByName('filter');
+    checkboxes.forEach((item) => {
+        if (item !== checkbox) {
+            item.checked = false;
+        }
+    });
+  
+    let box = true;
+    if (checkbox.checked) {
+        let size_range=document.querySelector('input[name="filter"]:checked').value;
+        value=size_range
+        key="brand"
+        fetchProducts(key,value);
+        box = false; 
+    } else {
+        console.log(false);
+        fetchProducts();
+    }
+ 
+    
+}
 // -------------------------------------------------brand filter function-------------------------------------------------------------- 
 
 function brandRange(checkbox) {
     
-    var checkboxes = document.getElementsByName('brand-range')
+    var checkboxes = document.getElementsByName('filter')
     checkboxes.forEach((item) => {
-        if (item !== checkbox) item.checked = false
-    })
+     if (item !== checkbox) {
+         item.checked = false;
+     }
+    });
+   let box= true;
+    if(checkbox.checked){
+        let size_range=document.querySelector('input[name="filter"]:checked').value;
+        value=size_range
+        key="brand"
+        box = false;
+        fetchProducts(key,value);
+        console.log(value,key)
 
-    let size_range=document.querySelector('input[name="brand-range"]:checked').value;
-    value=size_range
-    key="brand"
-    console.log(value)
-    fetchProducts(key,value)
+        return;
+
+    }else{
+        console.log(false);
+        fetchProducts();
+        return;
+    }
 }
 // -------------------------------------------------price filter function-------------------------------------------------------------- 
 
 function priceRange(checkbox) {
     
-    var checkboxes = document.getElementsByName('price-range')
+    var checkboxes = document.getElementsByName('filter')
     checkboxes.forEach((item) => {
         if (item !== checkbox) item.checked = false
     })
+    let box = true;
+    if (checkbox.checked) {
+        let size_range=document.querySelector('input[name="filter"]:checked').value;
 
-    let size_range=document.querySelector('input[name="price-range"]:checked').value;
-    value=size_range
-    key="price"
-    if(size_range==3850){
-        console.log("hello")
-        let data=dataArr.filter(item=>item.price > 199 && item.price <= 3850)
-        dataFuntion(data)
-        console.log(data)
+        if(size_range==3850){
+            console.log("hello")
+            let data=dataArr.filter(item=>item.price > 199 && item.price <= 3850)
+            dataFuntion(data)
+            console.log(data)
+        }
+        else if(size_range==7501){
+            let data=dataArr.filter(item=>item.price > 3850 && item.price <= 7501)
+            dataFuntion(data)
+        }
+        else if(size_range==11152){
+            let data=dataArr.filter(item=>item.price > 7501 && item.price <= 11152)
+            dataFuntion(data)
+        }
+        else if(size_range==14803){
+            let data=dataArr.filter(item=>item.price > 11152 && item.price <= 14803)
+            dataFuntion(data)
+        }
+        box = false; 
+
     }
-    else if(size_range==7501){
-        let data=dataArr.filter(item=>item.price > 3850 && item.price <= 7501)
-        dataFuntion(data)
-    }
-    else if(size_range==11152){
-        let data=dataArr.filter(item=>item.price > 7501 && item.price <= 11152)
-        dataFuntion(data)
-    }
-    else if(size_range==14803){
-        let data=dataArr.filter(item=>item.price > 11152 && item.price <= 14803)
-        dataFuntion(data)
+    else{
+        console.log(false);
+        fetchProducts();
+        return;
     }
 
 }
@@ -115,20 +194,26 @@ function priceRange(checkbox) {
 
 function colorRange(checkbox) {
     
-    var checkboxes = document.getElementsByName('color-range')
+    var checkboxes = document.getElementsByName('filter')
     checkboxes.forEach((item) => {
         if (item !== checkbox) item.checked = false
     })
-
-    let size_range=document.querySelector('input[name="color-range"]:checked').value;
+    let box = true;
+    if (checkbox.checked) {
+    let size_range=document.querySelector('input[name="filter"]:checked').value;
     value=size_range
     key="color"
-    console.log(value)
     fetchProducts(key,value)
+    box = false;
+
+}
+else{
+    console.log(false);
+    fetchProducts();
+    return;
+}
 }
 
-let querry;
-let value;
 // -------------------------------------------------discount filter function-------------------------------------------------------------- 
 
 function discountRange(){
@@ -151,7 +236,7 @@ function dataFuntion(data){
     dataContainer.innerHTML="";
    let allData= data.map((item)=>{
         
-        return`<figure class="shop-items-child-div">
+        return`<figure data-id=${item._id} class="shop-items-child-div">
         <div class="hover-animation" data-id=${item._id} >
             <img class="img-back" src="${item.image_1}" alt="">
             <img class="img-front" data-id=${item._id} src="${item.image_2}" alt="">
@@ -166,63 +251,24 @@ function dataFuntion(data){
             <div class="similar-products-price-div">
             <h5>Rs.${item.price}</h5>
             <strike>Rs. ${item.price+500}</strike>
-            <p>(${item.discount}% OFF)</p>
-        </div>
+            </div>
+            <p class="discount">(${item.discount}% OFF)</p>
         </figcaption>
     </figure>`
     })
     dataContainer.innerHTML=allData.join(" ")
 
-    // -------------------------------------on image click redirect to product view page------------------------------------------------------ 
-    let img_click = document.querySelectorAll("img");
-      for(let btn of img_click){
-          btn.addEventListener("click",(event)=>{ 
-			let data_id = event.target.dataset.id;
+    // -------------------------------------on shop-items-child-div div click redirect to product view page------------------------------------------------------ 
 
-            localStorage.setItem("product-id",data_id)
-            window.open('product-view.html', "_blank")
-			// DeleteBtn(data_id);
-		});
-      }
-
-    // -------------------------------------on details div click redirect to product view page------------------------------------------------------ 
-
-    let details_click = document.querySelectorAll("figcaption");
+    let details_click = document.querySelectorAll(".shop-items-child-div");
       for(let btn of details_click){
           btn.addEventListener("click",(event)=>{ 
 			let data_id = event.target.dataset.id;
 
             localStorage.setItem("product-id",data_id)
-            window.open('product-view.html', "_blank")
+            window.location.href='product-view.html'
 
 		});
       }
 
-}
-// let retoken=localStorage.getItem("token");
-document.getElementById("line1").innerText=localStorage.getItem("name")||"Welcome";
-if(token){
-    document.querySelector(".login").style.display="none"
-    if(token){
-        document.querySelector(".logout").addEventListener("click",async(e)=>{
-            e.preventDefault();
-         let res= await   fetch("https://excited-deer-headscarf.cyclic.app/users/logout",{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json",
-                    "authorization":token
-                }
-            })
-        let data = await res.json();
-        if(data.message=="Logout Sucessfull"){
-                alert("log out succussfully");
-                localStorage.clear();
-                window.location.reload()
-                
-        }
-        })
-    }
-}else{
-    document.querySelector(".login").style.display="block";
-    document.querySelector(".logout").style.display="none";
 }

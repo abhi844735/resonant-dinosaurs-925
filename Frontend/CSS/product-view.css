@@ -3,7 +3,8 @@
     padding: 0;
     box-sizing: border-box;
     color: #282c43;
-    font-family: Assistant, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;;
+    font-family: Assistant, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    text-decoration: none;
 }
 /* -------------------------------loading screen------------------------------------------------------------------  */
 #loading{
@@ -35,9 +36,10 @@
 
 .product-view-img-div{
     width: 65%;
+    height: 1700px;
     display: grid;
     grid-template-columns: repeat(2,1fr);
-    gap: 10px 30px;
+    gap: 10px 5px;
 }
 
 .product-view-img{
@@ -62,7 +64,19 @@
 .product-view-details-div{
     width: 33%;
 }
-
+/* .product-view-offer-div,.product-view-more-details-div{
+    display: none;
+} */
+.product-big-view-details-div{
+    width: 90%;
+    margin: auto;
+    display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+.product-big-view-offer-div,.product-big-view-more-details-div{
+    width: 100%;
+}
 
 /* ---------------------------- product heading -----------------------------------  */
 .product-view-heading{
@@ -403,15 +417,22 @@ strike{
 }
 /* =================================================================================================================================================== */
 @media (max-width:1100px){
+    #product-view-div{
+        flex-direction: column;
+    }
     .product-view-img-div{
-        min-width: 50%;
-        max-height: 100vh;
+        min-width: 100%;
+        height: 600px;
         display: flex;
         overflow-x: auto;
     }
+    .product-view-details-div {
+        width: 100%;
+    }
     .product-view-img{
-        min-width: 100%;
-        min-height: 100%;
+        min-width: 44%;
+        /* min-height: 600px; */
+        height: 100%;
     }
     .gallery-item{
         min-width: 100%;
@@ -435,12 +456,13 @@ strike{
     }
     .product-view-img-div{
         min-width: 100%;
+        height: 500px;
     }
     .product-view-details-div{
         width: 100%;
     }
     .product-view-img{
-        min-width: 48%;
+        min-width: 49%;
     }
     #similar-products-section{
         width: 80%;
