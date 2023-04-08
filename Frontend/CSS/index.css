@@ -71,15 +71,15 @@
     }
    
 } */
-#banner_img{
+/* #banner_img{
     border: 1px solid black;
-}
+} */
 #banner_img>img{
    width: 100%;
 }
-#trending_img{
+/* #trending_img{
     border: 1px solid green;
-}
+} */
 #trending_img>img{
     width: 100%;
  }

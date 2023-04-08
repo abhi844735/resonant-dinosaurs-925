@@ -8,6 +8,7 @@ const { connection } = require('./configs/db.js');
 const { userRouter } = require('./routes/users.router.js')
 const { adminRouter } = require('./routes/admin.router.js')
 const { cartRouter } = require('./routes/cart.router');
+const { WishlistRouter } = require('./routes/wishlist.router.js');
 const { addressRouter } = require('./routes/address.router.js');
 const { productRouter } = require('./routes/product.router.js');
 const { ordersRouter } = require('./routes/orders.router')
@@ -40,6 +41,7 @@ app.use("/products", productRouter)
 app.use('/users', userRouter)
 app.use('/admin', adminRouter)
 app.use('/cart', cartRouter)
+app.use('/wishlist', WishlistRouter)
 app.use('/address', addressRouter)
 app.use('/orders', ordersRouter)
 app.use( '/api/bid/', payment );

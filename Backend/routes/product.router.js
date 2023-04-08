@@ -1,86 +1,145 @@
-const express = require("express");
-const { ProductModel } = require("../models/Products.model");
-const { idvalidator } = require("../middlewares/idvalidator");
-const { authentication } = require('../middlewares/Authentication.middleware')
+const express = require('express');
+const cookie = require('cookie');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
+
+const { UserModel } = require('../models/Users.model')
+const { BlacklistModel } = require('../models/Blacklist.model');
+const { authentication } = require('../middlewares/Authentication.middleware');
 const { authorization } = require('../middlewares/AdminAuthorization.middleware');
 
+const userRouter = express.Router();
 
-const productRouter = express.Router();
-
-productRouter.get("/", async (req, res) => {
+userRouter.get('/', authentication, authorization, async (req, res) => {
     try {
-        const data = await ProductModel.find();
-        res.send(data);
+        const users = await UserModel.find();
+        res.send(users)
     } catch (error) {
         res.status(500).send({ message: error.message })
     }
 })
 
-productRouter.post("/add", authentication, authorization, async (req, res) => {
-    const payload = req.body;
+userRouter.post('/signup', async (req, res) => {
+    const { email, password, mobile, gender, name } = req.body;
+    if (!name || !gender || !mobile || !password) {
+        return res.status(409).send({ message: 'Please provide all fields' })
+    }
     try {
-        const product = new ProductModel(payload)
-        await product.save()
-        res.send({ message: "Product added" });
+        const userExists = await UserModel.findOne({ mobile });
+        if (userExists) {
+            return res.status(409).send({ message: 'Mobile number already registered' })
+        }
+        bcrypt.hash(password, +process.env.saltRounds, async function (err, hashedPass) {
+            if (err) {
+                return res.status(404).send({ message: err.message })
+            }
+            try {
+                const user = new UserModel({
+                    name, email, password: hashedPass, mobile, gender
+                })
+                await user.save()
+                const userBlack = new BlacklistModel({
+                    userId: user._id
+                })
+                await userBlack.save()
+                res.send({ message: 'User Registered Sucessfully' })
+            } catch (error) {
+                console.log(error)
+                return res.status(404).send({ message: error.message })
+            }
+        });
     } catch (error) {
         return res.status(500).send({ message: error.message })
     }
-});
+})
 
-productRouter.get('/search', async (req, res) => {
-    const payload = req.query;
-    if (payload.description) {
-        let description = payload.description.toLowerCase();
-        try {
-            const products = await ProductModel.find({ description: { $regex: '(?i)' + description } });
-            return res.send(products)
-        } catch (error) {
-            return res.send({ message: error.message })
+
+userRouter.post('/login', async (req, res) => {
+    const { mobile, password } = req.body;
+    if (!mobile || !password) {
+        return res.status(409).send({ message: 'Provide mobile and password to login' })
+    }
+    try {
+        const user = await UserModel.findOne({ mobile });
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' })
         }
-    }
-    try {
-        const products = await ProductModel.find(payload)
-        res.send(products)
+        bcrypt.compare(password, user.password, async function (err, result) {
+            if (err) {
+                return res.status(404).send({ message: err.message })
+            }
+            if (result) {
+                var token = jwt.sign({ id: user._id, role: 'user' }, process.env.LOGIN_TOKEN_SECRET);
+                res.setHeader('Set-Cookie', cookie.serialize('token', token, {
+                    httpOnly: true,
+                    maxAge: 60 * 60 * 24
+                }));
+                res.send({ message: 'Login Sucessful', token, name: user.name,email:user.email })
+            } else {
+                res.status(403).send({ message: 'Wrong Credentials' })
+            }
+        });
     } catch (error) {
         res.status(500).send({ message: error.message })
     }
 })
+userRouter.post('/userdetails',authentication, async (req, res) => {
+    const { mobile } = req.body;
 
-
-productRouter.get("/:id", idvalidator, async (req, res) => {
-    const id = req.params['id'];
     try {
-        const product = await ProductModel.findOne({ _id: id })
-        res.send(product)
+        const user = await UserModel.findOne({ mobile });
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' })
+        }else if(user) {
+            res.send(user)
+        }
+    } catch (error) {
+        res.status(500).send({ message: error.message })
+
+    }
+})
+userRouter.post('/logout', authentication, async (req, res) => {
+    const token = req.headers.authorization;
+    const { id } = req.body.token;
+    try {
+        const Blacklist = await BlacklistModel.findOne({ userId: id })
+        Blacklist.tokens.push(token);
+        await Blacklist.save();
+        res.send({ message: 'Logout Sucessfull' })
+    } catch (error) {
+        return res.status(500).send({ message: error.message })
+    }
+})
+
+userRouter.delete('/delete/:id', authentication, authorization, async (req, res) => {
+    const userId = req.params['id'];
+    const { token } = req.body;
+    const role = token.role;
+    const id = token.id;
+    try {
+        const user = await UserModel.findById(userId);
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' })
+        }
     } catch (error) {
         res.status(500).send({ message: error.message })
     }
-})
-
-
-productRouter.put("/update/:id", authentication, authorization, idvalidator, async (req, res) => {
-    let id = req.params.id;
-    const update = req.body;
-    try {
-        await ProductModel.findByIdAndUpdate(id, update);
-        res.send({ message: "Product Updated Sucessfully" });
+    if(role=='admin' || id == userId) {
+        try {
+            await UserModel.findByIdAndDelete(userId);
+            res.send({ message: 'User Removed' })
+        } catch (error) {
+            res.status(500).send({ message: error.message })
+        }
+    } else {
+        res.status(401).send({message: 'Access Denied'})
     }
-    catch (error) {
-        res.status(500).send({ message: error.message })
-    }
-})
-
-productRouter.delete("/delete/:id", authentication, authorization, idvalidator, async (req, res) => {
-    let id = req.params.id;
-    try {
-        await ProductModel.findByIdAndDelete(id);
-        res.send({ message: "Product Removed Sucessfully" });
-    }
-    catch (error) {
-        res.status(500).send({ message: error.message })
-    }
+       
 })
 
 module.exports = {
-    productRouter
+    userRouter
 }
+
+
