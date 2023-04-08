@@ -11,7 +11,7 @@ require('dotenv').config()
 const adminRouter = express.Router();
 
 adminRouter.post('/register', async (req, res) => {
-    const { name, email, password, mobile, adminkey } = req.body;
+    const { first_name,last_name, email, password, mobile, adminkey } = req.body;
     if (!adminkey || adminkey != process.env.ADMIN_LOGIN_KEY) {
         return res.status(401).send({ message: 'Access Denied' })
     }
@@ -36,7 +36,7 @@ adminRouter.post('/register', async (req, res) => {
         }
         try {
             const user = new AdminModel({
-                name, email, password: hashedPass, mobile
+                first_name,last_name, email, password: hashedPass, mobile
             })
             await user.save()
             res.send({ message: 'Admin Registered Sucessfully' })
