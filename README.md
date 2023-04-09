@@ -1,5 +1,5 @@
 # Upstyle
-Alpine is a prermium e-commerce website which deals in fashion products.
+Upstyle is a prermium e-commerce website which deals in fashion products.
 
 ## Deployment
 
