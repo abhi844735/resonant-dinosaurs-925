@@ -6,15 +6,14 @@ function loadingFun(){
 }
 document.addEventListener('DOMContentLoaded', () => {
     
-    const Big_screen_sreachbar=document.getElementById("search_bar");
-    const small_screen_sreachbar=document.querySelector(".input-box");
+    // const Big_screen_sreachbar=document.getElementById("search_bar");
+    // const small_screen_sreachbar=document.querySelector(".input-box");
 
     // -----------------------big display search bar---------------------------------- 
     const search=document.getElementById("input");
     const search_bar=document.getElementById("search-bar");
 
     // -----------------------small display search bar---------------------------------- 
-    const mobile_input=document.getElementById("mobile-input");
     const mobile_search=document.querySelector(".search");
 
     // -------------------search by enter key press----------------------------
