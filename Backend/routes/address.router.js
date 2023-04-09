@@ -17,17 +17,17 @@ addressRouter.get('/', authentication, UserAuth, async (req, res) => {
 })
 
 addressRouter.get('/:id', authentication, UserAuth, async (req, res) => {
-    const {token} = req.body;
+    const { token } = req.body;
     const addressId = req.params['id'];
     const user_id = token.id;
     try {
-        const address = await AddressModel.findOne({user_id, _id: addressId});
-        if(!address) {
-            return res.status(401).send({message: 'Address not found'});
+        const address = await AddressModel.findOne({ user_id, _id: addressId });
+        if (!address) {
+            return res.status(401).send({ message: 'Address not found' });
         }
         return res.send(address)
     } catch (error) {
-        return res.status(501).send({message: error.message})
+        return res.status(501).send({ message: error.message })
     }
 })
 
@@ -63,7 +63,7 @@ addressRouter.delete('/remove/:id', authentication, UserAuth, async (req, res) =
     }
 })
 
-addressRouter.patch('/edit/:id', authentication, async (req, res) => {
+addressRouter.patch('/edit/:id', authentication, UserAuth, async (req, res) => {
     const { token } = req.body;
     const userId = token.id;
 

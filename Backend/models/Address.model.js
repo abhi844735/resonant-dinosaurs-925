@@ -8,8 +8,8 @@ const AddressSchema = mongoose.Schema({
     locality: { type: String, required: true },
     city: { type: String, required: true },
     state: { type: String, required: true },
-    type: { type: String, enum: ['home', 'work'], default: 'home' },
-    user_id: { type: String, required: true }
+    address_type: { type: String, enum: ['home', 'work'], default: 'home' },
+    user_id: { type: String, required: true, index: true }
 })
 
 const AddressModel = mongoose.model('address', AddressSchema)

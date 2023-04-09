@@ -3,9 +3,7 @@ const { authentication } = require("../middlewares/Authentication.middleware");
 const { UserModel } = require("../models/Users.model");
 const { idvalidator } = require("../middlewares/idvalidator");
 const { ProductModel } = require("../models/Products.model");
-const {
-  authorization,
-} = require("../middlewares/AdminAuthorization.middleware");
+const { AdminAuth } = require("../middlewares/Authorization.middleware");
 
 const cartRouter = express.Router();
 
@@ -173,7 +171,6 @@ cartRouter.patch(
   "/update/status/:id",
   idvalidator,
   authentication,
-  authorization,
   async (req, res) => {
     const orderId = req.params["id"];
     const { status } = req.body;
@@ -182,7 +179,7 @@ cartRouter.patch(
       if (!order) {
         return res.status(404).send({ message: "Order not found" });
       }
-      order.status = status;
+      order.status = status
       await order.save();
       res.send({ message: "Order Status Updated Sucessfully" });
     } catch (error) {
