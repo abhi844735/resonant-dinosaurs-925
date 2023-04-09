@@ -27,17 +27,14 @@ addbtn.addEventListener("click", async () => {
     state: document.getElementById("instate").value,
   };
   console.log(user_address);
-  let address = await fetch(
-    `https://excited-deer-headscarf.cyclic.app/address/add`,
-    {
-      method: "POST",
-      body: JSON.stringify(user_address),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-    }
-  );
+  let address = await fetch(`http://localhost:4500/address/add`, {
+    method: "POST",
+    body: JSON.stringify(user_address),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("token"),
+    },
+  });
   let res = await address.json();
   console.log("msggg", res);
   // swal("address added");

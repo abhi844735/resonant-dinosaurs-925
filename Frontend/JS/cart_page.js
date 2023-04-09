@@ -322,7 +322,7 @@ function get_cart_data() {
 get_cart_data();
 //===============delete function================
 async function del_cart_Data(id) {
-  await fetch(`https://excited-deer-headscarf.cyclic.app/cart/remove/${id}`, {
+  await fetch(`http://localhost:4500/cart/remove/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
