@@ -41,7 +41,7 @@ let login =async(obj)=>{
     });
     let data = await res.json();
     if(res.ok){
-     await alert(data.name,"has logged in");
+     await swal(data.name,"has logged in");
      localStorage.setItem("token",data.token);
      localStorage.setItem("name",data.name);
      localStorage.setItem("email",data.email);
@@ -49,7 +49,7 @@ let login =async(obj)=>{
      window.location.href="index.html"
       
     }else{
-     await alert(data.message);
+     await swal(data.message);
     }
  }
  let token=localStorage.getItem("token");
