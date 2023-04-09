@@ -39,8 +39,8 @@ addbtn.addEventListener("click", async () => {
     }
   );
   let res = await address.json();
-  console.log(res);
-  // alert("address tested");
+  console.log("msggg", res);
+  // swal("address added");
   setTimeout(() => {
     window.location.href = "./payment_page.html";
   }, 500);

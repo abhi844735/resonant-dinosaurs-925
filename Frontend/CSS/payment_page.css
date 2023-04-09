@@ -43,6 +43,8 @@ body {
   /* height: 500px; */
 }
 #ttl {
+  /* border: 1px solid blue; */
+  margin-top: 15px;
   border-radius: 25px;
   background-color: #ff3f6c;
   color: white;
@@ -141,14 +143,18 @@ body {
   background-color: #ff3f6c;
   color: white;
 }
-@media screen and (min-width: 300px) and (max-width: 786px) {
+@media screen and (min-width: 300px) and (max-width: 860px) {
   #BAP {
     display: flex;
     flex-direction: column;
   }
   #container {
+    /* border: 1px solid red; */
+    width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
   #paymentoptions {
     display: flex;
@@ -161,11 +167,21 @@ body {
     font-size: small;
   }
   .btn {
-    border: none;
-    background-color: white;
+    font-size: small;
+    /* width: 120px; */
+    /* border: none; */
+    /* background-color: white; */
   }
   #ttl {
-    background-color: white;
+    /* background-color: white; */
     color: black;
+  }
+  #left {
+    /* border: 1px solid blue; */
+    width: 90%;
+  }
+  #right {
+    /* border: 1px solid green; */
+    width: 70%;
   }
 }
