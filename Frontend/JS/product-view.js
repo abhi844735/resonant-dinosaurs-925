@@ -42,22 +42,24 @@ async function checkFetch(){
         let msg=await res.json()
 //  -------------- product rendering------------------------------------------------------------
         
+async function productfetch() {
+    try {
+        let res = await fetch(`${product_view}/${product_Id}`);
+        if (res.ok) {
+            let dataPro = await res.json();
+            // dataArr = [...dataPro]
+            productFun(dataPro)
+
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+productfetch();
+let container = document.querySelector("#product-view-div")
+
         if(msg.message=="Product already in cart"){
-            async function productfetch() {
-                try {
-                    let res = await fetch(`${product_view}/${product_Id}`);
-                    if (res.ok) {
-                        let dataPro = await res.json();
-                        // dataArr = [...dataPro]
-                        productFun(dataPro)
-            
-                    }
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-            productfetch();
-                let container = document.querySelector("#product-view-div")
+                // let container = document.querySelector("#product-view-div")
                 let add_to_bag=document.querySelector(".add-to-cart-btn")
                 
                 function productFun(dataPro) {
@@ -119,7 +121,7 @@ async function checkFetch(){
                         </div>
                     </div>
                     <div class="product-view-btn-div">
-                        <a class="cart-go" href="./cart_page.html" target="_blank"><button class="go-to-cart-btn">GO TO BAG <i class="fa-solid fa-arrow-right-long"></i></button></a>
+                        <a class="cart-go" href="./cart_page.html"><button class="go-to-cart-btn">GO TO BAG <i class="fa-solid fa-arrow-right-long"></i></button></a>
                         <button class="wishlist-btn" data-id=${dataPro._id}> <i class="fa-regular fa-heart"></i> WISHLIST</button>
                     </div>
                     <div class="product-view-delivery-div">
@@ -159,36 +161,6 @@ async function checkFetch(){
                         <p>Machine Wash</p>
                     </div>
                 </div>
-                <div class="product-view-offer-div">
-                <h4>BEST OFFERS <span><i class="fa-solid fa-tag"></i></span></h4>
-                <p class="best-price-p" >Best Price: <span class="best-price">Rs. 562</span></p>
-                <ul>
-                    <li>Applicable on: Orders above Rs. 799 (only on first purchase)</li>
-                    <li>Coupon code: MYNTRA200</li>
-                    <li>Coupon Discount: Rs. 187 off (check cart for final savings)</li>
-                    <p>View Eligible Products</p>
-                    <h4>EMI option available</h4>
-                    <li>EMI starting from Rs.35/month</li>
-                    <p>View Plan</p>
-                </ul>
-            </div>
-            <div class="product-view-more-details-div">
-                <h3>PRODUCT DETAILS</h3>
-                <p>Green T-shirt for men</p>
-                <p>Solid</p>
-                <p>Regular length</p>
-                <p>Polo collar</p>
-                <p>Short, regular sleeves</p>
-                <p>Knitted cotton fabric</p>
-                <p>Button closure</p>
-                <h3>Size & Fit</h3>
-                <p>Regular Fit</p>
-                <p>The model (height 6') is wearing a size M</p>
-                <h3>Material & Care</h3>
-                <p>60% Cotton, 40% Polyester</p>
-                <p>Machine Wash</p>
-            </div>
-        </div>
                 <div class="modal fade" id="gallery-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
@@ -206,21 +178,21 @@ async function checkFetch(){
               }
         }
         else{
-            async function productfetch() {
-                try {
-                    let res = await fetch(`${product_view}/${product_Id}`);
-                    if (res.ok) {
-                        let dataPro = await res.json();
-                        // dataArr = [...dataPro]
-                        productFun(dataPro)
+        //     async function productfetch() {
+        //         try {
+        //             let res = await fetch(`${product_view}/${product_Id}`);
+        //             if (res.ok) {
+        //                 let dataPro = await res.json();
+        //                 // dataArr = [...dataPro]
+        //                 productFun(dataPro)
             
-                    }
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-            productfetch();
-        let container = document.querySelector("#product-view-div")
+        //             }
+        //         } catch (error) {
+        //             console.log(error)
+        //         }
+        //     }
+        //     productfetch();
+        // let container = document.querySelector("#product-view-div")
 
             function productFun(dataPro) {
                 container.innerHTML=""
@@ -356,23 +328,22 @@ async function checkFetch(){
                                   let msg=await res.json()
                           
                                   if (msg.message=="Product added to cart") {
-                                      // container.innerHTML=""
-                                      alert("Added To bag");
+                                      swal("Added To bag", "You clicked the button!", "success")
                                       event.target.style.display="none"
                                       go_to_bag.style.display="block"
-                                      // window.location.reload()
                                       return;
                                   }
                                   if(msg.message=="Access Denied"||msg.message=="jwt malformed"){
-                                      return alert("Please log in or create an account to add this item to your bag.")
+                                 return   await  swal({
+                                        text: "Please log in or create an account to add this item to your bag.",
+                                        timer: 2000
+                                      });
                                   }
                                   if(msg.message=="Product already in cart"){
-                                      // container.innerHTML=""
-                                      // let add_to_bag=document.getElementById("add-to-cart-btn")
-                                      // let go_to_bag=document.getElementById("go-to-cart-btn");
-                                      // add_to_bag.style.display="none"
-                                      // go_to_bag.style.display="block"
-                                      return alert("Product already in your bag")
+                                      return   await  swal({
+                                        text: "Product already in your bag.",
+                                        timer: 2000
+                                      });
                                   }
                           
                               }

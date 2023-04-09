@@ -231,11 +231,11 @@ function navbar(){
        <div id="right-div" class="header-item item-right">
            <div id="search_bar">
       
-              <i class="fa fa-search"></i>
+              <i id="search-bar" class="fa fa-search"></i>
               <input id="input" type="text" placeholder="Search for products, brands and more ">
           </div>
           <div class="input-box">
-              <input type="text" placeholder="Search..." />
+              <input id="mobile-input" type="text" placeholder="Search..." />
               <span class="search">
                 <i class="uil uil-search search-icon"></i>
               </span>
@@ -243,6 +243,9 @@ function navbar(){
           </div>
           <a id="login-signup" class="icon-div" href="./signup.html"><div>
               <i class="fa-solid fa-user"></i><span>Login</span> 
+          </div> </a>
+          <a id="profile" style="display: none;" class="icon-div" href="./profile.html"><div>
+              <i class="fa-solid fa-user"></i><span>Profile</span> 
           </div> </a>
            <a class="icon-div" href="#">
               <div >

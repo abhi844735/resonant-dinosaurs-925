@@ -79,13 +79,13 @@ window.onresize = function(){
 let T_Shirts_men=document.getElementById("T-Shirts-men");
 T_Shirts_men.addEventListener("click", ()=>{
    localStorage.setItem("gender","male");
-   localStorage.setItem("category","T-shirt");
+   localStorage.setItem("category","t-shirt");
 
 })
 let Shirts_men=document.getElementById("Shirts-men");
 Shirts_men.addEventListener("click", ()=>{
    localStorage.setItem("gender","male");
-   localStorage.setItem("category","Shirt");
+   localStorage.setItem("category","Casual Shirts");
 
 })
 
@@ -102,20 +102,34 @@ searchIcon = document.querySelector('.search'),
 closeIcon = document.querySelector('.close-icon');
 
 // ---- ---- Open Input ---- ---- //
+let click = false;
+
 searchIcon.addEventListener('click', () => {
-inputBox.classList.add('open');
-
-imgDiv.style.display="none";
-menu.style.display="none";
-for (let i = 0; i < iconDivs.length; i++) {
-  iconDivs[i].style.display = "none";
-}
-iconBagDiv.style.display="none";
-
-hambergur.style.display="none";
+  if (!click) {
+    inputBox.classList.add('open');
+    imgDiv.style.display = 'none';
+    menu.style.display = 'none';
+    for (let i = 0; i < iconDivs.length; i++) {
+      iconDivs[i].style.display = 'none';
+    }
+    iconBagDiv.style.display = 'none';
+    hambergur.style.display = 'none';
+    click = true;
+  } else {
+    inputBox.classList.remove('open');
+    imgDiv.style.display = 'block';
+    menu.style.display = 'block';
+    for (let i = 0; i < iconDivs.length; i++) {
+      iconDivs[i].style.display = 'block';
+    }
+    iconBagDiv.style.display = 'block';
+    hambergur.style.display = 'flex';
+    click = false;
+  }
 });
 
 // ---- ---- Close Input ---- ---- //
+
 closeIcon.addEventListener('click', () => {
 inputBox.classList.remove('open');
 imgDiv.style.display="block"
@@ -129,6 +143,21 @@ iconBagDiv.style.display="block";
 hambergur.style.display="flex";
 
 });
+
+// ---------------------------------showing user profile page after login------------------------------------------------
+let token= localStorage.getItem("token")
+let mobile= localStorage.getItem("mobile")
+function profileFun(){
+
+if(token && mobile){
+   let login_signUp= document.getElementById("login-signup")
+   let profile=document.getElementById("profile");
+   login_signUp.style.display="none";
+   profile.style.display="block";
+}
+}
+profileFun()
+
 
 // --------------------------------function for total cart length -----------------------------------------------------
 
@@ -146,10 +175,12 @@ async function caertLengthFun(){
 
    if(cartRes.ok){
    let data= await cartRes.json();
-         console.log(data)
-         cartLengthSpan.style.display="block";
+   if(data.length>0){
 
-         cartLengthSpan.innerHTML=data.length;
+      cartLengthSpan.style.display="block";
+
+      cartLengthSpan.innerHTML=data.length;
+   }
       }
 }
 
