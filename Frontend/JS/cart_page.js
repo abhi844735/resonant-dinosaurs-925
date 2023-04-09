@@ -277,7 +277,7 @@ let append = (el) => {
 //========================================
 
 function get_cart_data() {
-  const url = "https://excited-deer-headscarf.cyclic.app";
+  const url = "http://localhost:4500";
   const fetchCart = async () => {
     const res = await fetch(`${url}/cart`, {
       method: "GET",
