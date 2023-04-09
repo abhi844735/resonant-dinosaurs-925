@@ -46,7 +46,7 @@ ordersRouter.post('/place', authentication, async (req, res) => {
         const placedAt = Date.now();
         try {
             const order = new OrdersModel({
-                order: orders, placedAt, price, address_id: address_id, user_id: userId
+                order: orders, placedAt, price, address_id: address._id, user_id: userId
             })
             await order.save();
             user.cart = [];
