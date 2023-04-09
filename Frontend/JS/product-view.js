@@ -48,10 +48,11 @@ async function checkFetch(){
         
 async function productfetch() {
     try {
-        let res = await fetch(`${product_view}/${product_Id}`);
+        let res = await fetch(`${baseurl}/products/${product_Id}`);
         if (res.ok) {
             let dataPro = await res.json();
             // dataArr = [...dataPro]
+            console.log(dataPro)
             productFun(dataPro)
 
         }
@@ -75,8 +76,8 @@ let container = document.querySelector("#product-view-div")
                     <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_2}" alt=""></div>
                     <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_3}" alt=""></div>
                     <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_4}" alt=""></div>
-                    <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_2}" alt=""></div>
-                    <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_4}" alt=""></div>
+                    <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_5}" alt=""></div>
+                    <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_6}" alt=""></div>
                     </div>
                 
                 <div class="wraper">
@@ -100,10 +101,10 @@ let container = document.querySelector("#product-view-div")
                     </div>
                 </div>    
                 <div class="product-view-details-div">
-                    <h1 class="product-view-heading">${dataPro.title}</h1>
-                    <h3 class="product-view-category-heading">${dataPro.description}</h3>
+                    <h1 class="product-view-heading">${dataPro.brand}</h1>
+                    <h3 class="product-view-category-heading">${dataPro.title}</h3>
                     <div class="product-view-rating-div">
-                            <p class="product-view-star" >${Math.floor(Math.random() * 5) + 1} <span><i class="fa-solid fa-star"></i></span></p>
+                            <p class="product-view-star" >${dataPro.rating} <span><i class="fa-solid fa-star"></i></span></p>
                             <hr>
                         <p class="product-view-total-rating">${Math.floor(Math.random() * 5) + 1}k reviews</p>
                     </div>
@@ -191,8 +192,8 @@ let container = document.querySelector("#product-view-div")
                    <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_2}" alt=""></div>
                    <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_3}" alt=""></div>
                    <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_4}" alt=""></div>
-                   <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_3}" alt=""></div>
-                   <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_2}" alt=""></div>
+                   <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_5}" alt=""></div>
+                   <div class="product-view-img"><img class="gallery-item" src="${dataPro.image_6}" alt=""></div>
                </div>
                
                <div class="wraper">
@@ -216,8 +217,8 @@ let container = document.querySelector("#product-view-div")
                    </div>
                </div>    
                <div class="product-view-details-div">
-                   <h1 class="product-view-heading">${dataPro.title}</h1>
-                   <h3 class="product-view-category-heading">${dataPro.description}</h3>
+                   <h1 class="product-view-heading">${dataPro.brand}</h1>
+                   <h3 class="product-view-category-heading">${dataPro.title}</h3>
                    <div class="product-view-rating-div">
                            <p class="product-view-star" >${Math.floor(Math.random() * 5) + 1} <span><i class="fa-solid fa-star"></i></span></p>
                            <hr>
@@ -344,7 +345,7 @@ let container = document.querySelector("#product-view-div")
         }
         console.log(msg)
     } catch (error) {
-        
+        console.log({err:error})
     }
 }
 checkFetch()
@@ -391,9 +392,10 @@ function sizeFun(el){
 //  -=------------ similar products fetching------------------------------------------------------------
 async function fetchProducts(){
     try {
-            let res= await fetch(`${product_view}/`);
+            let res= await fetch(`${product_view}`);
             if(res.ok){
                 let data=await res.json();
+                console.log(data)
                 dataFuntion(data)
             }
         
@@ -417,22 +419,22 @@ function dataFuntion(data){
         <div class="similar-products-img-div">
             <img src="${item.image_1}" data-id=${item._id} alt="">
             <div class="similar-products-rating-div">
-                <p class="similar-products-star" >${Math.floor(Math.random() * 5) + 1} <span><i class="fa-solid fa-star"></i></span></p>
+                <p class="similar-products-star" >${item.rating} <span><i class="fa-solid fa-star"></i></span></p>
                 <hr>
             <p class="similar-products-rating">${Math.floor(Math.random() * 5) + 1}k reviews</p>
             </div>
-            <div class="similar-products-details-div" data-id=${item._id}>
-                <h3 data-id=${item._id}>Roadster</h3>
-                <p data-id=${item._id}>${item.description}</p>
-                <div class="similar-products-price-div" data-id=${item._id}>
-                    <h3 data-id=${item._id}>Rs.${item.price}</h3>
-                    <strike data-id=${item._id}>Rs. ${item.price+500}</strike>
-                    <p data-id=${item._id}>(${item.discount}% OFF)</p>
-                </div>
+            <div class="similar-products-details-div" >
+                <h3 >${item.brand}</h3>
+                <p >${item.title.substring(0, 30) + "..."}</p>
+                <div class="similar-products-price-div" >
+                    <h3 >Rs.${item.price}</h3>
+                    <strike >Rs. ${item.price+500}</strike>
+                    </div>
+                    <p class="discount">(${item.discount}% OFF)</p>
             </div>
         </div>
         </div>`
-    }).slice(5, 15);
+    }).slice(1, 6);
     dataContainer.innerHTML=allData.join(" ")
     let img_click = document.querySelectorAll(".similar-products");
       for(let btn of img_click){
