@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const ProductSchema = mongoose.Schema({
     title: { type: String, required: true },
     brand: { type: String, required: true },
-    types: {type: [], required: true},
     category: { type: String, required: true },
     gender: { type: String, enum: ["male", "female", "both"], default: "both" },
     price: { type: Number, required: true },
