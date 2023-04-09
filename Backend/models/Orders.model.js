@@ -9,7 +9,7 @@ const OrderSchema = mongoose.Schema({
     address_id : {type: String, required: true},
     status: {
         type: String, 
-        enum: ['inprocess', 'declined', 'placed', 'delivered', 'onroad'],
+        enum: ['inprocess', 'declined', 'placed', 'delivered', 'onroad', 'cancelled'],
         default: 'placed'
     },
     user_id: {type: String, required: true}

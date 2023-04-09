@@ -34,12 +34,17 @@ addressRouter.get('/:id', authentication, UserAuth, async (req, res) => {
 addressRouter.post('/add', authentication, UserAuth, async (req, res) => {
     const { token } = req.body;
     const userId = token.id;
+    let selected = false;
     const { name, mobile, house, city, state, locality, pin, type } = req.body;
     if (!name || !mobile || !locality || !house || !city || !state || !pin) {
         return res.status(400).send({ message: 'address fields not provided' })
     }
     try {
-        const address = new AddressModel({ name, mobile, house, city, state, locality, pin, type, user_id: userId })
+        const addressExists = await AddressModel.find({ user_id: userId });
+        if (addressExists.length == 0) {
+            selected = true;
+        }
+        const address = new AddressModel({ name, mobile, house, city, state, locality, pin, type, selected, user_id: userId })
         await address.save()
         return res.send({ message: 'Address added' })
     } catch (error) {
@@ -63,13 +68,16 @@ addressRouter.delete('/remove/:id', authentication, UserAuth, async (req, res) =
     }
 })
 
-addressRouter.patch('/edit/:id', authentication, UserAuth, async (req, res) => {
+addressRouter.patch('/update/:id', authentication, UserAuth, async (req, res) => {
     const { token } = req.body;
     const userId = token.id;
 
     const addressId = req.params['id'];
 
     const payload = req.body;
+    if (payload.selected) {
+        return res.status(409).send({ message: 'Bad Request - Cannot change default status' })
+    }
     try {
         const address = await AddressModel.findOne({ user_id: userId, _id: addressId });
         if (!address) {
@@ -77,6 +85,29 @@ addressRouter.patch('/edit/:id', authentication, UserAuth, async (req, res) => {
         }
         await AddressModel.findOneAndUpdate({ _id: addressId }, payload)
         return res.send({ message: 'Address Updated' })
+    } catch (error) {
+        return res.status(501).send({ message: error.message })
+    }
+})
+
+addressRouter.patch('/update/default/:id', authentication, UserAuth, async (req, res) => {
+    const { token } = req.body;
+    const user_id = token.id;
+    const address_id = req.params['id'];
+    try {
+        const addresses = await AddressModel.find({ user_id: user_id });
+        if (addresses.length == 0 || !addresses) {
+            return res.status(404).send({ message: 'Address Not Found' })
+        }
+        addresses.forEach(add => {
+            if (add._id == address_id) {
+                selected = true;
+            } else {
+                selected = false;
+            }
+        })
+        await addresses.save();
+        return res.send({ message: 'Default Address Changed' })
     } catch (error) {
         return res.status(501).send({ message: error.message })
     }
