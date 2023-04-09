@@ -67,6 +67,7 @@ payment.get( '/callback/', ( req, res ) => {
 		// 	.catch( ( errors ) => res.json( errors ) );
 
 		// Redirect the user to payment complete page.
+		res.redirect('/orders/place')
 		return res.redirect('http://localhost:5500/done.html' );
 	}
 

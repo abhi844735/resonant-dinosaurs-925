@@ -1,5 +1,4 @@
 const express = require('express');
-const { authorization } = require('../middlewares/AdminAuthorization.middleware');
 const { authentication } = require('../middlewares/Authentication.middleware');
 const { OrdersModel } = require('../models/Orders.model');
 const { UserModel } = require('../models/Users.model');

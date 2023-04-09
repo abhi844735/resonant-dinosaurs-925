@@ -3,7 +3,6 @@ const { ProductModel } = require("../models/Products.model");
 const { ProducFiltertModel } = require("../models/productFilter.model");
 const { idvalidator } = require("../middlewares/idvalidator");
 const { authentication } = require('../middlewares/Authentication.middleware')
-const { authorization } = require('../middlewares/AdminAuthorization.middleware');
 
 
 const productRouter = express.Router();
@@ -17,7 +16,7 @@ productRouter.get("/", async (req, res) => {
     }
 })
 
-productRouter.post("/add", authentication, authorization, async (req, res) => {
+productRouter.post("/add", authentication, async (req, res) => {
     const payload = req.body;
     try {
         const product = new ProductModel(payload)
@@ -37,7 +36,7 @@ productRouter.get("/filters", async (req, res) => {
     }
 })
 
-productRouter.post("/filters/add", authentication, authorization, async (req, res) => {
+productRouter.post("/filters/add", authentication, async (req, res) => {
     const payload = req.body;
     try {
         const product = new ProducFiltertModel(payload)
@@ -108,7 +107,7 @@ productRouter.get("/:id", idvalidator, async (req, res) => {
 })
 
 
-productRouter.put("/update/:id", authentication, authorization, idvalidator, async (req, res) => {
+productRouter.put("/update/:id", authentication, idvalidator, async (req, res) => {
     let id = req.params.id;
     const update = req.body;
     try {
@@ -120,7 +119,7 @@ productRouter.put("/update/:id", authentication, authorization, idvalidator, asy
     }
 })
 
-productRouter.delete("/delete/:id", authentication, authorization, idvalidator, async (req, res) => {
+productRouter.delete("/delete/:id", authentication, idvalidator, async (req, res) => {
     let id = req.params.id;
     try {
         await ProductModel.findByIdAndDelete(id);

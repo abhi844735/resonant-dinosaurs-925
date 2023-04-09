@@ -3,9 +3,8 @@ const jwt = require('jsonwebtoken');
 const cookie = require('cookie')
 const bcrypt = require('bcrypt');
 const { AdminModel } = require('../models/Admin.model');
-const { OrdersModel } = require('../models/Orders.model')
 const { authentication } = require('../middlewares/Authentication.middleware');
-const { authorization } = require('../middlewares/AdminAuthorization.middleware');
+const { AdminAuth } = require('../middlewares/Authorization.middleware');
 require('dotenv').config()
 
 const adminRouter = express.Router();
@@ -79,6 +78,9 @@ adminRouter.post('/login', async (req, res) => {
     }
 })
 
+adminRouter.get('/logout', authentication, AdminAuth, async (req, res) => {
+    
+})
 
 
 module.exports = {
