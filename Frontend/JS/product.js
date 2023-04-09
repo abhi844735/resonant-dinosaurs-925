@@ -1,4 +1,57 @@
 
+
+let preloader= document.getElementById("loading");
+function loadingFun(){
+  preloader.style.display="none"
+}
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const Big_screen_sreachbar=document.getElementById("search_bar");
+    const small_screen_sreachbar=document.querySelector(".input-box");
+
+    // -----------------------big display search bar---------------------------------- 
+    const search=document.getElementById("input");
+    const search_bar=document.getElementById("search-bar");
+
+    // -----------------------small display search bar---------------------------------- 
+    const mobile_input=document.getElementById("mobile-input");
+    const mobile_search=document.querySelector(".search");
+
+    // -------------------search by enter key press----------------------------
+    search.addEventListener("keypress",(e)=>{
+        if(e.key=="Enter"){
+            let value=document.getElementById("input").value;
+            let key="types"
+            // let 
+            fetchProducts(key,value)
+         console.log(value)   
+        }
+    })
+    // -------------------search by clicking on search bar----------------------------
+
+    search_bar.addEventListener("click",(e)=>{
+        // if(e.key=="Enter"){
+            let value=document.getElementById("input").value;
+            // let key="description"
+            // fetchProducts(key,value)
+         console.log(value)   
+        // }
+    })
+    mobile_search.addEventListener("click",(e)=>{
+        // if(e.key=="Enter"){
+            let value=document.getElementById("mobile-input").value;
+            // let key="description"
+            // fetchProducts(key,value)
+         console.log(value)   
+        // }
+    })
+    // Big_screen_sreachbar.style.display="none"
+    // small_screen_sreachbar.style.display="none"
+})
+
+
+// Super Combed Cotton
+
 //  ***********************    Deployed Url *************************
 
 let baseurl="http://localhost:4500";
@@ -6,16 +59,11 @@ let producturl=`${baseurl}/products/`
 
 const cartadd=`${baseurl}/cart/add`
 // const token=localStorage.getItem("token");
-
-let preloader= document.getElementById("loading");
-function loadingFun(){
-  preloader.style.display="none"
-}
-
 // *********************gender key**************************** 
 let gender=localStorage.getItem("gender")
 // ************************ category key ************************ 
 let category=localStorage.getItem("category")
+
 
 let dataArr=[]
 
@@ -25,19 +73,20 @@ async function fetchProducts(key,value){
     try {
         let res;
             if(key && value){
-                res= await fetch(`https://excited-deer-headscarf.cyclic.app/products/search?gender=${gender}&category=${category}&${key}=${value}`);
+                // res= await fetch(`https://excited-deer-headscarf.cyclic.app/products/search?gender=${gender}&category=${category}&${key}=${value}`);
+                res= await fetch(`${baseurl}/products/search?gender=${gender}&category=${category}&${key}=${value}`);
 
             }
             else{
-                res= await fetch(`https://excited-deer-headscarf.cyclic.app/products/search?gender=${gender}&category=${category}`);
+                res= await fetch(`${baseurl}/products/search?gender=${gender}&category=${category}`);
 
             }
          
             if(res.ok){
                 let data=await res.json();
+                console.log(data)
                 dataArr=[...data]
                 dataFuntion(data)
-                console.log(data)
             }
         
     } catch (error) {
@@ -49,8 +98,9 @@ fetchProducts()
 // ---------------------------products Filters fetch Function -------------------------------------------------------- 
 
 async function fetchProductFilters(){
-    let filterRes= await fetch(`${producturl}/filters?product=T-Shirts`);
+    let filterRes= await fetch(`${producturl}/filters?product=${category}`);
     let filterData= await  filterRes.json()
+    console.log(filterData)
     FilterDataFun(filterData)
 }
 fetchProductFilters()
@@ -241,13 +291,13 @@ function dataFuntion(data){
             <img class="img-back" src="${item.image_1}" alt="">
             <img class="img-front" data-id=${item._id} src="${item.image_2}" alt="">
             <div class="product-view-rating-div">
-                        <p class="product-view-star" >${Math.floor(Math.random() * 5) + 1}<span><i class="fa-solid fa-star"></i></span></p>
+                        <p class="product-view-star" >${item.rating}<span><i class="fa-solid fa-star"></i></span></p>
                         <hr>
                     <p class="product-view-total-rating">${Math.floor(Math.random() * 5) + 1}k</p>
                 </div>
             </div>
             <figcaption>
-            <p>${item.description.substring(0, 22) + "..."}</p>
+            <p>${item.title.substring(0, 22) + "..."}</p>
             <div class="similar-products-price-div">
             <h5>Rs.${item.price}</h5>
             <strike>Rs. ${item.price+500}</strike>

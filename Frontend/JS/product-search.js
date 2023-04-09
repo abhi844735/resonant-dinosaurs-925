@@ -1,5 +1,5 @@
-import navbar from "../components/index1.js"
-let div3 = document.getElementById("navbar");
+import navbar from "../components/header.js"
+let div3 = document.getElementById("header");
 div3.innerHTML = navbar();
 let search=document.getElementById("input");
 let baseurl="https://excited-deer-headscarf.cyclic.app";
