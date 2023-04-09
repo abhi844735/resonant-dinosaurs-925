@@ -62,9 +62,20 @@ const cartadd=`${baseurl}/cart/add`
 let gender=localStorage.getItem("gender")
 // ************************ category key ************************ 
 let category=localStorage.getItem("category")
-
-
+let title;
+if(gender==="male"){
+    title="MEN"
+}
+if(gender==="female"){
+    title="WOMEN"
+}
+if(gender==="both"||gender===undefined||gender===null){
+    title=""
+}
+let pageTitle=document.querySelector(".page-header");
+pageTitle.innerText=`${title} ${category.toLocaleUpperCase()}`
 let dataArr=[]
+let sortArr=[]
 
 // ---------------------------products fetch Function -------------------------------------------------------- 
 
@@ -83,8 +94,9 @@ async function fetchProducts(key,value){
          
             if(res.ok){
                 let data=await res.json();
-                console.log(data)
+                // console.log(data)
                 dataArr=[...data]
+                sortArr=dataArr
                 dataFuntion(data)
             }
         
@@ -93,90 +105,47 @@ async function fetchProducts(key,value){
     }
     }
 fetchProducts()
-
+// sortArr=dataArr
+console.log(sortArr)
 // ---------------------------products Filters fetch Function -------------------------------------------------------- 
 
 async function fetchProductFilters(){
     let filterRes= await fetch(`${producturl}/filters?product=${category}`);
     let filterData= await  filterRes.json()
-    console.log(filterData)
+    // console.log(filterData)
     FilterDataFun(filterData)
 }
 fetchProductFilters()
 
 
-// -------------------------------------sorting function--------------------------------------------------------- 
-function sortFilter() {
-    let select = document.getElementById('filter');
-    let option = select.options[select.selectedIndex];
-   let sortValue = option.value;
-    if(sortValue==="HighToLow"){
-        dataArr.sort((a,b)=>b.price-a.price)
-        dataFuntion(dataArr)
-    }else if(sortValue==="LowToHigh"){
-        dataArr.sort((a,b)=>a.price-b.price)
-        dataFuntion(dataArr)
-    }
-    console.log(sortValue)
-}
 
 
 
 
 
-let categories_div= document.getElementById("categories-div")
+let brand=undefined;
+let color=undefined;
+let price=undefined;
+let discount=undefined;
+
 let brands_div= document.getElementById("brands-div")
 function FilterDataFun(filterData){
-    categories_div.innerHTML="";
     brands_div.innerHTML="";
-console.log(filterData.categories)
-    let categoriesData= filterData.categories.map((item)=>{
-        return `<div>
-        <input value="${item}" type="checkbox" class="size-checkbox" name="filter"
-            onclick="categories(this)"><label for="">${item}</label>
-    </div>
-    `
-    })
     let brandssData= filterData.brands.map((item)=>{
         return `<div>
-        <input value="${item}" type="checkbox" class="size-checkbox" name="filter"
+        <input value="${item}" type="checkbox" class="size-checkbox" name="brand-filter"
             onclick="brandRange(this)"><label for="">${item}</label>
     </div>
     `
     })
 
-    categories_div.innerHTML=categoriesData.join(" ")
     brands_div.innerHTML=brandssData.join(" ")
-}
-// -------------------------------------------------categories filter function-------------------------------------------------------------- 
-
-function categories(checkbox) {
-    var checkboxes = document.getElementsByName('filter');
-    checkboxes.forEach((item) => {
-        if (item !== checkbox) {
-            item.checked = false;
-        }
-    });
-  
-    let box = true;
-    if (checkbox.checked) {
-        let size_range=document.querySelector('input[name="filter"]:checked').value;
-        value=size_range
-        key="brand"
-        fetchProducts(key,value);
-        box = false; 
-    } else {
-        console.log(false);
-        fetchProducts();
-    }
- 
-    
 }
 // -------------------------------------------------brand filter function-------------------------------------------------------------- 
 
 function brandRange(checkbox) {
     
-    var checkboxes = document.getElementsByName('filter')
+    var checkboxes = document.getElementsByName('brand-filter')
     checkboxes.forEach((item) => {
      if (item !== checkbox) {
          item.checked = false;
@@ -184,9 +153,10 @@ function brandRange(checkbox) {
     });
    let box= true;
     if(checkbox.checked){
-        let size_range=document.querySelector('input[name="filter"]:checked').value;
+        let size_range=document.querySelector('input[name="brand-filter"]:checked').value;
         value=size_range
         key="brand"
+        brand=size_range;
         box = false;
         fetchProducts(key,value);
         console.log(value,key)
@@ -194,87 +164,759 @@ function brandRange(checkbox) {
         return;
 
     }else{
-        console.log(false);
+        // console.log(false);
+        brand=undefined
         fetchProducts();
         return;
     }
 }
 // -------------------------------------------------price filter function-------------------------------------------------------------- 
-
 function priceRange(checkbox) {
-    
-    var checkboxes = document.getElementsByName('filter')
+    const checkboxes = document.getElementsByName('price-filter');
+    checkboxes.forEach((item) => {
+      if (item !== checkbox) item.checked = false;
+    });
+  
+    let sizeRange = null;
+    const checkedInput = document.querySelector('input[name="price-filter"]:checked');
+    if (checkedInput) {
+        sizeRange = checkedInput.value;
+    }
+    let data;
+  
+    switch (sizeRange) {
+      case '3850':
+        if (brand) {
+          price=sizeRange
+          const dataBrand = dataArr.filter(item => item.brand === brand);
+          data = dataBrand.filter(item => item.price > 199 && item.price <= 3850);
+          sortArr=[...data]
+          dataFuntion(data);
+
+        } else if (color) {
+          price=sizeRange
+          const dataColor = dataArr.filter(item => item.color === color);
+          data = dataColor.filter(item => item.price > 199 && item.price <= 3850);
+          sortArr=[...data]
+
+          dataFuntion(data);
+
+        } else if (discount) {
+          price=sizeRange
+          const dataDiscount = dataArr.filter(item => item.discount === discount);
+          data = dataDiscount.filter(item => item.price > 199 && item.price <= 3850);
+          sortArr=[...data]
+
+          dataFuntion(data);
+
+        }
+        if(brand && color && discount){
+            price=sizeRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataColor = dataBrand.filter(item => item.color === color);
+            const dataDiscount = dataColor.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.price > 199 && item.price <= 3850);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(brand && color){
+            price=sizeRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataColor = dataBrand.filter(item => item.color === color);
+            data = dataColor.filter(item => item.price > 199 && item.price <= 3850);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(brand && discount){
+            price=sizeRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataDiscount = dataBrand.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.price > 199 && item.price <= 3850);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(color && discount){
+            price=sizeRange
+            const dataColor = dataArr.filter(item => item.color === color);
+            const dataDiscount = dataColor.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.price > 199 && item.price <= 3850);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+
+         else {
+          price=sizeRange
+          data = dataArr.filter(item => item.price > 199 && item.price <= 3850);
+          sortArr=[...data]
+
+          dataFuntion(data);
+
+        }
+        break;
+  
+      case '7501':
+        if (brand) {
+          price=sizeRange
+          const dataBrand = dataArr.filter(item => item.brand === brand);
+          data = dataBrand.filter(item => item.price > 3850 && item.price <= 7501);
+          sortArr=[...data]
+
+          dataFuntion(data)
+
+        } else if (color) {
+          price=sizeRange
+          const dataColor = dataArr.filter(item => item.color === color);
+          data = dataColor.filter(item => item.price > 3850 && item.price <= 7501);
+          sortArr=[...data]
+
+          dataFuntion(data)
+
+        } else if (discount) {
+          price=sizeRange
+          const dataDiscount = dataArr.filter(item => item.discount === discount);
+          data = dataDiscount.filter(item => item.price > 3850 && item.price <= 7501);
+          sortArr=[...data]
+          dataFuntion(data)
+
+        }
+        if(brand && color && discount){
+            price=sizeRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataColor = dataBrand.filter(item => item.color === color);
+            const dataDiscount = dataColor.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.price > 3850 && item.price <= 7501);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(brand && color){
+            price=sizeRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataColor = dataBrand.filter(item => item.color === color);
+            data = dataColor.filter(item => item.price > 3850 && item.price <= 7501);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(brand && discount){
+            price=sizeRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataDiscount = dataBrand.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.price > 3850 && item.price <= 7501);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(color && discount){
+            price=sizeRange
+            const dataColor = dataArr.filter(item => item.color === color);
+            const dataDiscount = dataColor.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.price > 3850 && item.price <= 7501);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+         else {
+          price=sizeRange
+
+
+          data = dataArr.filter(item => item.price > 3850 && item.price <= 7501);
+          sortArr=[...data]
+
+          dataFuntion(data)
+
+        }
+        break;
+      case '11152':
+        if (brand) {
+          price=sizeRange
+          const dataBrand = dataArr.filter(item => item.brand === brand);
+          data = dataBrand.filter(item => item.price > 7501 && item.price <= 11152);
+          sortArr=[...data]
+          dataFuntion(data)
+        } else if (color) {
+          price=sizeRange
+          const dataColor = dataArr.filter(item => item.color === color);
+          data = dataColor.filter(item => item.price > 7501 && item.price <=11152);
+          sortArr=[...data]
+          dataFuntion(data)
+        } else if (discount) {
+          price=sizeRange
+          const dataDiscount = dataArr.filter(item => item.discount === discount);
+          data = dataDiscount.filter(item => item.price > 7501 && item.price <= 11152);
+          sortArr=[...data]
+          dataFuntion(data)
+        } 
+        if(brand && color && discount){
+            price=sizeRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataColor = dataBrand.filter(item => item.color === color);
+            const dataDiscount = dataColor.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.price > 7501 && item.price <= 11152);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(brand && color){
+            price=sizeRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataColor = dataBrand.filter(item => item.color === color);
+            data = dataColor.filter(item => item.price > 7501 && item.price <= 11152);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(brand && discount){
+            price=sizeRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataDiscount = dataBrand.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.price > 7501 && item.price <= 11152);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(color && discount){
+            price=sizeRange
+            const dataColor = dataArr.filter(item => item.color === color);
+            const dataDiscount = dataColor.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.price > 7501 && item.price <= 11152);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        else {
+          price=sizeRange
+          data = dataArr.filter(item => item.price > 7501 && item.price <= 11152);
+          sortArr=[...data]
+          dataFuntion(data)
+        }
+        break;
+      case '14803':
+        if (brand) {
+          price=sizeRange
+
+
+          const dataBrand = dataArr.filter(item => item.brand === brand);
+          data = dataBrand.filter(item => item.price > 11152 && item.price <= 14803);
+          sortArr=[...data]
+           dataFuntion(data)
+        } else if (color) {
+          price=sizeRange
+
+
+          const dataColor = dataArr.filter(item => item.color === color);
+          data = dataColor.filter(item => item.price > 11152 && item.price <= 14803);
+          sortArr=[...data]
+           dataFuntion(data)
+        } else if (discount) {
+          price=sizeRange
+
+
+          const dataDiscount = dataArr.filter(item => item.discount === discount);
+          data = dataDiscount.filter(item => item.price > 11152 && item.price <= 14803);
+          sortArr=[...data]
+           dataFuntion(data)
+        }
+        if(brand && color && discount){
+            price=sizeRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataColor = dataBrand.filter(item => item.color === color);
+            const dataDiscount = dataColor.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.price > 11152 && item.price <= 14803);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(brand && color){
+            price=sizeRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataColor = dataBrand.filter(item => item.color === color);
+            data = dataColor.filter(item => item.price > 11152 && item.price <= 14803);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(brand && discount){
+            price=sizeRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataDiscount = dataBrand.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.price > 11152 && item.price <= 14803);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(color && discount){
+            price=sizeRange
+            const dataColor = dataArr.filter(item => item.color === color);
+            const dataDiscount = dataColor.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.price > 11152 && item.price <= 14803);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+         else {
+          price=sizeRange
+
+
+          data = dataArr.filter(item => item.price > 11152 && item.price <= 14803);
+          sortArr=[...data]
+
+           dataFuntion(data)
+        }
+        break;
+        case null:
+    //   default:
+        if (brand) {
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            sortArr=[...dataBrand]
+            dataFuntion(dataBrand);
+        }
+         else if (color) {
+            const dataColor = dataArr.filter(item => item.color === color);
+            sortArr=[...dataColor]
+            dataFuntion(dataColor);
+        } 
+         else if (discount) {
+            const dataDiscount = dataArr.filter(item => item.discount === discount);
+            sortArr=[...dataDiscount]
+            dataFuntion(dataDiscount);
+        } 
+        else {
+            fetchProducts();
+            return;
+        }
+        break;
+    }
+
+  }
+// -------------------------------------------------color filter function-------------------------------------------------------------- 
+function colorRange(checkbox) {
+    const checkboxes = document.getElementsByName('color-filter')
     checkboxes.forEach((item) => {
         if (item !== checkbox) item.checked = false
     })
-    let box = true;
-    if (checkbox.checked) {
-        let size_range=document.querySelector('input[name="filter"]:checked').value;
-
-        if(size_range==3850){
-            console.log("hello")
-            let data=dataArr.filter(item=>item.price > 199 && item.price <= 3850)
-            dataFuntion(data)
-            console.log(data)
+    let colorRange = null;
+    const checkedInput = document.querySelector('input[name="color-filter"]:checked');
+    if (checkedInput) {
+        colorRange = checkedInput.value;
+    }
+    let data;
+    
+    if(colorRange){
+        if(brand){
+              color=colorRange;
+              const dataBrand = dataArr.filter(item => item.brand === brand);
+              data = dataBrand.filter(item => item.color=== colorRange);
+              sortArr=[...data]
+              return  dataFuntion(data);
         }
-        else if(size_range==7501){
-            let data=dataArr.filter(item=>item.price > 3850 && item.price <= 7501)
-            dataFuntion(data)
+        if(discount){
+            color=colorRange;
+            const dataDiscount = dataArr.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.color=== colorRange);
+            sortArr=[...data]
+            return  dataFuntion(data);
         }
-        else if(size_range==11152){
-            let data=dataArr.filter(item=>item.price > 7501 && item.price <= 11152)
-            dataFuntion(data)
+        if(price){
+            color=colorRange;
+            if(price ==3850){
+                const dataPrice= dataArr.filter(item => item.price > 199 && item.price <= 3850);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==7501){
+                const dataPrice= dataArr.filter(item => item.price > 3850 && item.price <= 7501);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==11152){
+                const dataPrice= dataArr.filter(item => item.price > 7501 && item.price <= 11152);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==14803){
+                const dataPrice= dataArr.filter(item => item.price > 11152 && item.price <= 14803);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
         }
-        else if(size_range==14803){
-            let data=dataArr.filter(item=>item.price > 11152 && item.price <= 14803)
-            dataFuntion(data)
+        if(brand && price && discount){
+            color=colorRange;
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataDiscount = dataBrand.filter(item => item.discount === discount);
+            if(price ==3850){
+                const dataPrice= dataDiscount.filter(item => item.price > 199 && item.price <= 3850);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==7501){
+                const dataPrice= dataDiscount.filter(item => item.price > 3850 && item.price <= 7501);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==11152){
+                const dataPrice= dataDiscount.filter(item => item.price > 7501 && item.price <= 11152);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==14803){
+                const dataPrice= dataDiscount.filter(item => item.price > 11152 && item.price <= 14803);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
         }
-        box = false; 
-
+        if(brand && discount){
+            color=colorRange;
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataDiscount = dataBrand.filter(item => item.discount === discount);
+            data = dataDiscount.filter(item => item.color=== colorRange);
+            sortArr=[...data]
+            return  dataFuntion(data);
+        }
+        if(brand && price){
+            color=colorRange;
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            if(price ==3850){
+                const dataPrice= dataBrand.filter(item => item.price > 199 && item.price <= 3850);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==7501){
+                const dataPrice= dataBrand.filter(item => item.price > 3850 && item.price <= 7501);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==11152){
+                const dataPrice= dataBrand.filter(item => item.price > 7501 && item.price <= 11152);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==14803){
+                const dataPrice= dataBrand.filter(item => item.price > 11152 && item.price <= 14803);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+        }
+        if(discount && price){
+            color=colorRange;
+            const dataDiscount = dataArr.filter(item => item.discount === discount);
+            if(price ==3850){
+                const dataPrice= dataDiscount.filter(item => item.price > 199 && item.price <= 3850);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==7501){
+                const dataPrice= dataDiscount.filter(item => item.price > 3850 && item.price <= 7501);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==11152){
+                const dataPrice= dataDiscount.filter(item => item.price > 7501 && item.price <= 11152);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==14803){
+                const dataPrice= dataDiscount.filter(item => item.price > 11152 && item.price <= 14803);
+                data=dataPrice.filter(item => item.color=== colorRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+        }
+        else{
+            color=colorRange;
+            data= dataArr.filter((item)=>item.color=== colorRange)
+            sortArr=[...data]
+            return  dataFuntion(data);
+        }
     }
     else{
-        console.log(false);
-        fetchProducts();
-        return;
-    }
-
-}
-// -------------------------------------------------color filter function-------------------------------------------------------------- 
-
-function colorRange(checkbox) {
+                if (brand) {
+                    const dataBrand = dataArr.filter(item => item.brand === brand);
+                    sortArr=[...dataBrand]
+                    dataFuntion(dataBrand);
+                }
+                if(price){
+                    if(price ==3850){
+                        const dataPrice= dataArr.filter(item => item.price > 199 && item.price <= 3850);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                   else if(price ==7501){
+                        const dataPrice= dataArr.filter(item => item.price > 3850 && item.price <= 7501);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                   else if(price ==11152){
+                        const dataPrice= dataArr.filter(item => item.price > 7501 && item.price <= 11152);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                   else if(price ==14803){
+                        const dataPrice= dataArr.filter(item => item.price > 11152 && item.price <= 14803);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                }
+                if (discount) {
+                    const dataDiscount = dataArr.filter(item => item.discount === discount);
+                    sortArr=[...dataDiscount]
+                    dataFuntion(dataDiscount);
     
-    var checkboxes = document.getElementsByName('filter')
-    checkboxes.forEach((item) => {
-        if (item !== checkbox) item.checked = false
-    })
-    let box = true;
-    if (checkbox.checked) {
-    let size_range=document.querySelector('input[name="filter"]:checked').value;
-    value=size_range
-    key="color"
-    fetchProducts(key,value)
-    box = false;
-
-}
-else{
-    console.log(false);
-    fetchProducts();
-    return;
-}
-}
-
+                } 
+                if(brand && price && discount){
+                    const dataBrand = dataArr.filter(item => item.brand === brand);
+                    const dataDiscount = dataBrand.filter(item => item.discount === discount);
+                    if(price ==3850){
+                        const dataPrice= dataDiscount.filter(item => item.price > 199 && item.price <= 3850);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                   else if(price ==7501){
+                        const dataPrice= dataDiscount.filter(item => item.price > 3850 && item.price <= 7501);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                   else if(price ==11152){
+                        const dataPrice= dataDiscount.filter(item => item.price > 7501 && item.price <= 11152);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                   else if(price ==14803){
+                        const dataPrice= dataDiscount.filter(item => item.price > 11152 && item.price <= 14803);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                }
+                if(brand && discount){
+                    const dataBrand = dataArr.filter(item => item.brand === brand);
+                    const dataDiscount = dataBrand.filter(item => item.discount === discount);
+                    sortArr=[...dataDiscount]
+                    dataFuntion(dataDiscount);
+                    
+                }
+                if(brand && price){
+                    const dataBrand = dataArr.filter(item => item.brand === brand);
+                    if(price ==3850){
+                        const dataPrice= dataBrand.filter(item => item.price > 199 && item.price <= 3850);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                   else if(price ==7501){
+                        const dataPrice= dataBrand.filter(item => item.price > 3850 && item.price <= 7501);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                   else if(price ==11152){
+                        const dataPrice= dataBrand.filter(item => item.price > 7501 && item.price <= 11152);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                   else if(price ==14803){
+                        const dataPrice= dataBrand.filter(item => item.price > 11152 && item.price <= 14803);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                }
+                if(discount && price){
+                    const dataDiscount = dataArr.filter(item => item.discount === discount);
+                    if(price ==3850){
+                        const dataPrice= dataDiscount.filter(item => item.price > 199 && item.price <= 3850);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                   else if(price ==7501){
+                        const dataPrice= dataDiscount.filter(item => item.price > 3850 && item.price <= 7501);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                   else if(price ==11152){
+                        const dataPrice= dataDiscount.filter(item => item.price > 7501 && item.price <= 11152);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                   else if(price ==14803){
+                        const dataPrice= dataDiscount.filter(item => item.price > 11152 && item.price <= 14803);
+                        sortArr=[...dataPrice];
+                        return  dataFuntion(dataPrice);
+                    }
+                }
+                
+    }
+  }
 // -------------------------------------------------discount filter function-------------------------------------------------------------- 
 
 function discountRange(){
-    let priceVal=document.querySelector('input[name="discount-range"]:checked').value;
-   let priceData=+(priceVal);
-   value=+(priceVal)
-    key="discount"
-    console.log(value)
-    fetchProducts(key,value)
-    console.log(priceData);
+    // let priceVal=document.querySelector('input[name="discount-range"]:checked').value;
+    let discounteRange = null;
+    const checkedInput = document.querySelector('input[name="discount-range"]:checked');
+    if (checkedInput) {
+        discounteRange = +(checkedInput.value);
+    }
+    let data;
+    if(discounteRange){
+        if(brand){
+            discount=discounteRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            data=dataBrand.filter(item => item.discount === discounteRange)
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(color){
+            discount=discounteRange
+            const dataColor = dataArr.filter(item => item.color === color);
+            data=dataColor.filter(item => item.discount === discounteRange);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+        if(price){
+            discount=discounteRange;
+            if(price ==3850){
+                const dataPrice= dataArr.filter(item => item.price > 199 && item.price <= 3850);
+                data=dataPrice.filter(item => item.discount=== discounteRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==7501){
+                const dataPrice= dataArr.filter(item => item.price > 3850 && item.price <= 7501);
+                data=dataPrice.filter(item => item.discount=== discounteRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==11152){
+                const dataPrice= dataArr.filter(item => item.price > 7501 && item.price <= 11152);
+                data=dataPrice.filter(item => item.discount=== discounteRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==14803){
+                const dataPrice= dataArr.filter(item => item.price > 11152 && item.price <= 14803);
+                data=dataPrice.filter(item => item.discount=== discounteRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+        }
+        if(brand && price && color){
+            discount=discounteRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataColor = dataBrand.filter(item => item.color === color);
+            if(price ==3850){
+                const dataPrice= dataColor.filter(item => item.price > 199 && item.price <= 3850);
+                data=dataPrice.filter(item => item.discount===discounteRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==7501){
+                const dataPrice= dataColor.filter(item => item.price > 3850 && item.price <= 7501);
+                data=dataPrice.filter(item => item.discount=== discounteRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==11152){
+                const dataPrice= dataColor.filter(item => item.price > 7501 && item.price <= 11152);
+                data=dataPrice.filter(item => item.discount=== discounteRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==14803){
+                const dataPrice= dataColor.filter(item => item.price > 11152 && item.price <= 14803);
+                data=dataPrice.filter(item => item.discount=== discounteRange);
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+        }
+        if(brand && color){
+            discount=discounteRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            const dataColor = dataBrand.filter(item => item.color === color);
+            data=dataColor.filter(item => item.discount === discounteRange)
+            sortArr=[...data];
+            dataFuntion(data);
+        }
+        if(brand && price){
+            discount=discounteRange
+            const dataBrand = dataArr.filter(item => item.brand === brand);
+            if(price ==3850){
+                const dataPrice= dataBrand.filter(item => item.price > 199 && item.price <= 3850);
+                data=dataPrice.filter(item => item.discount === discounteRange)
+                sortArr=[...data];
+                dataFuntion(data);
+            }
+           else if(price ==7501){
+                const dataPrice= dataBrand.filter(item => item.price > 3850 && item.price <= 7501);
+                data=dataPrice.filter(item => item.discount === discounteRange)
+                sortArr=[...data];
+                dataFuntion(data);
+            }
+           else if(price ==11152){
+                const dataPrice= dataBrand.filter(item => item.price > 7501 && item.price <= 11152);
+                data=dataPrice.filter(item => item.discount === discounteRange)
+                sortArr=[...data];
+                dataFuntion(data);
+            }
+           else if(price ==14803){
+                const dataPrice= dataBrand.filter(item => item.price > 11152 && item.price <= 14803);
+                data=dataPrice.filter(item => item.discount === discounteRange)
+                sortArr=[...data];
+                dataFuntion(data);
+            }
+        }
+        if(color && price){
+            discount=discounteRange
+            const dataColor = dataArr.filter(item => item.color === color);
+            if(price ==3850){
+                const dataPrice= dataColor.filter(item => item.price > 199 && item.price <= 3850);
+                data=dataPrice.filter(item => item.discount === discounteRange)
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==7501){
+                const dataPrice= dataColor.filter(item => item.price > 3850 && item.price <= 7501);
+                data=dataPrice.filter(item => item.discount === discounteRange)
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==11152){
+                const dataPrice= dataColor.filter(item => item.price > 7501 && item.price <= 11152);
+                data=dataPrice.filter(item => item.discount === discounteRange)
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+           else if(price ==14803){
+                const dataPrice= dataColor.filter(item => item.price > 11152 && item.price <= 14803);
+                data=dataPrice.filter(item => item.discount === discounteRange)
+                sortArr=[...data];
+                return  dataFuntion(data);
+            }
+        }
+        else{
+            discount=discounteRange;
+            data=dataArr.filter(item => item.discount === discounteRange);
+            sortArr=[...data]
+            dataFuntion(data);
+        }
+    }
 }
 
+// -------------------------------------sorting function--------------------------------------------------------- 
+function sortFilter() {
+    let select = document.getElementById('filter');
+    let option = select.options[select.selectedIndex];
+   let sortValue = option.value;
+    if(sortValue==="HighToLow"){
+        sortArr.sort((a,b)=>b.price-a.price)
+        // console.log(sortArr)
+        dataFuntion(sortArr)
+    }else if(sortValue==="LowToHigh"){
+        sortArr.sort((a,b)=>a.price-b.price)
+        console.log(sortArr)
+
+        dataFuntion(sortArr)
+    }
+    console.log(sortValue)
+}
 
 
 

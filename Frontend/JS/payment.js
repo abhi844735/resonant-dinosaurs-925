@@ -2,7 +2,7 @@
 // change =>click=> variable ID 
 
 // --------------------------------------------------
-let click= document.getElementById("ttl");
+let click= document.getElementById("paynow");
 // ------------------------------------------------
 click.addEventListener("click",buyNow)
 async function buyNow(){
@@ -13,10 +13,10 @@ async function buyNow(){
       "email" :  localStorage.getItem("email")||"Test@gmail.com",
       "phone" :  "9007060666",
       "webhook":'/webhook/',
-      "redirect_url" :  "https://excited-deer-headscarf.cyclic.app/api/bid/callback",
+      "redirect_url" :  "http://localhost:4500/api/bid/callback",
     }
     console.log(data)
-    let res= await fetch("https://excited-deer-headscarf.cyclic.app/api/bid/pay",{
+    let res= await fetch("http://localhost:4500/api/bid/pay",{
     method:"POST",
     headers:{
       "Content-Type":"application/json",
