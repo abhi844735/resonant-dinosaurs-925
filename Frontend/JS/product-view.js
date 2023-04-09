@@ -7,9 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
     small_screen_sreachbar.style.display="none"
 })
 
+// *********************gender key**************************** 
+let gender=localStorage.getItem("gender")
+// ************************ category key ************************ 
+let category=localStorage.getItem("category")
 
-const baseurl="https://excited-deer-headscarf.cyclic.app";
-const product_view=`${baseurl}/products`
+const baseurl="http://localhost:4500";
+const product_view=`${baseurl}/products/search?gender=${gender}&category=${category}`
 const cartadd=`${baseurl}/cart/add`
 const cartFetch=`${baseurl}/cart`
 const preloader= document.getElementById("loading");
@@ -178,22 +182,6 @@ let container = document.querySelector("#product-view-div")
               }
         }
         else{
-        //     async function productfetch() {
-        //         try {
-        //             let res = await fetch(`${product_view}/${product_Id}`);
-        //             if (res.ok) {
-        //                 let dataPro = await res.json();
-        //                 // dataArr = [...dataPro]
-        //                 productFun(dataPro)
-            
-        //             }
-        //         } catch (error) {
-        //             console.log(error)
-        //         }
-        //     }
-        //     productfetch();
-        // let container = document.querySelector("#product-view-div")
-
             function productFun(dataPro) {
                 container.innerHTML=""
               
