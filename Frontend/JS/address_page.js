@@ -25,9 +25,14 @@ addbtn.addEventListener("click", async () => {
     locality: document.getElementById("local").value,
     city: document.getElementById("incity").value,
     state: document.getElementById("instate").value,
+  
   };
+  if(user_address.name===""||user_address.mobile.length!=10||user_address.pin.length!=6||user_address.house===""||user_address.locality===""||user_address.city===""||user_address.state===""){
+    return await swal("Please Fill All Details");
+
+  }
   console.log(user_address);
-  let address = await fetch(`http://localhost:4500/address/add`, {
+  let address = await fetch(`https://excited-deer-headscarf.cyclic.app/address/add`, {
     method: "POST",
     body: JSON.stringify(user_address),
     headers: {

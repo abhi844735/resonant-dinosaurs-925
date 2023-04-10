@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //  ***********************    Deployed Url *************************
 
-let baseurl="http://localhost:4500";
+let baseurl="https://excited-deer-headscarf.cyclic.app";
 let producturl=`${baseurl}/products/`
 
 const cartadd=`${baseurl}/cart/add`

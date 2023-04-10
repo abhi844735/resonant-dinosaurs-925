@@ -179,7 +179,7 @@ profileFun()
 async function caertLengthFun(){
    try {
       
-      let cartRes= await fetch("http://localhost:4500/cart",{
+      let cartRes= await fetch("https://excited-deer-headscarf.cyclic.app/cart",{
          method: "GET",
          headers: {
             "Content-Type": "application/json",
