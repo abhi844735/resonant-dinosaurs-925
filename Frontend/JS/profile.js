@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-const baseURL = "http://localhost:4500";
+const baseURL = "https://excited-deer-headscarf.cyclic.app";
 
 let profileDiv=document.getElementById("profile-div");
 async function myProfileFun(){

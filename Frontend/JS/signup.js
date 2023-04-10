@@ -41,7 +41,7 @@ signup_btn.addEventListener("submit", async (e) => {
   }
 });
 let signup = async (obj) => {
-  let res = await fetch("http://localhost:4500/users/signup", {
+  let res = await fetch("https://excited-deer-headscarf.cyclic.app/users/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -56,30 +56,3 @@ let signup = async (obj) => {
     await swal(data.message);
   }
 };
-let token = localStorage.getItem("token");
-document.getElementById("line1").innerText =
-  localStorage.getItem("name") || "Welcome";
-if (token) {
-  document.querySelector(".login").style.display = "none";
-  if (token) {
-    document.querySelector(".logout").addEventListener("click", async (e) => {
-      e.preventDefault();
-      let res = await fetch("http://localhost:4500/users/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: localStorage.getItem("token"),
-        },
-      });
-      let data = await res.json();
-      if (data.message == "Logout Sucessfull") {
-        await swal("log out succussfully");
-        localStorage.clear();
-        window.location.reload();
-      }
-    });
-  }
-} else {
-  document.querySelector(".login").style.display = "block";
-  document.querySelector(".logout").style.display = "none";
-}

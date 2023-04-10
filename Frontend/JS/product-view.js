@@ -12,7 +12,7 @@ let gender=localStorage.getItem("gender")
 // ************************ category key ************************ 
 let category=localStorage.getItem("category")
 
-const baseurl="http://localhost:4500";
+const baseurl="https://excited-deer-headscarf.cyclic.app";
 const product_view=`${baseurl}/products/search?gender=${gender}&category=${category}`
 const cartadd=`${baseurl}/cart/add`
 const cartFetch=`${baseurl}/cart`
