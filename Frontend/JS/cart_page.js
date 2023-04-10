@@ -304,8 +304,8 @@ function get_cart_data() {
           let obj = {};
 
           obj._id = product._id;
-          obj.name = product.title;
-          obj.description = product.description;
+          obj.name = product.brand;
+          obj.description = product.title;
           obj.price = product.price;
           obj.url = product.image_1;
           console.log("obj", obj);

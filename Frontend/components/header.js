@@ -87,9 +87,9 @@ function navbar(){
                          <div class="list-item">
                                <h4 class="title">Indian & Fusion Wear</h4>
                                <ul>
-                                    <li><a href="./no_product.html">Kurtas & Suits</a></li>
+                                    <li><a id="kurtas-suits" href="./product.html">Kurtas & Suits</a></li>
                                     <li><a href="./no_product.html">Kurtis, Tunic & Tops</a></li>
-                                    <li><a href="./no_product.html">Sarees</a></li>
+                                    <li><a id="sarees" href="./product.html">Sarees</a></li>
                                     <li><a href="./no_product.html">Ethnic Wear</a></li>
                                     <li><a href="./no_product.html">Leggings, Salwars & Churidars</a></li>
                                     <li><a href="./no_product.html">Skirts & Palazzos</a></li>

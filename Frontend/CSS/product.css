@@ -206,7 +206,7 @@ margin-right: 5px;
   margin: 0 auto; */
   margin-left: 20px;
   width: 77%;
-  height: 60rem;
+  height: 50rem;
   display: grid;
   grid-template-columns: repeat(5,1fr);
   gap: 20px 10px;

@@ -88,7 +88,18 @@ Shirts_men.addEventListener("click", ()=>{
    localStorage.setItem("category","Casual Shirts");
 
 })
-
+let kurtas_suits= document.getElementById("kurtas-suits");
+kurtas_suits.addEventListener("click",()=>{
+   localStorage.setItem("gender","female");
+   localStorage.setItem("category","kurtas suits");
+   
+})
+let sarees= document.getElementById("sarees");
+sarees.addEventListener("click",()=>{
+   localStorage.setItem("gender","female");
+   localStorage.setItem("category","sarees");
+   
+})
 
 // ======================= small display search animation ========================================= 
 
@@ -112,6 +123,8 @@ searchIcon.addEventListener('click', () => {
     for (let i = 0; i < iconDivs.length; i++) {
       iconDivs[i].style.display = 'none';
     }
+   profileFun()
+
     iconBagDiv.style.display = 'none';
     hambergur.style.display = 'none';
     click = true;
@@ -122,6 +135,8 @@ searchIcon.addEventListener('click', () => {
     for (let i = 0; i < iconDivs.length; i++) {
       iconDivs[i].style.display = 'block';
     }
+   profileFun()
+
     iconBagDiv.style.display = 'block';
     hambergur.style.display = 'flex';
     click = false;
@@ -137,8 +152,9 @@ menu.style.display="block";
 
 // iconDiv.style.display="block"
 for (let i = 0; i < iconDivs.length; i++) {
-  iconDivs[i].style.display = "block";
+   iconDivs[i].style.display = "block";
 }
+profileFun()
 iconBagDiv.style.display="block";
 hambergur.style.display="flex";
 
@@ -160,30 +176,31 @@ profileFun()
 
 
 // --------------------------------function for total cart length -----------------------------------------------------
-
 async function caertLengthFun(){
-   let cartRes= await fetch("http://localhost:4500/cart",{
-      method: "GET",
-      headers: {
-        "Content-Type":"application/json",
-
-      //   Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmI0ZWI4Y2QxM2E5MTRkNDUyYWE0MCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjgwODgyMTQ1fQ.rn6XqYYzbJNZdntXuiz3covOaFB_1MRDw2feEILfHMw",
-        Authorization: localStorage.getItem("token"),
-      },
-
-   })
-
-   if(cartRes.ok){
-   let data= await cartRes.json();
-   if(data.length>0){
-
-      cartLengthSpan.style.display="block";
-
-      cartLengthSpan.innerHTML=data.length;
-   }
+   try {
+      
+      let cartRes= await fetch("http://localhost:4500/cart",{
+         method: "GET",
+         headers: {
+            "Content-Type": "application/json",
+            Authorization:localStorage.getItem("token") ,
+         },
+         
+      })
+   // console.log(cartRes)
+      if(cartRes.ok){
+      let data= await cartRes.json();
+      if(data.length>0){
+   
+         cartLengthSpan.style.display="block";
+   
+         cartLengthSpan.innerHTML=data.length;
       }
+         }
+   } catch (error) {
+      console.log({err:error})
+   }
 }
-
 caertLengthFun()
 
- });
+});

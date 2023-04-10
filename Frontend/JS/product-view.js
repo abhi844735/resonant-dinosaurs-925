@@ -243,7 +243,7 @@ let container = document.querySelector("#product-view-div")
                    </div>
                    <div class="product-view-btn-div">
                        <button class="add-to-cart-btn" data-id=${dataPro._id} ><i class="fa-solid fa-bag-shopping"></i> ADD TO BAG</button>
-                       <a class="cart-go" href="./cart_page.html" target="_blank"><button class="go-to-cart-btn">GO TO BAG <i class="fa-solid fa-arrow-right-long"></i></button></a>
+                       <a class="cart-go" href="./cart_page.html"><button class="go-to-cart-btn">GO TO BAG <i class="fa-solid fa-arrow-right-long"></i></button></a>
                        <button class="wishlist-btn" data-id=${dataPro._id}> <i class="fa-regular fa-heart"></i> WISHLIST</button>
                    </div>
                    <div class="product-view-delivery-div">
@@ -442,7 +442,7 @@ function dataFuntion(data){
 			let data_id = event.target.dataset.id;
 
             localStorage.setItem("product-id",data_id)
-            window.open('product-view.html', "_blank")
+            window.location.href="product-view.html"
 		});
       }
    

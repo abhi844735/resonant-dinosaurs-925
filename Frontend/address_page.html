@@ -32,24 +32,25 @@
         <div id="form">
           <div class="head">CONTACT DETAILS</div>
           <div id="names">
-            <input id="name" type="text" placeholder="Name*" />
+            <input id="name" type="text" placeholder="Name*" required />
           </div>
           <div id="mobileno">
-            <input id="mobile" type="text" placeholder="Mobile No*" />
+            <input id="mobile" type="text" placeholder="Mobile No*" required/>
           </div>
           <div class="head">ADDRESS</div>
           <div id="pincode">
-            <input id="pin" type="number" placeholder="Pin Code*" />
+            <input id="pin" type="number" placeholder="Pin Code*" required/>
           </div>
           <div id="address">
             <input
               id="house"
               type="text"
               placeholder="Address(House No, Building, Sreet, Area)*"
+              required
             />
           </div>
           <div id="locality">
-            <input id="local" type="text" placeholder="Locality / Town*" />
+            <input id="local" type="text" placeholder="Locality / Town*" required/>
           </div>
           <div id="CITY">
             <div id="city">
@@ -58,6 +59,7 @@
                 type="text"
                 placeholder="City / District*"
                 style="margin-right: 30px; width: 80%"
+                required
               />
             </div>
             <div id="state">
@@ -66,6 +68,7 @@
                 type="text"
                 placeholder="State*"
                 style="margin-left: 30px; width: 80%"
+                required
               />
             </div>
           </div>
@@ -75,7 +78,7 @@
             <div id="work">Work</div>
           </div>
           <div id="default">
-            <input id="checkbox" type="checkbox" />
+            <input id="checkbox" type="checkbox" required/>
             <p>Make this my default address</p>
           </div>
           <div id="addaddress">
