@@ -22,21 +22,30 @@ productRouter.post("/add", authentication, AdminAuth, async (req, res) => {
     try {
         const product = new ProductModel(payload)
         await product.save();
-        const productFilter = await ProducFiltertModel.findOne({ product: category });
+        const productFilter = await ProducFiltertModel.findOne({ product: category.toLowerCase() });
         if (!productFilter) {
             const createProductFilter = new ProducFiltertModel({
                 product: category.toLowerCase(),
-                color: [color],
-                brand: [brand]
+                colors: [color],
+                brands: [brand]
             })
             await createProductFilter.save();
-        } else {
-            if (!productFilter.color.some(ele => ele == color)) {
-                productFilter.color.push(color)
+        } 
+        else if(productFilter) {
+            // if (!productFilter.color.some(ele => ele == color)) {
+            //     productFilter.color.push(color)
+            // }
+            // if (!productFilter.brand.some(ele => ele == brand)) {
+            //     productFilter.brand.push(brand)
+            // }
+            // await productFilter.save();
+            if (!productFilter.colors.includes(color)) {
+                productFilter.colors.push(color);
             }
-            if (!productFilter.brand.some(ele => ele == brand)) {
-                productFilter.brand.push(brand)
+            if (!productFilter.brands.includes(brand)) {
+                productFilter.brands.push(brand);
             }
+
             await productFilter.save();
         }
         res.send({ message: "Product added" });
@@ -46,10 +55,10 @@ productRouter.post("/add", authentication, AdminAuth, async (req, res) => {
 });
 
 productRouter.get("/filters", async (req, res) => {
-    let product = req.query;
-    product = product.toLowerCase();
+    let product = req.query.product;
+    // product = product.toLowerCase();
     try {
-        const data = await ProducFiltertModel.findOne({ product });
+        const data = await ProducFiltertModel.findOne({ product:{ $regex: '(?i)' + product } });
         res.send(data);
     } catch (error) {
         res.status(501).send({ message: error.message })
