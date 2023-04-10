@@ -83,16 +83,22 @@ margin-top: 30px;
 padding-bottom: 20px;
 border-bottom:1px solid rgb(87, 86, 86,0.3);
 }
+#brands-div{
+  margin-top: 10px;
+  padding-bottom: 20px;
+border-bottom:1px solid rgb(87, 86, 86,0.3);
+}
 .size-range>div{
   display: flex;
 }
 .filter-head-p{
 font-family: Assistant, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-font-size: 16px;
+font-size: 18px;
 font-weight: 700;
+margin-bottom: 10px;
 color: black;
 }
-.size-range p,.price p{
+.size-range p,.price p,.brand-range-p{
 font-family: Assistant, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 font-size: 14px;
 font-weight: 700;
@@ -200,7 +206,7 @@ margin-right: 5px;
   margin: 0 auto; */
   margin-left: 20px;
   width: 77%;
-  height: 60rem;
+  height: 50rem;
   display: grid;
   grid-template-columns: repeat(5,1fr);
   gap: 20px 10px;

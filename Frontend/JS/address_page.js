@@ -25,22 +25,24 @@ addbtn.addEventListener("click", async () => {
     locality: document.getElementById("local").value,
     city: document.getElementById("incity").value,
     state: document.getElementById("instate").value,
+  
   };
+  if(user_address.name===""||user_address.mobile.length!=10||user_address.pin.length!=6||user_address.house===""||user_address.locality===""||user_address.city===""||user_address.state===""){
+    return await swal("Please Fill All Details");
+
+  }
   console.log(user_address);
-  let address = await fetch(
-    `https://excited-deer-headscarf.cyclic.app/address/add`,
-    {
-      method: "POST",
-      body: JSON.stringify(user_address),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-    }
-  );
+  let address = await fetch(`https://excited-deer-headscarf.cyclic.app/address/add`, {
+    method: "POST",
+    body: JSON.stringify(user_address),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("token"),
+    },
+  });
   let res = await address.json();
-  console.log(res);
-  // alert("address tested");
+  console.log("msggg", res);
+  // swal("address added");
   setTimeout(() => {
     window.location.href = "./payment_page.html";
   }, 500);

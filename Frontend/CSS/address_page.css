@@ -31,6 +31,7 @@ body {
   margin-top: 10px;
   width: 70%;
   border: 1px solid #eaeaec;
+  /* border: 1px solid blue; */
 
   /* height: 40px; */
 }
@@ -248,7 +249,7 @@ input {
 #navbar span {
   margin: 0px 10px;
 }
-@media screen and (min-width: 300px) and (max-width: 786px) {
+@media screen and (min-width: 300px) and (max-width: 950px) {
   #BAP {
     display: flex;
     flex-direction: column;
@@ -262,9 +263,33 @@ input {
     flex-direction: column;
   }
   #paymentoptions img {
-    width: 350px;
+    width: 300px;
   }
   #bright {
     font-size: small;
+  }
+  #part21,
+  #part22 {
+    width: 100%;
+    /* border: 1px solid red; */
+  }
+  #form input {
+    border: none;
+    border-bottom: 1px solid black;
+    background-color: white;
+  }
+  #part22 {
+    font-size: small;
+    /* border: 1px solid red; */
+  }
+  #part21 > div {
+    border: none;
+  }
+  #part22 > div {
+    width: 100%;
+  }
+  #price {
+    /* border: 1px solid rgb(0, 139, 106); */
+    font-size: 13px;
   }
 }
