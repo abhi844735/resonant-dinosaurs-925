@@ -1,3 +1,16 @@
+async function loginCheck(){
+  let token=localStorage.getItem("token")
+  if(!token){
+   await Swal.fire({
+      icon: 'error',
+      title: 'You Are Not Logged In',
+      text: 'Please Login to Access Bag.',
+    })
+    window.location.href="signup.html"
+  }
+}
+loginCheck()
+
 let total = 0;
 let totalMRP = 0;
 
@@ -94,8 +107,14 @@ let append = (el) => {
   remove.style.cursor = "pointer";
   div5l.append(remove);
 
-  remove.addEventListener("click", () => {
-    alert(`${el.name} will be removed from list`);
+  remove.addEventListener("click",  () => {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: `${el.name} is removed from your bag`,
+      showConfirmButton: false,
+      timer: 1500
+    })
     del_cart_Data(id);
   });
 
@@ -154,7 +173,13 @@ let append = (el) => {
       p2.innerText = n;
     } else if (n == 0) {
       //if n==0 then that product will be deleted from cart list
-      alert(`${el.name} will be removed from list`);
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: `${el.name} is removed from your bag`,
+        showConfirmButton: false,
+        timer: 1500
+      })
       del_cart_Data(id);
     }
   });
@@ -178,9 +203,10 @@ let append = (el) => {
     }
     if (n > 10) {
       n = 10;
-      return alert(
-        "Sorry, You Can't Add More Than 10 Products of Same Type!!!"
-      );
+   return  Swal.fire({
+        icon: 'warning',
+        text: "You Can't Add More Than 10 Products of Same Type!!! ",
+      })
     }
     if (flag == false) {
       price.innerText = `Rs. ${+el.price * n}.00/-`;
@@ -289,7 +315,13 @@ function get_cart_data() {
       const data = await res.json();
       // console.log("gygy", data);
       if (data.length == 0) {
-        alert("Cart is empty\u{1F6D2}\nRedirecting you to Homepage");
+        // alert("Cart is empty\u{1F6D2}\nRedirecting you to Homepage");
+      await  Swal.fire({
+          icon: 'info',
+          // title: 'Oops...',
+          text: 'Bag is empty\u{1F6D2}\nRedirecting you to Homepage',
+          // footer: '<a href="">Why do I have this issue?</a>'
+        })
         window.location.href = "./index.html";
       } else {
         //after fetching data we are storing all the data in array "arr" and arr will be appended in frontend page

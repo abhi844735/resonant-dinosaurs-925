@@ -19,10 +19,24 @@
     </header>
     <div id="no-product">
         <img src="./Images/no-product-found.png" alt="">
-
+        <h1 style="text-align: center;">Currently Available Products</h1>
+        <ul>
+            <li><b>Men :</b> T-Shirts, Casual Shirts</li>
+            <li><b>Women :</b> Kurtas & Suits, Sarees</li>
+            <li><b>Kids :</b> T-Shirts, Jeans, Tops, Dresses</li>
+        </ul>
     </div>
 </body>
 <script type="module" src="./JS/product-nav.js"></script>
 <script src="./JS/nav.js"></script>
-
+<script>
+    
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const Big_screen_sreachbar=document.getElementById("search_bar");
+    const small_screen_sreachbar=document.querySelector(".input-box");
+    Big_screen_sreachbar.style.display="none"
+    small_screen_sreachbar.style.display="none"
+})
+</script>
 </html>
