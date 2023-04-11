@@ -27,13 +27,15 @@ let login =async(obj)=>{
     });
     let data = await res.json();
     if(res.ok){
-     alert(data.name,"has logged in");
-     localStorage.setItem("admin_token",data.token);
-     
-     window.location.href="admin_index.html"
+        console.log(data)
+       await swal("Admin has logged in");
+        localStorage.setItem("admin_token",data.token);
+        window.location.href="admin_orders.html"
+        return;
       
     }else{
-     alert(data.message);
+    //  alert(data.message);
+     swal(data.message);
     }
  }
  
