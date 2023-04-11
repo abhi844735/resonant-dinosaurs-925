@@ -3,7 +3,7 @@ Upstyle is a prermium e-commerce website which deals in fashion products.
 
 ## Deployment
 
-This project is deployed on netlify here - [upstyle.com](https://gleaming-strudel-e5e52b.netlify.app/)
+This project is deployed on netlify here - [upstyle.com](https://uppstyle.netlify.app/)
 
 ---
 
