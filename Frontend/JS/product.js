@@ -86,8 +86,8 @@ let sortArr=[]
 async function fetchProducts(key,value){
     try {
         let res;
+        // fetcthing if key and value true 
             if(key && value){
-                // res= await fetch(`https://excited-deer-headscarf.cyclic.app/products/search?gender=${gender}&category=${category}&${key}=${value}`);
                 res= await fetch(`${baseurl}/products/search?gender=${gender}&category=${category}&${key}=${value}`);
 
             }
@@ -97,10 +97,13 @@ async function fetchProducts(key,value){
             }
          
             if(res.ok){
+
                 let data=await res.json();
-                console.log(data)
+                // soting data in dataArr 
                 dataArr=[...data]
+                // soting dataArr in sortArr 
                 sortArr=dataArr
+                // passing data in dataFuntion function 
                 dataFuntion(data)
             }
         
@@ -109,14 +112,14 @@ async function fetchProducts(key,value){
     }
     }
 fetchProducts()
-// sortArr=dataArr
-console.log(sortArr)
+
+
 // ---------------------------products Filters fetch Function -------------------------------------------------------- 
 
 async function fetchProductFilters(){
-    let filterRes= await fetch(`${producturl}/filters?product=${category}`);
+    let filterRes= await fetch(`${producturl}filters?product=${category}`);
     let filterData= await  filterRes.json()
-    console.log(filterData)
+//------------------passing filter data in FilterDataFun function ---------------------------------------------------
     FilterDataFun(filterData)
 }
 fetchProductFilters()
@@ -135,6 +138,7 @@ let discount=undefined;
 let brands_div= document.getElementById("brands-div")
 function FilterDataFun(filterData){
     brands_div.innerHTML="";
+// ---------------------mapping filter data-------------------------------------------------------------------  
     let brandssData= filterData.brands.map((item)=>{
         return `<div>
         <input value="${item}" type="checkbox" class="size-checkbox" name="brand-filter"
@@ -142,7 +146,7 @@ function FilterDataFun(filterData){
     </div>
     `
     })
-
+//------------------- join the mapping in brand div--------------------------------------------------------------
     brands_div.innerHTML=brandssData.join(" ")
 }
 // -------------------------------------------------brand filter function-------------------------------------------------------------- 
@@ -156,6 +160,8 @@ function brandRange(checkbox) {
      }
     });
    let box= true;
+
+//    if checkbox is checked then get the value from brand chekbox the passing value and key=> brand in fetchProducts
     if(checkbox.checked){
         let size_range=document.querySelector('input[name="brand-filter"]:checked').value;
         value=size_range
@@ -169,7 +175,10 @@ function brandRange(checkbox) {
         console.log(value,key)
         return;
 
-    }else{
+    }
+//    if checkbox is unchecked then fetching all data making all viriables undefined
+
+    else{
         // console.log(false);
         brand=undefined
         color=undefined;
@@ -187,6 +196,7 @@ function priceRange(checkbox) {
     });
   
     let sizeRange = null;
+    // ---------------------storing checkedInput value in sizeRange variable------------------------------------------- 
     const checkedInput = document.querySelector('input[name="price-filter"]:checked');
     if (checkedInput) {
         sizeRange = checkedInput.value;
@@ -194,7 +204,9 @@ function priceRange(checkbox) {
     let data;
   
     switch (sizeRange) {
+        // if sizeRange  value is  "3850"  
       case '3850':
+
         if (brand && color==undefined && discount==undefined) {
           price=sizeRange
           const dataBrand = dataArr.filter(item => item.brand === brand);
@@ -268,6 +280,8 @@ function priceRange(checkbox) {
         break;
   
       case '7501':
+        // if sizeRange  value is  "7501"  
+
         if (brand && color==undefined && discount==undefined) {
           price=sizeRange
           const dataBrand = dataArr.filter(item => item.brand === brand);
@@ -339,6 +353,8 @@ function priceRange(checkbox) {
         }
         break;
       case '11152':
+        // if sizeRange  value is  "11152"  
+
         if (brand && color==undefined && discount==undefined) {
           price=sizeRange
           const dataBrand = dataArr.filter(item => item.brand === brand);
@@ -406,6 +422,7 @@ function priceRange(checkbox) {
         }
         break;
       case '14803':
+        // if sizeRange  value is  "14803"  
         if (brand && color==undefined && discount==undefined) {
           price=sizeRange
           const dataBrand = dataArr.filter(item => item.brand === brand);
@@ -510,6 +527,7 @@ function colorRange(checkbox) {
     })
 
     let colorRange = null;
+
     // --------------------sorting color filter value in colorRange variable---------------------------------------  
     const checkedInput = document.querySelector('input[name="color-filter"]:checked');
     if (checkedInput) {
@@ -660,6 +678,7 @@ function colorRange(checkbox) {
             return  dataFuntion(data);
         }
     }
+    //--------------------- check if colorRange value is not true ------------------------------------
     else{
         colorRange = undefined;
                 if(brand && price && discount){
@@ -783,13 +802,16 @@ function colorRange(checkbox) {
 // -------------------------------------------------discount filter function-------------------------------------------------------------- 
 
 function discountRange(){
-    // let priceVal=document.querySelector('input[name="discount-range"]:checked').value;
+ 
     let discounteRange = null;
+    // --------------------sorting discount filter value in colorRange variable---------------------------------------  
+
     const checkedInput = document.querySelector('input[name="discount-range"]:checked');
     if (checkedInput) {
         discounteRange = +(checkedInput.value);
     }
     let data;
+    // if discounteRange value is true 
     if(discounteRange){
         if(brand && discount==undefined && price==undefined){
             discount=discounteRange
@@ -932,6 +954,8 @@ function discountRange(){
                 return  dataFuntion(data);
             }
         }
+    // if discounteRange value is not true 
+
         else{
             discount=discounteRange;
             data=dataArr.filter(item => item.discount === discounteRange);
@@ -984,8 +1008,8 @@ function dataFuntion(data){
         
         return`<figure data-id=${item._id} class="shop-items-child-div">
         <div class="hover-animation" data-id=${item._id} >
-            <img class="img-back" src="${item.image_1}" alt="">
-            <img class="img-front" data-id=${item._id} src="${item.image_2}" alt="">
+            <img class="img-back" src="${item.image_2}" alt="">
+            <img class="img-front" data-id=${item._id} src="${item.image_1}" alt="">
             <div class="product-view-rating-div">
                         <p class="product-view-star" >${item.rating}<span><i class="fa-solid fa-star"></i></span></p>
                         <hr>
@@ -996,11 +1020,11 @@ function dataFuntion(data){
             <p>${item.title.substring(0, 22) + "..."}</p>
             <div class="similar-products-price-div">
             <h5>Rs.${item.price}</h5>
-            <strike>Rs. ${item.price+500}</strike>
+            <strike>Rs.${Math.floor(item.price+(item.discount/100)*item.price)}</strike>
             </div>
             <p class="discount">(${item.discount}% OFF)</p>
         </figcaption>
-    </figure>`
+                </figure>`
     })
     dataContainer.innerHTML=allData.join(" ")
 

@@ -18,12 +18,21 @@ const cartadd=`${baseurl}/cart/add`
 const cartFetch=`${baseurl}/cart`
 const preloader= document.getElementById("loading");
 const token=localStorage.getItem("token");
-// let section_product=document.getElementById("product-view-section")
 
-// section_product.addEventListener("load",loadFun)
+//  calulating delivary date 
+let today = new Date();
+let fiveDaysLater = new Date(today.getTime() + (10 * 24 * 60 * 60 * 1000)); 
 
+let daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+let monthsOfYear = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+let dayOfWeek = daysOfWeek[fiveDaysLater.getDay()];
+let monthOfYear = monthsOfYear[fiveDaysLater.getMonth()];
+let dateOfMonth = fiveDaysLater.getDate();
 
 const product_Id=localStorage.getItem("product-id")
+
+// -------------------------loading function--------------------------------------  
 function loadingFun(){
     preloader.style.display="none"
 }
@@ -31,7 +40,7 @@ function loadingFun(){
 let go_to_bag=document.querySelector(".cart-go");
 
 
-//  --------------  product fecting------------------------------------------------------------
+//  --------------  product fecting funtion ------------------------------------------------------------
 
 async function checkFetch(){
     try {
@@ -44,7 +53,7 @@ async function checkFetch(){
         })
 
         let msg=await res.json()
-//  -------------- product rendering------------------------------------------------------------
+//  -------------- product rendering function ------------------------------------------------------------
         
 async function productfetch() {
     try {
@@ -52,7 +61,6 @@ async function productfetch() {
         if (res.ok) {
             let dataPro = await res.json();
             // dataArr = [...dataPro]
-            console.log(dataPro)
             productFun(dataPro)
 
         }
@@ -63,6 +71,8 @@ async function productfetch() {
 productfetch();
 let container = document.querySelector("#product-view-div")
 
+
+//--------------- if product already in bag then rendering all data and only showing go to bag button -------------------------------
         if(msg.message=="Product already in cart"){
                 // let container = document.querySelector("#product-view-div")
                 let add_to_bag=document.querySelector(".add-to-cart-btn")
@@ -110,7 +120,7 @@ let container = document.querySelector("#product-view-div")
                     </div>
                     <div class="product-view-price-div">
                         <h1 class="product-view-price">₹${dataPro.price}</h1>
-                        <h3 class="product-view-real-price">MRP <strike> ₹${dataPro.price+500}</strike></h3>
+                        <h3 class="product-view-real-price">MRP <strike> ₹${Math.floor(dataPro.price+(dataPro.discount/100)*dataPro.price)}</strike></h3>
                     </div>
                     <p class="product-view-tax-p">inclusive of all taxes</p>
                     <div class="product-view-size-chart">
@@ -132,7 +142,7 @@ let container = document.querySelector("#product-view-div")
                     <div class="product-view-delivery-div">
                         <p class="delivery-details-heading">DELIVERY DETAILS</p>
                         <div class="product-view-delivery-flex-div">
-                            <div><img src="./Payment-Img/fast-delivery.png" alt=""> <p>Get it by Wed, Feb 22</p></div>
+                            <div><img src="./Payment-Img/fast-delivery.png" alt=""> <p>Get it by ${dayOfWeek} ${monthOfYear} ${dateOfMonth}</p></div>
                             <div><img src="./Payment-Img/cash-on-delivery.png" alt=""> <p>Pay on delivery available</p></div>
                             <div><img src="./Payment-Img/easy-return.png" alt=""> <p>Easy 30 days return & exchange available</p></div>
                         </div>
@@ -153,7 +163,7 @@ let container = document.querySelector("#product-view-div")
                     </div>
                     <div class="product-view-more-details-div">
                         <h3>PRODUCT DETAILS</h3>
-                        <p>Green T-shirt for men</p>
+                        <p>${dataPro.color} ${dataPro.category}</p>
                         <p>Solid</p>
                         <p>Regular length</p>
                         <p>Polo collar</p>
@@ -182,6 +192,8 @@ let container = document.querySelector("#product-view-div")
                 container.innerHTML = productData;
               }
         }
+//--------------- if product is not in bag then rendering all data and showing add to bag button -------------------------------
+
         else{
             function productFun(dataPro) {
                 container.innerHTML=""
@@ -249,7 +261,7 @@ let container = document.querySelector("#product-view-div")
                    <div class="product-view-delivery-div">
                        <p class="delivery-details-heading">DELIVERY DETAILS</p>
                        <div class="product-view-delivery-flex-div">
-                           <div><img src="./Payment-Img/fast-delivery.png" alt=""> <p>Get it by Wed, Feb 22</p></div>
+                           <div><img src="./Payment-Img/fast-delivery.png" alt=""> <p>Get it by ${dayOfWeek} ${monthOfYear} ${dateOfMonth}</p></div>
                            <div><img src="./Payment-Img/cash-on-delivery.png" alt=""> <p>Pay on delivery available</p></div>
                            <div><img src="./Payment-Img/easy-return.png" alt=""> <p>Easy 30 days return & exchange available</p></div>
                        </div>
@@ -270,7 +282,7 @@ let container = document.querySelector("#product-view-div")
                    </div>
                    <div class="product-view-more-details-div">
                        <h3>PRODUCT DETAILS</h3>
-                       <p>Green T-shirt for men</p>
+                       <p>${dataPro.color} ${dataPro.category}</p>
                        <p>Solid</p>
                        <p>Regular length</p>
                        <p>Polo collar</p>
@@ -297,16 +309,16 @@ let container = document.querySelector("#product-view-div")
                  </div>`;
               
                 container.innerHTML = productData;
-                let add_to_bag=document.querySelector(".add-to-cart-btn")
+                let add_to_bag=document.querySelector(".add-to-cart-btn");
+                let wishlist_btn= document.querySelector(".wishlist-btn");
                 let go_to_bag=document.querySelector(".cart-go");
                 go_to_bag.style.display="none"
 
-                  //   for(let btn of add_to_bag){
             // --------------------------------  add to cart function -------------------------------------------- 
                         add_to_bag.addEventListener("click",async (event)=>{ 
                           let data_id = event.target.dataset.id;
                               try {
-                          
+            // -----------------------------------add to bag post---------------------------------------------------- 
                                   let res = await fetch(`${cartadd}/${data_id}`, {
                                       method: "POST",
                                       headers: {
@@ -315,40 +327,52 @@ let container = document.querySelector("#product-view-div")
                                       },
                                   })
                                   let msg=await res.json()
-                          
                                   if (msg.message=="Product added to cart") {
-                                      swal("Added To bag", "You clicked the button!", "success")
+                                      Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'Added To bag',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                      })
                                       event.target.style.display="none"
                                       go_to_bag.style.display="block"
                                       return;
                                   }
                                   if(msg.message=="Access Denied"||msg.message=="jwt malformed"){
-                                 return   await  swal({
-                                        text: "Please log in or create an account to add this item to your bag.",
-                                        timer: 2000
-                                      });
+                                    return  await  Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'warning',
+                                        title: 'Please log in or create an account to add this item to your bag.',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                      })
                                   }
                                   if(msg.message=="Product already in cart"){
-                                      return   await  swal({
-                                        text: "Product already in your bag.",
-                                        timer: 2000
-                                      });
+                                      return  await  Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'warning',
+                                        title: 'Product already in your bag.',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                      })
                                   }
-                          
                               }
                               catch (error) {
                                   console.log(error)
                               }
                         })
-                      // }
+                      wishlist_btn.addEventListener("click",()=>{
+                        Swal.fire('Wishlist Option will be coming soon')
+                      })
               }
         }
-        console.log(msg)
     } catch (error) {
         console.log({err:error})
     }
 }
 checkFetch()
+//   ------------------bootstrap image model Animation function------------------------------------- 
 
 document.addEventListener("click",function (e){
     if(e.target.classList.contains("gallery-item")){
@@ -358,12 +382,15 @@ document.addEventListener("click",function (e){
           myModal.show();
     }
   })
+//   ------------------small screen image changeing Animation function------------------------------------- 
 
   function clickimg(smallImg) {
     let fullImg = document.getElementById("imagebox");
     fullImg.src = smallImg.src
 }
 
+
+// ----------------size select function--------------------------------------------------------
 
 function sizeFun(el){
 
@@ -380,14 +407,8 @@ function sizeFun(el){
               b.style.color = '';
             }
           });
-          size_selected(value)
           
         }
-        
-    function  size_selected(value){
-        console.log(value)
-      };
-
 
 //  -=------------ similar products fetching------------------------------------------------------------
 async function fetchProducts(){
@@ -395,7 +416,6 @@ async function fetchProducts(){
             let res= await fetch(`${product_view}`);
             if(res.ok){
                 let data=await res.json();
-                console.log(data)
                 dataFuntion(data)
             }
         

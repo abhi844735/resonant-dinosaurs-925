@@ -18,6 +18,10 @@
   <main id="profile-div">
 
 </main>  
+<!-- <section id="order-section"> -->
+
+<!-- </section> -->
+
 <div class="footer" style="display: none;"></div>
 
 <script  src="./JS/nav.js"></script>
@@ -29,31 +33,3 @@
 <script src="./JS/profile.js"></script>
 </body>
 </html>
-<!-- <script>
-    // AOS.init();
-    liFun()
-
-function liFun(){
-    let email=localStorage.getItem("email")
-    let token=localStorage.getItem("token");
-    console.log(email,token)
-    let myprofile= document.getElementById("my-pro")
-    let login_signup= document.getElementById("log-sign")
-
-    if(email===null ||token===null ){
-        login_signup.style.display="block"
-        myprofile.style.display="none"
-
-    }
-    else if(email!==null &&token!==null ){
-        login_signup.style.display="none"
-        myprofile.style.display="block"
-
-    }
-}
-    // Hide the preloader when the page is loaded
-  window.addEventListener("load", () => {
-    document.querySelector("body").classList.add("loaded");
-  });
-  
-</script> -->

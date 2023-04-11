@@ -70,12 +70,16 @@ window.onresize = function(){
 
    }
 }
+let wishlist=document.getElementById("wishlist");
+wishlist.addEventListener("click",()=>{
+   Swal.fire('Wishlist Option will be coming soon')
 
+})
 
 // -------------------------------------------------------------------------
 // storing sub-category ( gender & sub-category) value in localStorage 
 // --------------------------------------------------------------------------
-
+// -------------------mens sub category----------------------------------
 let T_Shirts_men=document.getElementById("T-Shirts-men");
 T_Shirts_men.addEventListener("click", ()=>{
    localStorage.setItem("gender","male");
@@ -85,9 +89,11 @@ T_Shirts_men.addEventListener("click", ()=>{
 let Shirts_men=document.getElementById("Shirts-men");
 Shirts_men.addEventListener("click", ()=>{
    localStorage.setItem("gender","male");
-   localStorage.setItem("category","Casual Shirts");
+   localStorage.setItem("category","casual shirts");
 
 })
+// -------------------women sub category----------------------------------
+
 let kurtas_suits= document.getElementById("kurtas-suits");
 kurtas_suits.addEventListener("click",()=>{
    localStorage.setItem("gender","female");
@@ -100,6 +106,32 @@ sarees.addEventListener("click",()=>{
    localStorage.setItem("category","sarees");
    
 })
+// -------------------kids => boys sub category----------------------------------
+
+let t_shirts_boys= document.getElementById("t-shirts-boys");
+t_shirts_boys.addEventListener("click",()=>{
+   localStorage.setItem("gender","male");
+   localStorage.setItem("category","t-shirts boys");
+})
+let jeans_boys= document.getElementById("jeans-boys");
+jeans_boys.addEventListener("click",()=>{
+   localStorage.setItem("gender","male");
+   localStorage.setItem("category","jeans boys");
+})
+// -------------------kids => girls sub category----------------------------------
+
+let dresses_girl= document.getElementById("dresses-girl");
+dresses_girl.addEventListener("click",()=>{
+   localStorage.setItem("gender","female");
+   localStorage.setItem("category","dresses girl");
+})
+let tops_girl= document.getElementById("tops-girl");
+tops_girl.addEventListener("click",()=>{
+   localStorage.setItem("gender","female");
+   localStorage.setItem("category","tops girl");
+})
+
+
 
 // ======================= small display search animation ========================================= 
 

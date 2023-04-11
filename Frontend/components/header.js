@@ -133,10 +133,10 @@ function navbar(){
                          <div class="list-item">
                                <h4 class="title">Boys Clothing</h4>
                                <ul>
-                                    <li><a href="./no_product.html">T-Shirts</a></li>
+                                    <li><a id="t-shirts-boys" href="./product.html">T-Shirts</a></li>
+                                    <li><a id="jeans-boys" href="./product.html">Jeans</a></li>
                                     <li><a href="./no_product.html">Shirts</a></li>
                                     <li><a href="./no_product.html">Shorts</a></li>
-                                    <li><a href="./no_product.html">Jeans</a></li>
                                     <li><a href="./no_product.html">Trousers</a></li>
                                     <li><a href="./no_product.html">Clothing Sets</a></li>
                                     <li><a href="./no_product.html">Ethnic Wear</a></li>
@@ -145,8 +145,8 @@ function navbar(){
                           <div class="list-item">
                                <h4 class="title">Girls Clothing</h4>
                                <ul>
-                                    <li><a href="./no_product.html">Dresses</a></li>
-                                    <li><a href="./no_product.html">Tops</a></li>
+                                    <li><a id="dresses-girl" href="./product.html">Dresses</a></li>
+                                    <li><a id="tops-girl" href="./product.html">Tops</a></li>
                                     <li><a href="./no_product.html">Tshirts</a></li>
                                     <li><a href="./no_product.html">Lehenga choli</a></li>
                                     <li><a href="./no_product.html">KurtaSets</a></li>
@@ -247,7 +247,7 @@ function navbar(){
           <a id="profile" style="display: none;" class="icon-div" href="./profile.html"><div>
               <i class="fa-solid fa-user"></i><span>Profile</span> 
           </div> </a>
-           <a class="icon-div" href="#">
+           <a id="wishlist" class="icon-div" href="#">
               <div >
                   <i class="far fa-heart"></i>
                   <span>Wishlist</span>

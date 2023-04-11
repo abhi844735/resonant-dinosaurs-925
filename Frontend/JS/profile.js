@@ -1,12 +1,20 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     
-    const Big_screen_sreachbar=document.getElementById("search_bar");
-    const small_screen_sreachbar=document.querySelector(".input-box");
-    Big_screen_sreachbar.style.display="none"
-    small_screen_sreachbar.style.display="none"
+  const Big_screen_sreachbar=document.getElementById("search_bar");
+  const small_screen_sreachbar=document.querySelector(".input-box");
+  Big_screen_sreachbar.style.display="none"
+  small_screen_sreachbar.style.display="none"
 })
+ 
+ function loginCheck(){
+  let token=localStorage.getItem("token")
+  let mobile =localStorage.getItem("mobile")
+  if(!token || !mobile){
 
+    window.location.href="signup.html"
+  }
+}
+loginCheck()
 
 
 
@@ -14,7 +22,7 @@ const baseURL = "https://excited-deer-headscarf.cyclic.app";
 
 let profileDiv=document.getElementById("profile-div");
 async function myProfileFun(){
-
+// ----------------------------fetching user details------------------------------------------ 
     let res= await fetch(`${baseURL}/users/userdetails`,{
         method: "POST",
         headers: {
@@ -25,8 +33,7 @@ async function myProfileFun(){
 
     })
     let data= await res.json();
-
-    console.log(data)
+// --------------------------rendering user details-----------------------------------------------------  
     let item=data
     let render=`<div class="profile-container">
     <div class="main-body">
@@ -92,6 +99,7 @@ async function myProfileFun(){
     <div class="col-sm-3"></div>
     <div class="col-sm-9 text-secondary">
     <input type="button" style="background: #7e0814;" id="logout" class="btn btn-primary px-4" value="Logout">
+    <input type="button" style="background: #064fda;" id="orders" class="btn btn-primary px-4" value="View Orders">
     </div>
     </div>
     </div>
@@ -102,12 +110,13 @@ async function myProfileFun(){
 
     profileDiv.innerHTML=render;
 
+
+    // ----------------------logout button------------------------------------------- 
     let logout=document.getElementById("logout");
     logout.addEventListener("click",async ()=>{
         console.log("Ho gaya")
         swal({
             title: "Are you sure?",
-            // text: "Once deleted, you will not be able to recover this imaginary file!",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -117,14 +126,16 @@ async function myProfileFun(){
              await swal("You Are Logging Out", {
                 icon: "success",
               });
-            //   localStorage.removeItem("email");
-            //   localStorage.removeItem("token");
               localStorage.clear()
               window.location.href="index.html"
             } else {
              await swal("Thanks for staying with us!");
             }
           });
+    })
+    let orders=  document.getElementById("orders");
+    orders.addEventListener("click",()=>{
+      window.location.href="orders.html"
     })
 }
 myProfileFun()

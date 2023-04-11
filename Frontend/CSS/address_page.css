@@ -250,6 +250,9 @@ input {
   margin: 0px 10px;
 }
 @media screen and (min-width: 300px) and (max-width: 950px) {
+  .dash,.bag,.payment{
+    display: none;
+  }
   #BAP {
     display: flex;
     flex-direction: column;

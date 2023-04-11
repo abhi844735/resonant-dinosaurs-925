@@ -27,9 +27,27 @@ addbtn.addEventListener("click", async () => {
     state: document.getElementById("instate").value,
   
   };
-  if(user_address.name===""||user_address.mobile.length!=10||user_address.pin.length!=6||user_address.house===""||user_address.locality===""||user_address.city===""||user_address.state===""){
-    return await swal("Please Fill All Details");
 
+  if(user_address.name===""){
+    return await swal("Please Fill Your Name Correctly");
+  }
+  if(user_address.mobile.length!=10){
+    return await swal("Please Enter 10 Digit Mobile Number");
+  }
+  if(user_address.pin.length!=6){
+    return await swal("Please Enter Pincode Correctly");
+  }
+  if(user_address.house===""){
+    return await swal("Please Fill Your House Details Correctly");
+  }
+  if(user_address.locality===""){
+    return await swal("Please Fill Your Locality / Town Details Correctly");
+  }
+  if(user_address.city===""){
+    return await swal("Please Fill Your City Name Correctly");
+  }
+  if(user_address.state===""){
+    return await swal("Please Fill Your State Name Correctly");
   }
   console.log(user_address);
   let address = await fetch(`https://excited-deer-headscarf.cyclic.app/address/add`, {
