@@ -11,9 +11,9 @@ async function getproducts(url){
       render(data);
   }
   else{
-      if(!localStorage.getItem('token')){
+      if(!localStorage.getItem('admin_token')){
           info.innerText = 'You are not logged in'
-          console.log({msg: 'token not available in local storage'})
+          console.log({msg: 'admin_token not available in local storage'})
       }
       else{
           info.innerText = `Server Response: ${res.json()}`
@@ -201,7 +201,7 @@ async function update(id, updates, elem) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
+        Authorization: localStorage.getItem("admin_token"),
       },
       body: JSON.stringify(updates),
     });
@@ -222,7 +222,7 @@ async function deleteproduct(id, elem) {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        authorization: localStorage.getItem("token"),
+        authorization: localStorage.getItem("admin_token"),
       },
     });
 
@@ -299,7 +299,7 @@ async function new_product(payload){
       method:'POST',
       headers:{
         'Content-type':'application/json',
-        'authorization': localStorage.getItem('token')
+        'authorization': localStorage.getItem('admin_token')
       },
       body: JSON.stringify(payload)
     })

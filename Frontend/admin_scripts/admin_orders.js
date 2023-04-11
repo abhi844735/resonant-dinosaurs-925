@@ -7,7 +7,7 @@ async function getusers(){
             method:"GET",
             headers:{
                 "Content-Type":"application/json",
-                "Authorization":localStorage.getItem("token")
+                "Authorization":localStorage.getItem("admin_token")
             }
     })
     
@@ -23,7 +23,7 @@ async function getproduct(id){
             method:"GET",
             headers:{
                 "Content-Type":"application/json",
-                "Authorization":localStorage.getItem("token")
+                "Authorization":localStorage.getItem("admin_token")
             }
     })
     
@@ -40,7 +40,7 @@ async function getorders(url){
         method:"GET",
         headers:{
             "content-type":"application/json",
-            "authorization" : localStorage.getItem("token")
+            "authorization" : localStorage.getItem("admin_token")
         }
     })
 
@@ -49,12 +49,12 @@ async function getorders(url){
         render(data);
     }
     else{
-        if(!localStorage.getItem('token')){
+        if(!localStorage.getItem('admin_token')){
             info.innerText = 'You are not logged in'
-            console.log({msg: 'token not available in local storage'})
+            console.log({msg: 'admin_token not available in local storage'})
         }
         else{
-            info.innerText = `Server Response: ${res.json()}`
+            info.innerText = `Server Response: ${await res.json()}`
         }
         console.log(await res.json());
     }
@@ -158,7 +158,7 @@ async function cancelOrder(id){
         let res = await fetch(cancel_URL,{
             method:'DElETE',
             headers:{
-                'authorization': localStorage.getItem('token')
+                'authorization': localStorage.getItem('admin_token')
             }
         })
 
@@ -170,7 +170,3 @@ async function cancelOrder(id){
         console.log(error);
     }
 }
-
-window.addEventListener('resize',() => {
-
-})

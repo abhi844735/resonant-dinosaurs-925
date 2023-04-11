@@ -14,7 +14,7 @@ async function logout(url){
     let res = await fetch(url,{
         method:'GET',
         headers:{
-            'authorization': localStorage.getItem('token')
+            'authorization': localStorage.getItem('admin_token')
         }
     })
 
