@@ -52,7 +52,7 @@ In the navbar section there is `Cart` button. On clicking, it will show products
 - `MongoDB`
 
 ----
-- `Frontend link` :https://uppstyle.netlify.app/
+- `Frontend link` : https://uppstyle.netlify.app/
 - `Backend link`  : https://excited-deer-headscarf.cyclic.app/
 ----
 
