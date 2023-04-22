@@ -18,34 +18,37 @@ document.addEventListener('DOMContentLoaded', () => {
         if(e.key=="Enter"){
             let value=document.getElementById("input").value;
             let key="types"
-            // let 
             fetchProducts(key,value)
-         console.log(value)   
         }
     })
     search_bar.addEventListener("click",(e)=>{
             let value=document.getElementById("input").value;
             let key="types"
-            // let 
             fetchProducts(key,value)
-         console.log(value)   
     })
     // -------------------search by clicking on search bar----------------------------
 
     search_bar.addEventListener("click",(e)=>{
-        // if(e.key=="Enter"){
             let value=document.getElementById("input").value;
             let key="types"
             fetchProducts(key,value)
-         console.log(value)   
-        // }
+    })
+    
+    // -------------------search by enter key press----------------------------
+    document.getElementById("mobile-input").addEventListener("keypress",(e)=>{
+        if(e.key=="Enter"){
+            let value=document.getElementById("mobile-input").value;
+            let key="types"
+            // let 
+            console.log(value)
+            fetchProducts(key,value)
+        }
     })
     mobile_search.addEventListener("click",(e)=>{
         // if(e.key=="Enter"){
             let value=document.getElementById("mobile-input").value;
             let key="types"
             fetchProducts(key,value)
-         console.log(value)  
         // }
     })
     // Big_screen_sreachbar.style.display="none"
