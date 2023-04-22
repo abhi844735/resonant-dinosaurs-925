@@ -10,6 +10,7 @@ const goBack = menu.querySelector(".go-back");
 const menuTrigger = document.querySelector(".mobile-menu-trigger");
 const closeMenu = menu.querySelector(".mobile-menu-close");
 const cartLengthSpan= document.getElementById("cart-length")
+const profile=document.getElementById("profile");
 cartLengthSpan.style.display="none";
 
 let subMenu;
@@ -132,6 +133,23 @@ tops_girl.addEventListener("click",()=>{
 })
 
 
+// ---------------------------------showing user profile page after login------------------------------------------------
+let token= localStorage.getItem("token")
+let mobile= localStorage.getItem("mobile")
+function profileFun(){
+
+   let login_signUp= document.getElementById("login-signup")
+   let profile=document.getElementById("profile");
+   if(token && mobile){
+   login_signUp.style.display="none";
+   profile.style.display="block";
+   }
+   else{
+      profile.style.display="none";
+   }
+}
+profileFun()
+
 
 // ======================= small display search animation ========================================= 
 
@@ -191,20 +209,6 @@ iconBagDiv.style.display="block";
 hambergur.style.display="flex";
 
 });
-
-// ---------------------------------showing user profile page after login------------------------------------------------
-let token= localStorage.getItem("token")
-let mobile= localStorage.getItem("mobile")
-function profileFun(){
-
-if(token && mobile){
-   let login_signUp= document.getElementById("login-signup")
-   let profile=document.getElementById("profile");
-   login_signUp.style.display="none";
-   profile.style.display="block";
-}
-}
-profileFun()
 
 
 // --------------------------------function for total cart length -----------------------------------------------------
